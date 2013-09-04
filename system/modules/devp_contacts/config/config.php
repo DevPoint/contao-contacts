@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2005-2013 Leo Feyer
  *
- * @package    _ModuleTemplate
+ * @package    Contacts
  * @copyright  DevPoint | Wilfried Reiter 2013
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  * @link       http://contao.org
@@ -21,9 +21,10 @@
 /**
  * Front end modules
  */
-array_insert($GLOBALS['FE_MOD']['miscellaneous'], 0, array
+$GLOBALS['FE_MOD']['devp_contacts'] = array
 (
-    'image_spis' => 'ModuleImageSPIS',
-    'bgimage_spis' => 'ModuleBGImageSPIS'
-));
+    'devp_contacts' => 'ModuleContacts',
+    'devp_contacts_essential' => 'ModuleContactsEssential',
+    'devp_contacts_sociallinks' => 'ModuleContactsSocialLinks'
+);
 

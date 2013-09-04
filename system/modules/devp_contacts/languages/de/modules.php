@@ -20,7 +20,7 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @package    _ModuleTemplate
+ * @package    Contacts
  * @copyright  DevPoint | Wilfried Reiter 2013
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  * @license MIT
