@@ -21,10 +21,10 @@
 /**
  * Front end modules
  */
-$GLOBALS['FE_MOD']['devp_contacts'] = array
+$GLOBALS['FE_MOD']['contacts'] = array
 (
-    'devp_contacts' => 'ModuleContacts',
-    'devp_contacts_essential' => 'ModuleContactsEssential',
-    'devp_contacts_sociallinks' => 'ModuleContactsSocialLinks'
+    'contacts' => 'ModuleContacts',
+    'contacts_essential' => 'ModuleContactsEssential',
+    'contacts_sociallinks' => 'ModuleContactsSocialLinks'
 );
 
