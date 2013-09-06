@@ -1,4 +1,6 @@
-contao-module_template
-======================
 
-Basic Template for creating new Contao modules
+contao-contacts
+===============
+
+Contact address, phone and social media Management for Contao
+
