@@ -195,53 +195,6 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 
 class tl_contacts extends Backend
 {
-    protected function getPersonsRangeStr($row)
-    {
-        $personsDefault = strval($row['personsDefault']);
-        $personsMax = (!is_null($row['personsMax'])) ? strval($row['personsMax']) : $personsDefault;
-        $personsRangeStr = sprintf($GLOBALS['TL_LANG']['wtc_apartments']['personsCount'], $personsDefault);
-        if($personsDefault != $personsMax) 
-        {
-            $personsRangeStr = sprintf($GLOBALS['TL_LANG']['wtc_apartments']['personsRange'], $personsDefault, $personsMax);
-        }
-        return $personsRangeStr;
-    }
-    
-    public function onLabelCallBack($row, $label)
-    {
-        $objCategory = $this->Database->prepare("SELECT c.name FROM tl_wtc_categories c WHERE c.id=?")
-                                     ->limit(1)
-                                     ->execute($row['category']);
-        if($objCategory->numRows)
-        {
-            $personsRangeStr = $this->getPersonsRangeStr($row);
-            $label = $row['name'].' ('.$objCategory->name.', '.$personsRangeStr.')';
-        }
-        return $label;
-    }
-
-    public function onGroupCallBack($group, $mode, $field, $row, $dc)
-    {
-        return $GLOBALS['TL_LANG']['tl_contacts']['roomTypes'][$row['roomType']];
-    }
-
-    public function onRoomTypeOptions(DataContainer $dc)
-    {
-        $arrSections = array();
-        $roomType = $dc->activeRecord->roomType;
-        $objCategories = $this->Database->prepare("SELECT c.id, c.name FROM tl_wtc_categories c WHERE c.roomType=?")->execute($roomType);
-        while($objCategories->next())
-        {
-            $arrSections[$objCategories->id] = $objCategories->name;
-        }
-        return $arrSections;
-    }
-
-	public function onSavePersonsCount($value, DataContainer $dc)
-    {
-        if(!(is_string($value) && strlen($value))) $value = null;
-        return $value;
-    }
    
 }
 
