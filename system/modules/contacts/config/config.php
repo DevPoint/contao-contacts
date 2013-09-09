@@ -35,6 +35,7 @@ $GLOBALS['FE_MOD']['contacts'] = array
     'contacts_sociallinks' => 'ModuleContactsSocialLinks'
 );*/
 
+
 /**
  * Hooks
  */

@@ -27,12 +27,12 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'format'	=> '%s - %s'
 		),
         'global_operations' => array(
-                'all' => array(
-                    'label'		=> &$GLOBALS['TL_LANG']['MSC']['all'],
-                    'href'		=> 'act=select',
-                    'class'     => 'header_edit_all',
-                    'attributes'	=> 'onclick="Backend.getScrollOffset();"'
-                )
+            'all' => array(
+                'label'		=> &$GLOBALS['TL_LANG']['MSC']['all'],
+                'href'		=> 'act=select',
+                'class'     => 'header_edit_all',
+                'attributes'	=> 'onclick="Backend.getScrollOffset();"'
+            )
         ),            
 		'operations' => array(
 			'edit' => array(
@@ -41,10 +41,10 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 				'icon'		=> 'edit.gif'
 			),
 			'delete' => array(
-				'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['delete'],
+				'label'		=> &$GLOBALS['TL_LANG']['tl_contacts']['delete'],
 				'href'		=> 'act=delete',
 				'icon'		=> 'delete.gif',
-				'attributes' => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
+				'attributes'	=> 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
 			),
 			'show' => array(
 				'label'		=> &$GLOBALS['TL_LANG']['tl_contacts']['show'],
@@ -56,14 +56,15 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	
 	// Palettes
 	'palettes' => array(
-		'__selector__'	=> array('addImage'),
-        'default'   	=> '{addressLegend},name,name2,longName,street,postal,city,state,countryCode;{phoneLegend},phone,email,mobile,fax;{imageLegend},addImage;{socialLinksLegend},addSocialLinks;'
+		'__selector__'	=> array('addImage','addLang01'),
+        'default'   	=> '{addressLegend},name,name2,longName,street,postal,city,state,countryCode;{lang01Legend},addLang01;{phoneLegend},phone,email,mobile,fax;{imageLegend},addImage;{socialLinksLegend},addSocialLinks;'
 	),
 
 	// Subpalettes
 	'subpalettes' => array(
 		//'addSocialLinks'	=> 'addSocialLinks',
-		'addImage'			=> 'singleSRC,alt,size',
+		'addLang01'		=> 'lang01,name_lang01,name2_lang01,longName_lang01,street_lang01,city_lang01,state_lang01',
+		'addImage'		=> 'singleSRC,alt,size'
 	),
 	
 	// Fields
@@ -74,6 +75,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 		'tstamp' => array(
 			'sql'			=> "int(10) unsigned NOT NULL default '0'"
 		),
+		// Address fields
 		'name' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name'],
 			'search'		=> true,
@@ -130,6 +132,68 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>2, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(2) NOT NULL default ''"
 		),
+		// Address fields - language #01
+		'addLang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addLang'],
+			'exclude'		=> true,
+			'inputType'		=> 'checkbox',
+			'eval'			=> array('submitOnChange'=>true),
+			'sql'			=> "char(1) NOT NULL default ''"
+		),
+		'lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['language'],
+			'exclude'		=> true,
+			'inputType'		=> 'text',
+			'search'		=> true,
+			'eval'			=> array('mandatory'=>true, 'rgxp'=>'alpha', 'maxlength'=>2, 'nospace'=>true),
+			//'save_callback' => array(
+			//	array('tl_page', 'languageToLower')
+			//),
+			'sql'			=> "varchar(2) NOT NULL default ''"
+		),
+		'name_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'name2_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name2'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'longName_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['longName'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'long'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'street_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['street'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'city_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['city'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'state_lang01' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['state'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		// Phone fields
 		'phone' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['phone'],
 			'search'		=> true,
@@ -158,6 +222,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
+		// SocialLinks fields
 		'addSocialLinks' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addSocialLinks'],
 			'exclude'		=> true,
@@ -165,6 +230,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('submitOnChange'=>true),
 			'sql'			=> "char(1) NOT NULL default ''"
 		),
+		// Image fields
 		'addImage' => array
 		(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addImage'],

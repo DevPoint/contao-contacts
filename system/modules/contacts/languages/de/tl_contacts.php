@@ -28,7 +28,7 @@
 
 $GLOBALS['TL_LANG']['tl_contacts']['name'][0] = 'Name';
 $GLOBALS['TL_LANG']['tl_contacts']['name'][1] = 'Bitte geben Sie einen Namen ein.';
-$GLOBALS['TL_LANG']['tl_contacts']['name2'][0] = 'Namens-Zusatz';
+$GLOBALS['TL_LANG']['tl_contacts']['name2'][0] = 'Namenszusatz';
 $GLOBALS['TL_LANG']['tl_contacts']['name2'][1] = 'Hier können Sie den Namen um einen Zusatz erweitern.';
 $GLOBALS['TL_LANG']['tl_contacts']['longName'][0] = 'Vollständiger Name';
 $GLOBALS['TL_LANG']['tl_contacts']['longName'][1] = 'Bitte geben Sie den vollständigen Namen ein.';
@@ -42,6 +42,10 @@ $GLOBALS['TL_LANG']['tl_contacts']['state'][0] = 'Bundesland';
 $GLOBALS['TL_LANG']['tl_contacts']['state'][1] = 'Bitte geben Sie den Namen des Bundesland ein.';
 $GLOBALS['TL_LANG']['tl_contacts']['countryCode'][0] = 'Ländercode';
 $GLOBALS['TL_LANG']['tl_contacts']['countryCode'][1] = 'Bitte geben Sie den zweistelligen Ländercode des Landes ein.';
+$GLOBALS['TL_LANG']['tl_contacts']['addLang'][0] = 'Übersetzung hinzufügen';
+$GLOBALS['TL_LANG']['tl_contacts']['addLang'][1] = 'Dem Kontakt eine weitere Übersetzung hinzufügen.';
+$GLOBALS['TL_LANG']['tl_contacts']['language'][0] = 'Sprache';
+$GLOBALS['TL_LANG']['tl_contacts']['language'][1] = 'Bitte geben Sie den zweistelligne Sprachcode ein.';
 $GLOBALS['TL_LANG']['tl_contacts']['phone'][0] = 'Telefonnummer';
 $GLOBALS['TL_LANG']['tl_contacts']['phone'][1] = 'Bitte geben Sie die Telefonnummer ein.';
 $GLOBALS['TL_LANG']['tl_contacts']['mobile'][0] = 'Handynummer';
