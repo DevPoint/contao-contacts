@@ -14,17 +14,29 @@
 
 
 /**
- * Hooks
+ * Back end modules
  */
+array_insert($GLOBALS['BE_MOD']['content'], 1, array
+(
+	'contacts' => array(
+		'tables'	=> array('tl_contacts'),
+		'icon'		=> '/system/modules/contacts/assets/icon.gif'
+	)
+));
 
- 
+
 /**
  * Front end modules
- */
+ *
 $GLOBALS['FE_MOD']['contacts'] = array
 (
     'contacts' => 'ModuleContacts',
     'contacts_essential' => 'ModuleContactsEssential',
     'contacts_sociallinks' => 'ModuleContactsSocialLinks'
-);
+);*/
 
+/**
+ * Hooks
+ */
+
+ 

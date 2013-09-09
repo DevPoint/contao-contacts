@@ -26,10 +26,7 @@
  * @license MIT
  */
 
-
-/**
- * Front end modules
- */
-
+$GLOBALS['TL_LANG']['MOD']['contacts'][0] = 'Kontakte';
+$GLOBALS['TL_LANG']['MOD']['contacts'][1] = 'Kontakt-Addressen verwalten';
  
 
