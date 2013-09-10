@@ -56,14 +56,16 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	
 	// Palettes
 	'palettes' => array(
-		'__selector__'	=> array('addImage','addLang01'),
-        'default'   	=> '{addressLegend},name,name2,longName,street,postal,city,state,countryCode;{lang01Legend},addLang01;{phoneLegend},phone,email,mobile,fax;{imageLegend},addImage;{socialLinksLegend},addSocialLinks;'
+		'__selector__'	=> array('addImage','addLang01','addLang02','addLang03'),
+        'default'   	=> '{contactLegend},name,name2,longName,street,postal,city,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend},addLang02;{lang03Legend},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},addSocialLinks;'
 	),
 
 	// Subpalettes
 	'subpalettes' => array(
 		//'addSocialLinks'	=> 'addSocialLinks',
-		'addLang01'		=> 'lang01,name_lang01,name2_lang01,longName_lang01,street_lang01,city_lang01,state_lang01',
+		'addLang01'		=> 'lang01,lang01_name,lang01_name2,lang01_longName,lang01_street,lang01_city,lang01_state,lang01_alt',
+		'addLang02'		=> 'lang02,lang02_name,lang02_name2,lang02_longName,lang02_street,lang02_city,lang02_state,lang02_alt',
+		'addLang03'		=> 'lang03,lang03_name,lang03_name2,lang03_longName,lang03_street,lang03_city,lang03_state,lang03_alt',
 		'addImage'		=> 'singleSRC,alt,size'
 	),
 	
@@ -132,7 +134,37 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>2, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(2) NOT NULL default ''"
 		),
-		// Address fields - language #01
+		'addImage' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addImage'],
+			'exclude'		=> true,
+			'inputType'		=> 'checkbox',
+			'eval'			=> array('submitOnChange'=>true),
+			'sql'			=> "char(1) NOT NULL default ''"
+		),
+		'singleSRC' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['singleSRC'],
+			'exclude'		=> true,
+			'inputType'		=> 'fileTree',
+			'eval'			=> array('fieldType'=>'radio', 'filesOnly'=>true, 'mandatory'=>true),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'alt' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['alt'],
+			'exclude'		=> true,
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'size' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['size'],
+			'exclude'		=> true,
+			'inputType'		=> 'imageSize',
+			'options'		=> $GLOBALS['TL_CROP'],
+			'reference'		=> &$GLOBALS['TL_LANG']['MSC'],
+			'eval'			=> array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(64) NOT NULL default ''"
+		),
 		'addLang01' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addLang'],
 			'exclude'		=> true,
@@ -141,59 +173,211 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'sql'			=> "char(1) NOT NULL default ''"
 		),
 		'lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['language'],
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01'],
 			'exclude'		=> true,
 			'inputType'		=> 'text',
 			'search'		=> true,
 			'eval'			=> array('mandatory'=>true, 'rgxp'=>'alpha', 'maxlength'=>2, 'nospace'=>true),
-			//'save_callback' => array(
-			//	array('tl_page', 'languageToLower')
-			//),
+			'load_callback' => array(
+				array('tl_contacts', 'tweakLanguageLabelCallBack')
+			),
+			'save_callback' => array(
+				array('tl_contacts', 'languageToLower')
+			),
 			'sql'			=> "varchar(2) NOT NULL default ''"
 		),
-		'name_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name'],
+		'lang01_name' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_name'],
 			'search'		=> true,
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		'name2_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name2'],
+		'lang01_name2' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_name2'],
 			'search'		=> true,
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		'longName_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['longName'],
+		'lang01_longName' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_longName'],
 			'search'		=> true,
 			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'long'),
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'long clr'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		'street_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['street'],
+		'lang01_street' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_street'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang01_city' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_city'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang01_state' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_state'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang01_alt' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang01_alt'],
+			'exclude'		=> true,
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'addLang02' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addLang'],
+			'exclude'		=> true,
+			'inputType'		=> 'checkbox',
+			'eval'			=> array('submitOnChange'=>true),
+			'sql'			=> "char(1) NOT NULL default ''"
+		),
+		'lang02' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02'],
+			'exclude'		=> true,
+			'inputType'		=> 'text',
+			'search'		=> true,
+			'eval'			=> array('mandatory'=>true, 'rgxp'=>'alpha', 'maxlength'=>2, 'nospace'=>true),
+			'load_callback' => array(
+				array('tl_contacts', 'tweakLanguageLabelCallBack')
+			),
+			'save_callback' => array(
+				array('tl_contacts', 'languageToLower')
+			),
+			'sql'			=> "varchar(2) NOT NULL default ''"
+		),
+		'lang02_name' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_name'],
 			'search'		=> true,
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		'city_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['city'],
+		'lang02_name2' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_name2'],
 			'search'		=> true,
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		'state_lang01' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['state'],
+		'lang02_longName' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_longName'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'long clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang02_street' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_street'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang02_city' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_city'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang02_state' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_state'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang02_alt' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang02_alt'],
+			'exclude'		=> true,
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'addLang03' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addLang'],
+			'exclude'		=> true,
+			'inputType'		=> 'checkbox',
+			'eval'			=> array('submitOnChange'=>true),
+			'sql'			=> "char(1) NOT NULL default ''"
+		),
+		'lang03' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03'],
+			'exclude'		=> true,
+			'inputType'		=> 'text',
+			'search'		=> true,
+			'eval'			=> array('mandatory'=>true, 'rgxp'=>'alpha', 'maxlength'=>2, 'nospace'=>true),
+			'load_callback' => array(
+				array('tl_contacts', 'tweakLanguageLabelCallBack')
+			),
+			'save_callback' => array(
+				array('tl_contacts', 'languageToLower')
+			),
+			'sql'			=> "varchar(2) NOT NULL default ''"
+		),
+		'lang03_name' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_name'],
 			'search'		=> true,
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		// Phone fields
+		'lang03_name2' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_name2'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang03_longName' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_longName'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'long clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang03_street' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_street'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang03_city' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_city'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang03_state' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_state'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxLength'=>255, 'tl_class'=>'w50'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'lang03_alt' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['lang03_alt'],
+			'exclude'		=> true,
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
 		'phone' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['phone'],
 			'search'		=> true,
@@ -230,48 +414,47 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('submitOnChange'=>true),
 			'sql'			=> "char(1) NOT NULL default ''"
 		),
-		// Image fields
-		'addImage' => array
-		(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addImage'],
-			'exclude'		=> true,
-			'inputType'		=> 'checkbox',
-			'eval'			=> array('submitOnChange'=>true),
-			'sql'			=> "char(1) NOT NULL default ''"
-		),
-		'singleSRC' => array
-		(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['singleSRC'],
-			'exclude'		=> true,
-			'inputType'		=> 'fileTree',
-			'eval'			=> array('fieldType'=>'radio', 'filesOnly'=>true, 'mandatory'=>true),
-			'sql'			=> "varchar(255) NOT NULL default ''"
-		),
-		'alt' => array
-		(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['alt'],
-			'exclude'		=> true,
-			'search'		=> true,
-			'inputType'		=> 'text',
-			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long'),
-			'sql'			=> "varchar(255) NOT NULL default ''"
-		),
-		'size' => array
-		(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['size'],
-			'exclude'		=> true,
-			'inputType'		=> 'imageSize',
-			'options'		=> $GLOBALS['TL_CROP'],
-			'reference'		=> &$GLOBALS['TL_LANG']['MSC'],
-			'eval'			=> array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
-			'sql'			=> "varchar(64) NOT NULL default ''"
-		),
 	)
 );
 
 class tl_contacts extends Backend
 {
-   
+	/**
+	 * Correct language labels
+	 * @param string
+	 * @param DataContainer
+	 * @return string
+	 */
+	public function tweakLanguageLabelCallBack($value, DataContainer $dc)
+	{
+		if (0 < strlen($value) && 7 == (strlen($dc->field) + 1))
+		{
+			$langIndexStr = $dc->field . '_';
+			foreach($GLOBALS['TL_DCA']['tl_contacts']['fields'] as $fieldName => &$dcaField)
+			{
+				if (0 === strncmp($langIndexStr, $fieldName, 7))
+				{
+					$baseFieldName = substr($fieldName, 7);
+					if (isset($GLOBALS['TL_DCA']['tl_contacts']['fields'][$baseFieldName]))
+					{
+						$newLabel = $GLOBALS['TL_DCA']['tl_contacts']['fields'][$baseFieldName]['label'][0] . ' (' . $value . ')';
+						$dcaField['label'] = array($newLabel , $dcaField['label'][1]);
+					}
+				}
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Convert language tags to lowercase letters
+	 * @param string
+	 * @return string
+	 */
+	public function languageToLower($varValue)
+	{
+		return strtolower($varValue);
+	}
 }
 
 ?>
