@@ -57,7 +57,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	// Palettes
 	'palettes' => array(
 		'__selector__'	=> array('addImage','addLang01','addLang02','addLang03'),
-        'default'   	=> '{contactLegend},name,name2,longName,street,postal,city,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend},addLang02;{lang03Legend},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},addSocialLinks;'
+		'default'   	=> '{contactLegend},name,name2,longName,street,postal,city,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend:hide},addLang02;{lang03Legend:hide},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},addSocialLinks;'
 	),
 
 	// Subpalettes
@@ -96,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['longName'],
 			'search'		=> true,
 			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'long'),
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'long clr'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
 		'street' => array(

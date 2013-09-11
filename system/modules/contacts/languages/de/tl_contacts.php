@@ -74,11 +74,11 @@ $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'copy'		=>	array('Kontakt duplizieren', 'Kontakt ID %s duplizieren'),
 	'delete'	=>	array('Kontakt löschen', 'Kontakt ID %s löschen'),
 	'toggle'	=>	array('Kontakt aktivieren/deaktivieren', 'Kontakt ID %s aktivieren/deaktivieren'),
-	'contactLegend'	=> 'Kontakt-Addresse',
-	'lang01Legend' 	=> 'Weitere Übersetzung (01)',
-	'lang02Legend' 	=> 'Weitere Übersetzung (02)',
-	'lang03Legend' 	=> 'Weitere Übersetzung (03)',
+	'contactLegend'	=> 'Kontakt-Addresse verwalten',
+	'lang01Legend' 	=> 'Weitere Übersetzung (01) hinzufügen',
+	'lang02Legend' 	=> 'Weitere Übersetzung (02) hinzufügen',
+	'lang03Legend' 	=> 'Weitere Übersetzung (03) hinzufügen',
 	'imageLegend' 	=> 'Bild-Einstellungen',
-	'phoneLegend' 	=> 'Telefonnummern und Email',
+	'phoneLegend' 	=> 'Telefonnummern und Emailadresse',
 );
 
