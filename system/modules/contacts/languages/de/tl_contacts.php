@@ -27,6 +27,7 @@
  */
 
 $GLOBALS['TL_LANG']['tl_contacts'] = array(
+	'title'		=>	array('Titel', 'Bitte geben Sie den Titel für diesen Eintrag ein.'),
 	'name'		=>	array('Name', 'Bitte geben Sie einen Namen ein.'),
 	'name2'		=>	array('Namenszusatz', 'Hier können Sie den Namen um einen Zusatz erweitern.'),
 	'longName'	=>	array('Vollständiger Name', 'Bitte geben Sie den vollständigen Namen ein.'),
@@ -68,17 +69,22 @@ $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'mobile'	=>	array('Handynummer', 'Bitte geben Sie die Handynummer ein.'),
 	'fax'		=>	array('Faxnummer', 'Bitte geben Sie die Faxnummer ein.'),
 	'email'		=>	array('E-Mail-Adresse', 'Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
+	'socialLinks'		=>	array('Soziale Netzwerke', 'Links auf Soziale Netzwerke hinzufügen oder bearbeiten'),
 	'new'		=>	array('Neuen Kontakt', 'Einen neuen Kontakt anlegen'),
 	'show'		=>	array('Kontaktdetails', 'Details des Kontaktes ID %s anzeigen'),
 	'edit'		=>	array('Kontakt bearbeiten', 'Kontakt ID %s bearbeiten'),
 	'copy'		=>	array('Kontakt duplizieren', 'Kontakt ID %s duplizieren'),
 	'delete'	=>	array('Kontakt löschen', 'Kontakt ID %s löschen'),
 	'toggle'	=>	array('Kontakt aktivieren/deaktivieren', 'Kontakt ID %s aktivieren/deaktivieren'),
+	'titleLegend'	=> 'Titel',
 	'contactLegend'	=> 'Kontakt-Addresse verwalten',
-	'lang01Legend' 	=> 'Weitere Übersetzung (01) hinzufügen',
-	'lang02Legend' 	=> 'Weitere Übersetzung (02) hinzufügen',
-	'lang03Legend' 	=> 'Weitere Übersetzung (03) hinzufügen',
+	'lang01Legend' 	=> 'Übersetzung (Sprache 01) bearbeiten',
+	'lang02Legend' 	=> 'Übersetzung (Sprache 02) bearbeiten',
+	'lang03Legend' 	=> 'Übersetzung (Sprache 03) bearbeiten',
 	'imageLegend' 	=> 'Bild-Einstellungen',
 	'phoneLegend' 	=> 'Telefonnummern und Emailadresse',
+	'socialLinksLegend' 	=> 'Links auf soziale Netzwerke verwalten',
+	'socialChannel'		=>  'Netzwerk-Name',
+	'socialChannelLink' => 	'Link auf Netzwerkseite',
 );
 

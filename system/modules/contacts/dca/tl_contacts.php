@@ -23,8 +23,8 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'panelLayout'   => 'search,limit'
 		),
 		'label' => array(
-			'fields'	=> array('name','name2'), // Elemente, die im Panel angezeigt werden
-			'format'	=> '%s - %s'
+			'fields'	=> array('title'), // Elemente, die im Panel angezeigt werden
+			'format'	=> '%s'
 		),
         'global_operations' => array(
             'all' => array(
@@ -56,17 +56,18 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	
 	// Palettes
 	'palettes' => array(
-		'__selector__'	=> array('addImage','addLang01','addLang02','addLang03'),
-		'default'   	=> '{contactLegend},name,name2,longName,street,postal,city,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend:hide},addLang02;{lang03Legend:hide},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},addSocialLinks;'
+		'__selector__'	=> array('addImage','addLang01'),
+		'default'   	=> '{titleLegend},title;{contactLegend},name,name2,city,street,postal,countryCode;{lang01Legend},addLang01_Full;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},socialLinks;',
+	//	'default'   	=> '{titleLegend},title;{contactLegend},name,name2,longName,city,street,postal,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend:hide},addLang02;{lang03Legend:hide},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},socialLinks;'
 	),
 
 	// Subpalettes
 	'subpalettes' => array(
-		//'addSocialLinks'	=> 'addSocialLinks',
-		'addLang01'		=> 'lang01,lang01_name,lang01_name2,lang01_longName,lang01_street,lang01_city,lang01_state,lang01_alt',
-		'addLang02'		=> 'lang02,lang02_name,lang02_name2,lang02_longName,lang02_street,lang02_city,lang02_state,lang02_alt',
-		'addLang03'		=> 'lang03,lang03_name,lang03_name2,lang03_longName,lang03_street,lang03_city,lang03_state,lang03_alt',
-		'addImage'		=> 'singleSRC,alt,size'
+		'addLang01'			=> 'lang01,lang01_name,lang01_name2,lang01_city,lang01_street',
+	//	'addLang01'	=> 'lang01,lang01_name,lang01_name2,lang01_longName,lang01_city,lang01_street,lang01_state,lang01_alt',
+		'addLang02'			=> 'lang02,lang02_name,lang02_name2,lang02_city,lang02_street',
+		'addLang03'			=> 'lang03,lang03_name,lang03_name2,lang03_city,lang03_street',
+		'addImage'			=> 'singleSRC,alt,size'
 	),
 	
 	// Fields
@@ -77,7 +78,14 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 		'tstamp' => array(
 			'sql'			=> "int(10) unsigned NOT NULL default '0'"
 		),
-		// Address fields
+		'title' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['title'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>true, 'maxLength'=>255),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		// address fields
 		'name' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['name'],
 			'search'		=> true,
@@ -99,32 +107,32 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'long clr'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
+		'city' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['city'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50 clr'),
+			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
 		'street' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['street'],
 			'search'		=> true,
 			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>255),
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
 		'postal' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['postal'],
 			'search'		=> true,
 			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>8, 'tl_class'=>'w50'),
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>8, 'tl_class'=>'w50 clr'),
 			'sql'			=> "varchar(8) NOT NULL default ''"
-		),
-		'city' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['city'],
-			'search'		=> true,
-			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
-			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
 		'state' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['state'],
 			'search'		=> true,
 			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50 clr'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
 		'countryCode' => array(
@@ -165,6 +173,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('rgxp'=>'digit', 'nospace'=>true, 'helpwizard'=>true, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(64) NOT NULL default ''"
 		),
+		// translations fields
 		'addLang01' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addLang'],
 			'exclude'		=> true,
@@ -378,6 +387,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('maxlength'=>255, 'tl_class'=>'long clr'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
+		// phone fields
 		'phone' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['phone'],
 			'search'		=> true,
@@ -407,12 +417,24 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
 		// SocialLinks fields
-		'addSocialLinks' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addSocialLinks'],
+		'socialLinks' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['socialLinks'],
 			'exclude'		=> true,
-			'inputType'		=> 'checkbox',
-			'eval'			=> array('submitOnChange'=>true),
-			'sql'			=> "char(1) NOT NULL default ''"
+			'inputType'		=> 'multiColumnWizard',
+			'eval'			=> array(
+				'columnFields'	=> array(
+					'channel' 		=> array(
+						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['socialChannel'],
+			            'inputType'		=> 'select',
+						'options_callback'	=> array('tl_contacts', 'getSocialCannels'),
+						'eval'			=> array('style'=>'width:160px;margin:0 5px 5px 0','includeBlankOption' => true)),
+					'channelLink'	=> array(
+						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['socialChannelLink'],
+						'inputType'     => 'text',
+						'eval'          => array('style'=>'width:320px','mandatory'=>true))),
+				'tl_class' => 'clr'
+			),
+			'sql'			=> "blob NULL"
 		),
 	)
 );
@@ -438,13 +460,32 @@ class tl_contacts extends Backend
 					if (isset($GLOBALS['TL_DCA']['tl_contacts']['fields'][$baseFieldName]))
 					{
 						$newLabel = $GLOBALS['TL_DCA']['tl_contacts']['fields'][$baseFieldName]['label'][0] . ' (' . $value . ')';
-						$dcaField['label'] = array($newLabel , $dcaField['label'][1]);
+						$dcaField['label'] = array($newLabel, $dcaField['label'][1]);
 					}
 				}
 			}
 		}
 		return $value;
 	}
+
+
+	/**
+	 * Retrieve social channels
+	 * @param DataContainer
+	 * @return array
+	 */
+	public function getSocialCannels(DataContainer $dc)
+	{
+		$options = array();
+		foreach(array('facebook', 'twitter', 'pinterest') as $channel)
+		{
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['socialChannels'][$channel];
+			if (null === $channelName) $channelName = $channel;
+			$options[$channel] = $channelName;
+		}
+		return $options;
+	}
+
 
 	/**
 	 * Convert language tags to lowercase letters
