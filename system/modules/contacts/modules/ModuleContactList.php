@@ -2,9 +2,9 @@
 
 /**
  * Contao Open Source CMS
- *
+ * 
  * Copyright (C) 2005-2013 Leo Feyer
- *
+ * 
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
@@ -23,11 +23,15 @@
  * @package    Contacts
  * @copyright  DevPoint | Wilfried Reiter 2013
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
- * @license MIT
  */
 
-$GLOBALS['TL_LANG']['MOD']['contacts'][0] = 'Kontakte';
-$GLOBALS['TL_LANG']['MOD']['contacts'][1] = 'Kontakt-Addressen verwalten';
- 
-$GLOBALS['TL_LANG']['FMD']['contact_single'] = array('Kontaktdaten', 'Modul zur Anzeige von Kontaktdaten.');
+
+/**
+ * Run in a custom namespace, so the class can be replaced
+ */
+
+class ModuleContactList extends ModuleContact {
+
+}
+
 

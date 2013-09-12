@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -27,7 +28,18 @@
 
 
 /**
- * Run in a custom namespace, so the class can be replaced
- */
+ * Reads and writes contacts
+ * 
+ * @package    Contacts
+ * @copyright  DevPoint | Wilfried Reiter 2013
+ * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
+*/
+class ContactModel extends \Model
+{
+	/**
+	 * Table name
+	 * @var string
+	 */
+	protected static $strTable = 'tl_contacts';
 
-
+}

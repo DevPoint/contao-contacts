@@ -27,13 +27,11 @@ array_insert($GLOBALS['BE_MOD']['content'], 1, array
 
 /**
  * Front end modules
- *
+ */
 $GLOBALS['FE_MOD']['contacts'] = array
 (
-    'contacts' => 'ModuleContacts',
-    'contacts_essential' => 'ModuleContactsEssential',
-    'contacts_sociallinks' => 'ModuleContactsSocialLinks'
-);*/
+    'contact_single' => 'ModuleContactSingle',
+);
 
 
 /**

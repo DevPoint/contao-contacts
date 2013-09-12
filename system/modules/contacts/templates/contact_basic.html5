@@ -1,0 +1,38 @@
+
+<div class="layout_basic block<?php echo $this->class; ?>">
+
+<div class="address">
+<?php echo $this->name; ?><br>
+<?php if ($this->name2): ?>
+<?php echo $this->name2; ?><br>
+<?php endif; ?>
+<?php if ($this->street): ?>
+<?php echo $this->street; ?><br>
+<?php endif; ?>
+<?php if ($this->postal || $this->city): ?>
+<?php echo $this->postal . ' ' . $this->city; ?>
+<?php endif; ?>
+</div>
+
+<div class="phone">
+<?php if ($this->phone): ?>
+<div class="phone">
+<span class="label"><?php echo $this->phoneLabel; ?></span>
+<span class="value"><?php echo $this->phone; ?></span>
+</div>
+<?php endif; ?>
+<?php if ($this->fax): ?>
+<div class="fax">
+<span class="label"><?php echo $this->faxLabel; ?></span>
+<span class="value"><?php echo $this->fax; ?></span>
+</div>
+<?php endif; ?>
+<?php if ($this->email): ?>
+<div class="email">
+<span class="label"><?php echo $this->emailLabel; ?></span>
+<span class="value"><?php echo $this->email; ?></span>
+</div>
+<?php endif; ?>
+</div>
+
+</div>

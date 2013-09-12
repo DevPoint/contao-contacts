@@ -25,3 +25,6 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  * @license MIT
  */
+
+$GLOBALS['TL_LANG']['tl_module']['contacts_multiSRC'] = array('Kontakteinträge', 'Bitte wählen Sie einen oder mehere Kontakteinträge.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteinträge','Bitte wählen Sie einen Kontakteintrag.');
