@@ -69,7 +69,7 @@ class ModuleContactSingle extends ModuleContact {
     protected function compile() 
     {
         $this->import('Database');
-  		$this->Template->contacts = 'no contacts';	
+  		$this->Template->contacts = '';	
         $objContact = ContactModel::findByPk($this->contacts_singleSRC);
 		if ($objContact !== null)
 		{

@@ -33,6 +33,17 @@ $GLOBALS['FE_MOD']['contacts'] = array
     'contact_single' => 'ModuleContactSingle',
 );
 
+$GLOBALS['TL_CONTACTS'] = array
+(
+	'socialChannels' => array(
+		'Facebook','Twitter','Pinterest','Xing'),
+	'socialChannelUrls' => array(
+		'Facebook'		=> 'https://www.facebook.com/%s',
+		'Twitter'		=> 'https://twitter.com/%s',
+		'Pinterest'		=> 'https://pinterest.com/%s',
+		'Xing'			=> 'http://www.xing.com/profile/%s'),
+);
+
 
 /**
  * Hooks

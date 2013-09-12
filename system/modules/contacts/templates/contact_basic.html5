@@ -1,37 +1,27 @@
 
 <div class="layout_basic block<?php echo $this->class; ?>">
 
-<div class="address">
-<?php echo $this->name; ?><br>
+<div class="name"><?php echo $this->name; ?></div>
 <?php if ($this->name2): ?>
-<?php echo $this->name2; ?><br>
+<div class="name2"><?php echo $this->name2; ?></div>
 <?php endif; ?>
 <?php if ($this->street): ?>
-<?php echo $this->street; ?><br>
+<div class="street"><?php echo $this->street; ?></div>
 <?php endif; ?>
 <?php if ($this->postal || $this->city): ?>
-<?php echo $this->postal . ' ' . $this->city; ?>
+<div class="city"><span class="postal"><?php echo $this->postal; ?></span> <span class="city"><?php echo $this->city; ?></span></div>
 <?php endif; ?>
 </div>
 
 <div class="phone">
 <?php if ($this->phone): ?>
-<div class="phone">
-<span class="label"><?php echo $this->phoneLabel; ?></span>
-<span class="value"><?php echo $this->phone; ?></span>
-</div>
+<div class="phone"><span class="label"><?php echo $this->phoneLabel; ?></span><span class="value"><?php echo $this->phone; ?></span></div>
 <?php endif; ?>
 <?php if ($this->fax): ?>
-<div class="fax">
-<span class="label"><?php echo $this->faxLabel; ?></span>
-<span class="value"><?php echo $this->fax; ?></span>
-</div>
+<div class="fax"><span class="label"><?php echo $this->faxLabel; ?></span><span class="value"><?php echo $this->fax; ?></span></div>
 <?php endif; ?>
 <?php if ($this->email): ?>
-<div class="email">
-<span class="label"><?php echo $this->emailLabel; ?></span>
-<span class="value"><?php echo $this->email; ?></span>
-</div>
+<div class="email"><span class="label"><?php echo $this->emailLabel; ?></span><a href="mailto:<?php echo $this->email; ?>" class="value"><?php echo $this->email; ?></a></div>
 <?php endif; ?>
 </div>
 

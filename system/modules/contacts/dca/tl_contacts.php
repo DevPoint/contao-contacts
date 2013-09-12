@@ -428,10 +428,10 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 						'inputType'		=> 'select',
 						'options_callback'	=> array('tl_contacts', 'getSocialCannels'),
 						'eval'			=> array('style'=>'width:160px;margin:0 5px 5px 0','includeBlankOption' => true)),
-					'channelLink'	=> array(
-						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['socialChannelLink'],
+					'channelUserID'	=> array(
+						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['socialChannelUserID'],
 						'inputType'     => 'text',
-						'eval'          => array('style'=>'width:320px','mandatory'=>true))),
+						'eval'          => array('style'=>'width:320px'))),
 				'tl_class' => 'clr'
 			),
 			'sql'			=> "blob NULL"
@@ -477,7 +477,7 @@ class tl_contacts extends Backend
 	public function getSocialCannels(DataContainer $dc)
 	{
 		$options = array();
-		foreach(array('facebook', 'twitter', 'pinterest') as $channel)
+		foreach($GLOBALS['TL_CONTACTS']['socialChannels'] as $channel)
 		{
 			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['socialChannels'][$channel];
 			if (null === $channelName) $channelName = $channel;
