@@ -26,18 +26,18 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'fields'	=> array('title'), // Elemente, die im Panel angezeigt werden
 			'format'	=> '%s'
 		),
-        'global_operations' => array(
-            'all' => array(
-                'label'		=> &$GLOBALS['TL_LANG']['MSC']['all'],
-                'href'		=> 'act=select',
-                'class'     => 'header_edit_all',
-                'attributes'	=> 'onclick="Backend.getScrollOffset();"'
-            )
-        ),            
+		'global_operations' => array(
+			'all' => array(
+				'label'		=> &$GLOBALS['TL_LANG']['MSC']['all'],
+				'href'		=> 'act=select',
+				'class'     => 'header_edit_all',
+				'attributes'	=> 'onclick="Backend.getScrollOffset();"'
+			)
+		),            
 		'operations' => array(
 			'edit' => array(
 				'label'		=> &$GLOBALS['TL_LANG']['tl_contacts']['edit'],
-                'href'		=> 'act=edit',
+				'href'		=> 'act=edit',
 				'icon'		=> 'edit.gif'
 			),
 			'delete' => array(
@@ -425,7 +425,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 				'columnFields'	=> array(
 					'channel' 		=> array(
 						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['socialChannel'],
-			            'inputType'		=> 'select',
+						'inputType'		=> 'select',
 						'options_callback'	=> array('tl_contacts', 'getSocialCannels'),
 						'eval'			=> array('style'=>'width:160px;margin:0 5px 5px 0','includeBlankOption' => true)),
 					'channelLink'	=> array(
