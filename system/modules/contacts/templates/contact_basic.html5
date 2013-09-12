@@ -1,4 +1,3 @@
-
 <div class="layout_basic block<?php echo $this->class; ?>">
 
 <div class="name"><?php echo $this->name; ?></div>
@@ -9,20 +8,19 @@
 <div class="street"><?php echo $this->street; ?></div>
 <?php endif; ?>
 <?php if ($this->postal || $this->city): ?>
-<div class="city"><span class="postal"><?php echo $this->postal; ?></span> <span class="city"><?php echo $this->city; ?></span></div>
+<div class="city_postal"><?php if ($this->postal): ?><span class="postal"><?php echo $this->postal; ?> </span><?php endif; ?><span class="city"><?php echo $this->city; ?></span></div>
 <?php endif; ?>
-</div>
-
-<div class="phone">
 <?php if ($this->phone): ?>
-<div class="phone"><span class="label"><?php echo $this->phoneLabel; ?></span><span class="value"><?php echo $this->phone; ?></span></div>
+<div class="phone"><?php if ($this->phoneLabel): ?><span class="label"><?php echo $this->phoneLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->phone; ?></span></div>
+<?php endif; ?>
+<?php if ($this->mobile): ?>
+<div class="mobile"><?php if ($this->mobileLabel): ?><span class="label"><?php echo $this->mobileLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->mobile; ?></span></div>
 <?php endif; ?>
 <?php if ($this->fax): ?>
-<div class="fax"><span class="label"><?php echo $this->faxLabel; ?></span><span class="value"><?php echo $this->fax; ?></span></div>
+<div class="fax"><?php if ($this->faxLabel): ?><span class="label"><?php echo $this->faxLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->fax; ?></span></div>
 <?php endif; ?>
 <?php if ($this->email): ?>
-<div class="email"><span class="label"><?php echo $this->emailLabel; ?></span><a href="mailto:<?php echo $this->email; ?>" class="value"><?php echo $this->email; ?></a></div>
+<div class="email"><?php if ($this->emailLabel): ?><span class="label"><?php echo $this->emailLabel; ?></span><?php endif; ?><a href="mailto:<?php echo $this->email; ?>" class="value"><?php echo $this->email; ?></a></div>
 <?php endif; ?>
-</div>
 
 </div>
