@@ -30,7 +30,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 
-class ModuleContactList extends ModuleBaseContact {
+class ModuleContactList extends \Module {
 
 }
 

@@ -30,48 +30,29 @@
  * Run in a custom namespace, so the class can be replaced
  */
 
-abstract class ModuleBaseContact extends \Module {
+class Contact extends \Frontend {
 
-	/**
-	 * Sort out protected archives
-	 * @param array
-	 * @return array
-	 */
-	protected function sortOutProtected($arrContacts)
+
+	static public function checkProtectedArchiveVisible($archiveGroups, $user)
 	{
-		if (BE_USER_LOGGED_IN || !is_array($arrContacts) || empty($arrContacts))
+		if (BE_USER_LOGGED_IN)
 		{
-			return $arrContacts;
+			return true;
 		}
 
-		$this->import('FrontendUser', 'User');
-		$objContact = \ContactModel::findMultipleByIds($arrContacts);
-		$arrContacts = array();
-
-		if ($objContact !== null)
+		if (!FE_USER_LOGGED_IN)
 		{
-			while ($objContact->next())
-			{
-				// if ($objContact->protected)
-				// {
-				// 	if (!FE_USER_LOGGED_IN)
-				// 	{
-				// 		continue;
-				// 	}
-
-				// 	$groups = deserialize($objContact->groups);
-
-				// 	if (!is_array($groups) || empty($groups) || !count(array_intersect($groups, $this->User->groups)))
-				// 	{
-				// 		continue;
-				// 	}
-				// }
-
-				$arrContacts[] = $objContact->id;
-			}
+			return false;
 		}
 
-		return $arrContacts;
+		$groups = deserialize($archiveGroups);
+
+		if (!is_array($groups) || empty($groups) || !count(array_intersect($groups, $user->groups)))
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 
@@ -87,12 +68,11 @@ abstract class ModuleBaseContact extends \Module {
 	}
 
 	
-	public function parseContact($objContact, $arrOptions=array())
+	public function parseContact($arrContact, $template, $arrOptions=array())
 	{
 		global $objPage;
 
 		// create network data
-		$arrContact = $objContact->row();
 		$arrNetworks = array();
 		$arrNetworksWork = deserialize($arrContact['networks']);
 		if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
@@ -116,7 +96,7 @@ abstract class ModuleBaseContact extends \Module {
 		}
 
 		// parse data with template
-		$objTemplate = new \FrontendTemplate($this->contacts_template);
+		$objTemplate = new \FrontendTemplate($template);
 		$objTemplate->setData($arrContact);
 		return $objTemplate->parse();
 	}

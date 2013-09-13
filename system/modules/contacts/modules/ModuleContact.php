@@ -30,7 +30,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 
-class ModuleContact extends ModuleBaseContact {
+class ModuleContact extends \Module {
 
     /**
      * Template
@@ -38,27 +38,55 @@ class ModuleContact extends ModuleBaseContact {
      */
     protected $strTemplate = 'mod_contact';
 
+    /**
+     * contact
+     * @var Contact
+     */
+    //protected $Contact;
+
+    /**
+     * arrContact
+     * @var Array
+     */
+    protected $arrContact;
+
 	/**
      * Compile module
 	 */
 	public function generate()
 	{
+		// Wildcard for BE mode
 		if (TL_MODE == 'BE')
 		{
-		//	return $this->generateWildcard('### CONTACT SINGLE ###');
+			return $this->generateWildcard('### CONTACT ###');
 		}
 
-		// Do not index or cache the page if there are no archives
-		// $arrContacts = $this->sortOutProtected(array($this->contacts_singleSRC));
-		// if (!is_array($this->news_archives) || empty($this->news_archives))
-		// {
-		// 	global $objPage;
-		// 	$objPage->noSearch = 1;
-		// 	$objPage->cache = 0;
-		// 	return '';
-		// }
-		// $this->contacts_singleSRC = $arrContacts[0];
+		// Return, if contact doesn't exist anymore
+		$objContact = ContactModel::findByPk($this->contacts_singleSRC);
+		if ($objContact === null)
+		{
+			global $objPage;
+			$objPage->noSearch = 1;
+			$objPage->cache = 0;
+			return '';
+		}
 
+
+		// Check if contact is protected
+		// if ($objContact->protected)
+		// {
+		// 	$this->import('FrontendUser', 'User');
+		// 	if (!Contact::checkProtectedArchiveVisible($objContact->groups, $this->User))
+		// 	{
+		// 		global $objPage;
+		// 		$objPage->noSearch = 1;
+		// 		$objPage->cache = 0;
+		// 		return '';
+		// 	}
+		// }
+
+		// Call parent class
+		$this->arrContact = $objContact->row();
 		return parent::generate();
 	}
 
@@ -68,12 +96,8 @@ class ModuleContact extends ModuleBaseContact {
      */
     protected function compile() 
     {
-  		$this->Template->contacts = '';	
-        $objContact = ContactModel::findByPk($this->contacts_singleSRC);
-		if ($objContact !== null)
-		{
-    		$this->Template->contacts = $this->parseContact($objContact);
-	    }
+		$contact = new Contact();
+		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template);
 	}
 }
 
