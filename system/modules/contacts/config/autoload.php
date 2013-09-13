@@ -3,13 +3,18 @@
 /**
  * Register the classes
  */
+ClassLoader::addNamespaces(array
+(
+));
+
+/**
+ * Register the classes
+ */
 ClassLoader::addClasses(array
 (
 	'Contact' 			=>	'system/modules/contacts/classes/Contact.php',
-	'ContactModel' 		=>	'system/modules/contacts/models/ContactModel.php',
-	'ModuleBaseContact'		=>	'system/modules/contacts/modules/ModuleBaseContact.php',
-	'ModuleContact' 		=>	'system/modules/contacts/modules/ModuleContact.php',
-	'ModuleContactList'		=>	'system/modules/contacts/modules/ModuleContactList.php',
+	'ModuleContact' 	=>	'system/modules/contacts/modules/ModuleContact.php',
+	'ModuleContactList'	=>	'system/modules/contacts/modules/ModuleContactList.php',
 ));
 
 /**
@@ -17,6 +22,6 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_contact'			=> 'system/modules/contacts/templates',
-	'contact_basic'			=> 'system/modules/contacts/templates',
+	'mod_contact'		=> 'system/modules/contacts/templates',
+	'contact_basic'		=> 'system/modules/contacts/templates',
 ));

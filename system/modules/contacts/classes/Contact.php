@@ -25,11 +25,6 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-
-/**
- * Run in a custom namespace, so the class can be replaced
- */
-
 class Contact extends \Frontend {
 
 	/**

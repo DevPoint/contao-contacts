@@ -25,11 +25,6 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-
-/**
- * Run in a custom namespace, so the class can be replaced
- */
-
 class ModuleContact extends \Module {
 
     /**
@@ -39,16 +34,11 @@ class ModuleContact extends \Module {
     protected $strTemplate = 'mod_contact';
 
     /**
-     * contact
-     * @var Contact
-     */
-    //protected $Contact;
-
-    /**
-     * arrContact
+     * Contact Array
      * @var Array
      */
     protected $arrContact;
+
 
 	/**
      * Compile module
@@ -62,7 +52,9 @@ class ModuleContact extends \Module {
 		}
 
 		// Return, if contact doesn't exist anymore
-		$objContact = ContactModel::findByPk($this->contacts_singleSRC);
+		$objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
+									 ->limit(1)
+									 ->execute($this->contacts_singleSRC);
 		if ($objContact === null)
 		{
 			global $objPage;
@@ -84,9 +76,9 @@ class ModuleContact extends \Module {
 		// 		return '';
 		// 	}
 		// }
+		$this->arrContact = $objContact->row();
 
 		// Call parent class
-		$this->arrContact = $objContact->row();
 		return parent::generate();
 	}
 
