@@ -41,14 +41,15 @@ $GLOBALS['FE_MOD']['contacts'] = array
 $GLOBALS['TL_CONTACTS'] = array
 (
 	'networkChannels' => array(
-		'Facebook','Twitter','Pinterest','Xing','GitHub'),
+		'Facebook','Twitter','Pinterest','Xing','LinkedIn','GitHub'),
 	'networkUrls' => array(
-		'_default'		=> 'http://%s.com/%s', 
+		'_default'		=> 'http://www.%s.com/%s', 
 		'Facebook'		=> 'https://www.facebook.com/%s',
 		'Twitter'		=> 'https://twitter.com/%s',
 		'Pinterest'		=> 'https://pinterest.com/%s',
 		'Xing'			=> 'http://www.xing.com/profile/%s',
-		'GitHub'		=> 'https://github.com/%s'),
+		'GitHub'		=> 'https://github.com/%s',
+		'FotoCommunity'	=> 'http://www.fotocommunity.de/fotograf/%s'),
 );
 
 
