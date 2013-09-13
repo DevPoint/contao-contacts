@@ -25,11 +25,6 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-
-/**
- * Run in a custom namespace, so the class can be replaced
- */
-
 class Contact extends \Frontend {
 
 	/**
@@ -65,7 +60,7 @@ class Contact extends \Frontend {
 	}
 
 
-	public function generateWildcard($wildcardStr)
+	static public function generateWildcard($wildcardStr)
 	{
 		$objTemplate = new \BackendTemplate('be_wildcard');
 		$objTemplate->wildcard = $wildcardStr;
@@ -76,6 +71,13 @@ class Contact extends \Frontend {
 		return $objTemplate->parse();
 	}
 
+	static public function generateEmpty()
+	{
+		global $objPage;
+		$objPage->noSearch = 1;
+		$objPage->cache = 0;
+		return '';
+	}
 	
 	public function parseContact($arrContact, $template, $arrOptions=array())
 	{

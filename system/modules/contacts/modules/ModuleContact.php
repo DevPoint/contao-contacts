@@ -25,11 +25,6 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-
-/**
- * Run in a custom namespace, so the class can be replaced
- */
-
 class ModuleContact extends \Module {
 
     /**
@@ -39,16 +34,11 @@ class ModuleContact extends \Module {
     protected $strTemplate = 'mod_contact';
 
     /**
-     * contact
-     * @var Contact
-     */
-    //protected $Contact;
-
-    /**
-     * arrContact
+     * Contact Array
      * @var Array
      */
     protected $arrContact;
+
 
 	/**
      * Compile module
@@ -58,17 +48,16 @@ class ModuleContact extends \Module {
 		// Wildcard for BE mode
 		if (TL_MODE == 'BE')
 		{
-			return $this->generateWildcard('### CONTACT ###');
+			return Contact::generateWildcard('### CONTACT ###');
 		}
 
 		// Return, if contact doesn't exist anymore
-		$objContact = ContactModel::findByPk($this->contacts_singleSRC);
+		$objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
+									 ->limit(1)
+									 ->execute($this->contacts_singleSRC);
 		if ($objContact === null)
 		{
-			global $objPage;
-			$objPage->noSearch = 1;
-			$objPage->cache = 0;
-			return '';
+			return Contact::generateEmpty();
 		}
 
 
@@ -78,15 +67,12 @@ class ModuleContact extends \Module {
 		// 	$this->import('FrontendUser', 'User');
 		// 	if (!Contact::checkProtectedArchiveVisible($objContact->groups, $this->User))
 		// 	{
-		// 		global $objPage;
-		// 		$objPage->noSearch = 1;
-		// 		$objPage->cache = 0;
-		// 		return '';
+		//		return Contact::generateEmpty();
 		// 	}
 		// }
+		$this->arrContact = $objContact->row();
 
 		// Call parent class
-		$this->arrContact = $objContact->row();
 		return parent::generate();
 	}
 
