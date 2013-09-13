@@ -28,3 +28,22 @@
 
 $GLOBALS['TL_LANG']['tl_module']['contacts_multiSRC'] = array('Kontakteinträge', 'Bitte wählen Sie einen oder mehere Kontakteinträge.');
 $GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteinträge','Bitte wählen Sie einen Kontakteintrag.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_addFieldsFilter'] = array('Nur ausgewählte Felder','Erlaubt festzulegen, welche Felder angezeigt werden.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter'] = array('Felder auswählen','Wählen Sie aus, welche Felder Sie angezeigt haben wollne.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'] = array(
+	'title'		=> 'Title',
+	'name' 		=> 'Name',
+	'name2'		=> 'Namenszusatz',
+	'longName'	=> 'Vollständiger Name',
+	'street'	=> 'Straße',
+	'postal'	=> 'Postleitzahl',
+	'city'		=> 'Ort',
+	'state'		=> 'Bundesland',
+	'countryCode'		=> 'Land',
+	'singleSRC'	=> 'Bild',
+	'phone'		=> 'Telefonnummer',
+	'mobile'	=> 'Handynummer',
+	'fax'		=> 'Faxnummer',
+	'email'		=> 'E-Mail-Adresse',
+	'networks'	=> 'Soziale Netzwerke');
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsfilter_legend'] = 'Detaileinstellungen für die Anzeige eines Kontakteintrages';
