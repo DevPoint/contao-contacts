@@ -29,5 +29,6 @@
 $GLOBALS['TL_LANG']['MOD']['contacts'][0] = 'Kontakte';
 $GLOBALS['TL_LANG']['MOD']['contacts'][1] = 'Kontakt-Addressen verwalten';
  
-$GLOBALS['TL_LANG']['FMD']['contact_single'] = array('Kontaktdaten', 'Modul zur Anzeige von Kontaktdaten.');
+$GLOBALS['TL_LANG']['FMD']['contact'] = array('Kontakt', 'Modul zur Anzeige von Kontaktdaten.');
+$GLOBALS['TL_LANG']['FMD']['contact_list'] = array('Kontaktliste', 'Modul zur Anzeige eine Liste mit Kontaktdaten.');
 

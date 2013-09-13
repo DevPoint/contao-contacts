@@ -69,7 +69,7 @@ $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'mobile'	=>	array('Handynummer', 'Bitte geben Sie die Handynummer ein.'),
 	'fax'		=>	array('Faxnummer', 'Bitte geben Sie die Faxnummer ein.'),
 	'email'		=>	array('E-Mail-Adresse', 'Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
-	'socialLinks'		=>	array('Soziale Netzwerke', 'Links auf Soziale Netzwerke hinzufügen oder bearbeiten'),
+	'networks'	=>	array('Soziale Netzwerke', 'Links auf Soziale Netzwerke hinzufügen oder bearbeiten'),
 	'new'		=>	array('Neuen Kontakt', 'Einen neuen Kontakt anlegen'),
 	'show'		=>	array('Kontaktdetails', 'Details des Kontaktes ID %s anzeigen'),
 	'edit'		=>	array('Kontakt bearbeiten', 'Kontakt ID %s bearbeiten'),
@@ -83,8 +83,8 @@ $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'lang03Legend' 	=> 'Übersetzung (Sprache 03) bearbeiten',
 	'imageLegend' 	=> 'Bild-Einstellungen',
 	'phoneLegend' 	=> 'Telefonnummern und Emailadresse',
-	'socialLinksLegend' 	=> 'Links auf soziale Netzwerke verwalten',
-	'socialChannel'			=>  'Netzwerk-Name',
-	'socialChannelUserID'	=> 	'Benutzer-Id für Netzwerk',
+	'networksLegend'	=>	'Links auf soziale Netzwerke verwalten',
+	'networkSelectChannel'	=>	'Netzwerk-Name',
+	'networkUserID'		=>	'Benutzer-Id für Netzwerk',
 );
 

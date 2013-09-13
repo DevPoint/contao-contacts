@@ -30,72 +30,50 @@
  * Run in a custom namespace, so the class can be replaced
  */
 
-abstract class ModuleContact extends \Module {
+class ModuleContact extends ModuleBaseContact {
+
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_contact';
 
 	/**
-	 * Sort out protected archives
-	 * @param array
-	 * @return array
+     * Compile module
 	 */
-	protected function sortOutProtected($arrContacts)
+	public function generate()
 	{
-		if (BE_USER_LOGGED_IN || !is_array($arrContacts) || empty($arrContacts))
+		if (TL_MODE == 'BE')
 		{
-			return $arrContacts;
+		//	return $this->generateWildcard('### CONTACT SINGLE ###');
 		}
 
-		$this->import('FrontendUser', 'User');
-		$objContact = \ContactModel::findMultipleByIds($arrContacts);
-		$arrContacts = array();
+		// Do not index or cache the page if there are no archives
+		// $arrContacts = $this->sortOutProtected(array($this->contacts_singleSRC));
+		// if (!is_array($this->news_archives) || empty($this->news_archives))
+		// {
+		// 	global $objPage;
+		// 	$objPage->noSearch = 1;
+		// 	$objPage->cache = 0;
+		// 	return '';
+		// }
+		// $this->contacts_singleSRC = $arrContacts[0];
 
+		return parent::generate();
+	}
+
+
+    /**
+     * Generate module
+     */
+    protected function compile() 
+    {
+  		$this->Template->contacts = '';	
+        $objContact = ContactModel::findByPk($this->contacts_singleSRC);
 		if ($objContact !== null)
 		{
-			while ($objContact->next())
-			{
-				// if ($objContact->protected)
-				// {
-				// 	if (!FE_USER_LOGGED_IN)
-				// 	{
-				// 		continue;
-				// 	}
-
-				// 	$groups = deserialize($objContact->groups);
-
-				// 	if (!is_array($groups) || empty($groups) || !count(array_intersect($groups, $this->User->groups)))
-				// 	{
-				// 		continue;
-				// 	}
-				// }
-
-				$arrContacts[] = $objContact->id;
-			}
-		}
-
-		return $arrContacts;
-	}
-
-
-	public function generateWildcard($wildcardStr)
-	{
-		$objTemplate = new \BackendTemplate('be_wildcard');
-		$objTemplate->wildcard = $wildcardStr;
-		$objTemplate->title = $this->headline;
-		$objTemplate->id = $this->id;
-		$objTemplate->link = $this->name;
-		$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-		return $objTemplate->parse();
-	}
-
-	/**
-	 * Get all contacts and return them as array
-	 * @return array
-	 */
-	public function parseContact($objContact, $arrOptions=array())
-	{
-		global $objPage;
-		$objTemplate = new \FrontendTemplate($this->contacts_template);
-		$objTemplate->setData($objContact->row());
-		return $objTemplate->parse();
+    		$this->Template->contacts = $this->parseContact($objContact);
+	    }
 	}
 }
 

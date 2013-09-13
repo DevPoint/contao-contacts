@@ -1,26 +1,31 @@
-<div class="layout_basic block<?php echo $this->class; ?>">
+<div class="layout_basic block<?php echo $this->class;?>">
 
-<div class="name"><?php echo $this->name; ?></div>
-<?php if ($this->name2): ?>
-<div class="name2"><?php echo $this->name2; ?></div>
-<?php endif; ?>
-<?php if ($this->street): ?>
-<div class="street"><?php echo $this->street; ?></div>
-<?php endif; ?>
-<?php if ($this->postal || $this->city): ?>
-<div class="city_postal"><?php if ($this->postal): ?><span class="postal"><?php echo $this->postal; ?> </span><?php endif; ?><span class="city"><?php echo $this->city; ?></span></div>
-<?php endif; ?>
-<?php if ($this->phone): ?>
-<div class="phone"><?php if ($this->phoneLabel): ?><span class="label"><?php echo $this->phoneLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->phone; ?></span></div>
-<?php endif; ?>
-<?php if ($this->mobile): ?>
-<div class="mobile"><?php if ($this->mobileLabel): ?><span class="label"><?php echo $this->mobileLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->mobile; ?></span></div>
-<?php endif; ?>
-<?php if ($this->fax): ?>
-<div class="fax"><?php if ($this->faxLabel): ?><span class="label"><?php echo $this->faxLabel; ?></span><?php endif; ?><span class="value"><?php echo $this->fax; ?></span></div>
-<?php endif; ?>
-<?php if ($this->email): ?>
-<div class="email"><?php if ($this->emailLabel): ?><span class="label"><?php echo $this->emailLabel; ?></span><?php endif; ?><a href="mailto:<?php echo $this->email; ?>" class="value"><?php echo $this->email; ?></a></div>
-<?php endif; ?>
+<div class="name"><?php echo $this->name;?></div>
+<?php if ($this->name2):?>
+<div class="name2"><?php echo $this->name2;?></div>
+<?php endif;?>
+<?php if ($this->street):?>
+<div class="street"><?php echo $this->street;?></div>
+<?php endif;?>
+<?php if ($this->postal || $this->city):?>
+<div class="city_postal"><?php if ($this->postal):?><span class="postal"><?php echo $this->postal;?> </span><?php endif;?><span class="city"><?php echo $this->city;?></span></div>
+<?php endif;?>
+<?php if ($this->phone):?>
+<div class="phone"><?php if ($this->phoneLabel):?><span class="label"><?php echo $this->phoneLabel;?></span><?php endif;?><span class="value"><?php echo $this->phone;?></span></div>
+<?php endif;?>
+<?php if ($this->mobile):?>
+<div class="mobile"><?php if ($this->mobileLabel):?><span class="label"><?php echo $this->mobileLabel;?></span><?php endif;?><span class="value"><?php echo $this->mobile;?></span></div>
+<?php endif;?>
+<?php if ($this->fax):?>
+<div class="fax"><?php if ($this->faxLabel):?><span class="label"><?php echo $this->faxLabel;?></span><?php endif;?><span class="value"><?php echo $this->fax;?></span></div>
+<?php endif;?>
+<?php if ($this->email):?>
+<div class="email"><?php if ($this->emailLabel):?><span class="label"><?php echo $this->emailLabel;?></span><?php endif;?><a href="mailto:<?php echo $this->email;?>" class="value"><?php echo $this->email;?></a></div>
+<?php endif;?>
+
+<?php if (is_array($this->networks) && !empty($this->networks)):?>
+<div class="networks">
+</div>
+<?php endif;?>
 
 </div>

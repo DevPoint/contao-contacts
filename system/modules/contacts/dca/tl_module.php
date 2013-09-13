@@ -29,7 +29,7 @@
 /**
  * Add a palette to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_single'] = '{title_legend},name,headline,type;{template_legend},contacts_singleSRC,contacts_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{template_legend},contacts_singleSRC,contacts_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
  
 /**

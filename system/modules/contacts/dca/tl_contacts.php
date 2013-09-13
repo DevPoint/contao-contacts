@@ -57,8 +57,8 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	// Palettes
 	'palettes' => array(
 		'__selector__'	=> array('addImage','addLang01'),
-		'default'   	=> '{titleLegend},title;{contactLegend},name,name2,city,street,postal,countryCode;{lang01Legend},addLang01_Full;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},socialLinks;',
-	//	'default'   	=> '{titleLegend},title;{contactLegend},name,name2,longName,city,street,postal,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend:hide},addLang02;{lang03Legend:hide},addLang03;{phoneLegend},phone,email,mobile,fax;{socialLinksLegend},socialLinks;'
+		'default'   	=> '{titleLegend},title;{contactLegend},name,name2,city,street,postal,countryCode;{lang01Legend},addLang01_Full;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;',
+	//	'default'   	=> '{titleLegend},title;{contactLegend},name,name2,longName,city,street,postal,state,countryCode;{imageLegend},addImage;{lang01Legend},addLang01;{lang02Legend:hide},addLang02;{lang03Legend:hide},addLang03;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;'
 	),
 
 	// Subpalettes
@@ -416,20 +416,20 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>255, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(255) NOT NULL default ''"
 		),
-		// SocialLinks fields
-		'socialLinks' => array(
-			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['socialLinks'],
+		// Networks fields
+		'networks' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['networks'],
 			'exclude'		=> true,
 			'inputType'		=> 'multiColumnWizard',
 			'eval'			=> array(
 				'columnFields'	=> array(
-					'channel' 		=> array(
-						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['socialChannel'],
+					'selectChannel'	=> array(
+						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['networkSelectChannel'],
 						'inputType'		=> 'select',
-						'options_callback'	=> array('tl_contacts', 'getSocialCannels'),
+						'options_callback'	=> array('tl_contacts', 'getNetworkChannels'),
 						'eval'			=> array('style'=>'width:160px;margin:0 5px 5px 0','includeBlankOption' => true)),
-					'channelUserID'	=> array(
-						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['socialChannelUserID'],
+					'userID'	=> array(
+						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['networkUserID'],
 						'inputType'     => 'text',
 						'eval'          => array('style'=>'width:320px'))),
 				'tl_class' => 'clr'
@@ -474,12 +474,12 @@ class tl_contacts extends Backend
 	 * @param DataContainer
 	 * @return array
 	 */
-	public function getSocialCannels(DataContainer $dc)
+	public function getNetworkChannels(DataContainer $dc)
 	{
 		$options = array();
-		foreach($GLOBALS['TL_CONTACTS']['socialChannels'] as $channel)
+		foreach($GLOBALS['TL_CONTACTS']['networkChannels'] as $channel)
 		{
-			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['socialChannels'][$channel];
+			$channelName = $GLOBALS['TL_LANG']['MSC']['TL_CONTACTS']['networkChannels'][$channel];
 			if (null === $channelName) $channelName = $channel;
 			$options[$channel] = $channelName;
 		}

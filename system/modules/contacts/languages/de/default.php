@@ -27,8 +27,7 @@
  */
 
 $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(
-	'socialChannels' => array(
-		'facebook'		=> 'Facebook',
-		'twitter'		=> 'Twitter',
-		'pinterest'		=> 'Pinterest')
+	'networkChannels' => array(
+		'Facebook'		=> 'Facebook',
+		'Twitter'		=> 'Twitter')
 );

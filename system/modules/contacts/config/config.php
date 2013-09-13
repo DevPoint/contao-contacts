@@ -30,14 +30,15 @@ array_insert($GLOBALS['BE_MOD']['content'], 1, array
  */
 $GLOBALS['FE_MOD']['contacts'] = array
 (
-    'contact_single' => 'ModuleContactSingle',
+    'contact' 		=> 'ModuleContact',
+    'contact_list'	=> 'ModuleContactList',
 );
 
 $GLOBALS['TL_CONTACTS'] = array
 (
-	'socialChannels' => array(
+	'networkChannels' => array(
 		'Facebook','Twitter','Pinterest','Xing'),
-	'socialChannelUrls' => array(
+	'networkUrls' => array(
 		'Facebook'		=> 'https://www.facebook.com/%s',
 		'Twitter'		=> 'https://twitter.com/%s',
 		'Pinterest'		=> 'https://pinterest.com/%s',
