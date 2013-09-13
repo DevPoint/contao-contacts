@@ -72,7 +72,7 @@ class ModuleContact extends \Module {
 		}
 
 
-		// Check if contact is protected
+		// Check if contact viewing is protected
 		// if ($objContact->protected)
 		// {
 		// 	$this->import('FrontendUser', 'User');

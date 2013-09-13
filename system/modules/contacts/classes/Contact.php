@@ -32,7 +32,16 @@
 
 class Contact extends \Frontend {
 
-
+	/**
+	 * check if a protected archive is visible
+	 * @param $archiveGroups (serialized)
+	 * @param $user FrontendUser
+	 * @return array
+	 *
+	 * Remark: This function is the essence of the
+	 * <Contao\Events::sortOutProtected> and
+	 * <Contao\ModuleNews::sortOutProtected> functions
+	 */
 	static public function checkProtectedArchiveVisible($archiveGroups, $user)
 	{
 		if (BE_USER_LOGGED_IN)
