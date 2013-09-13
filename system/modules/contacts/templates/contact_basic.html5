@@ -24,8 +24,11 @@
 <?php endif;?>
 
 <?php if (is_array($this->networks) && !empty($this->networks)):?>
-<div class="networks">
-</div>
+<ul class="networks">
+<?php foreach ($this->networks as $network => $arrNetwork):?>
+<li><a href="<?php echo $arrNetwork['href'];?>" title="<?php echo $arrNetwork['name'];?>" target="_blank"><span class="value"><?php echo $arrNetwork['name'];?></span></a></li>
+<?php endforeach;?>
+</ul>
 <?php endif;?>
 
 </div>

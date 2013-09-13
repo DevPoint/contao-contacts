@@ -423,7 +423,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'inputType'		=> 'multiColumnWizard',
 			'eval'			=> array(
 				'columnFields'	=> array(
-					'selectChannel'	=> array(
+					'channel'	=> array(
 						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['networkSelectChannel'],
 						'inputType'		=> 'select',
 						'options_callback'	=> array('tl_contacts', 'getNetworkChannels'),
@@ -479,7 +479,7 @@ class tl_contacts extends Backend
 		$options = array();
 		foreach($GLOBALS['TL_CONTACTS']['networkChannels'] as $channel)
 		{
-			$channelName = $GLOBALS['TL_LANG']['MSC']['TL_CONTACTS']['networkChannels'][$channel];
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$channel];
 			if (null === $channelName) $channelName = $channel;
 			$options[$channel] = $channelName;
 		}

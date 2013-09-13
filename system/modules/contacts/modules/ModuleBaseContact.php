@@ -86,14 +86,36 @@ abstract class ModuleBaseContact extends \Module {
 		return $objTemplate->parse();
 	}
 
-	/**
-	 * Get all contacts and return them as array
-	 * @return array
-	 */
+	
 	public function parseContact($objContact, $arrOptions=array())
 	{
 		global $objPage;
+
+		// create network data
 		$arrContact = $objContact->row();
+		$arrNetworks = array();
+		$arrNetworksWork = deserialize($arrContact['networks']);
+		if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
+		{
+			foreach ($arrNetworksWork as &$arrData)
+			{
+			 	$userID = $arrData['userID'];
+			 	$network = $arrData['channel'];
+			 	$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
+				if (null === $networkUrlStr) $networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls']['_default'];
+				$networklUrl = sprintf($networkUrlStr, $userID);
+				$networkName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$network];
+				if (null === $networkName) $networkName = $network;
+			 	$arrNetworks[$network] = array(
+			 		'href' => $networklUrl,
+			 		'name' => $networkName,
+			 		'userID' => $userID
+			 	);
+			}
+			$arrContact['networks'] = $arrNetworks;
+		}
+
+		// parse data with template
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($arrContact);
 		return $objTemplate->parse();

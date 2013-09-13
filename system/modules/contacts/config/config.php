@@ -34,15 +34,21 @@ $GLOBALS['FE_MOD']['contacts'] = array
     'contact_list'	=> 'ModuleContactList',
 );
 
+
+/**
+ * Contact module settings
+ */
 $GLOBALS['TL_CONTACTS'] = array
 (
 	'networkChannels' => array(
-		'Facebook','Twitter','Pinterest','Xing'),
+		'Facebook','Twitter','Pinterest','Xing','GitHub'),
 	'networkUrls' => array(
+		'_default'		=> 'http://%s.com/%s', 
 		'Facebook'		=> 'https://www.facebook.com/%s',
 		'Twitter'		=> 'https://twitter.com/%s',
 		'Pinterest'		=> 'https://pinterest.com/%s',
-		'Xing'			=> 'http://www.xing.com/profile/%s'),
+		'Xing'			=> 'http://www.xing.com/profile/%s',
+		'GitHub'		=> 'https://github.com/%s'),
 );
 
 
