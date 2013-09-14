@@ -78,34 +78,42 @@ class Contact extends \Frontend {
 		$objPage->cache = 0;
 		return '';
 	}
+
+	protected function createOptionsFilterTable(&$options, $hasFilter, &$filters)
+	{
+		$arrFilter = array();
+		if ($hasFilter)
+		{
+			foreach ($filters as $key)
+			{
+				$arrFilter[$key] = true;
+			}
+			foreach ($options as $key)
+			{
+				if (!isset($arrFilter[$key]))
+				{
+					$arrFilter[$key] = false;
+				}
+			}
+		}
+		else
+		{
+			foreach ($options as $key)
+			{
+				$arrFilter[$key] = true;
+			}
+		}
+		return $arrFilter;
+	}
 	
 	public function parseContact($arrContact, $template, $arrOptions=array())
 	{
 		global $objPage;
 
 		// create boolean array for filterable fields
-		$arrFieldsFilter = array();
-		if ($arrOptions['addFieldsFilter'])
-		{
-			foreach ($arrOptions['fieldsFilter'] as $field)
-			{
-				$arrFieldsFilter[$field] = true;
-			}
-			foreach ($GLOBALS['TL_CONTACTS']['fieldOptions'] as $field)
-			{
-				if (!isset($arrFieldsFilter[$field]))
-				{
-					$arrFieldsFilter[$field] = false;
-				}
-			}
-		}
-		else
-		{
-			foreach ($GLOBALS['TL_CONTACTS']['fieldOptions'] as $field)
-			{
-				$arrFieldsFilter[$field] = true;
-			}
-		}
+		$arrFieldsFilter = $this->createOptionsFilterTable(
+										$GLOBALS['TL_CONTACTS']['fieldOptions'],
+										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter']);
 
 		// apply fields filter to <arrContact>
 		foreach ($arrFieldsFilter as $field => $enabled)
@@ -124,28 +132,9 @@ class Contact extends \Frontend {
 			if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
 			{
 				// create boolean array for networks
-				$arrNetworksFilter = array();
-				if ($arrOptions['addNetworksFilter'])
-				{
-					foreach ($arrOptions['networksFilter'] as $network)
-					{
-						$arrNetworksFilter[$network] = true;
-					}
-					foreach ($GLOBALS['TL_CONTACTS']['networkOptions'] as $network)
-					{
-						if (!isset($arrNetworksFilter[$network]))
-						{
-							$arrNetworksFilter[$network] = false;
-						}
-					}
-				}
-				else
-				{
-					foreach ($GLOBALS['TL_CONTACTS']['networkOptions'] as $network)
-					{
-						$arrNetworksFilter[$network] = true;
-					}
-				}
+				$arrNetworksFilter = $this->createOptionsFilterTable(
+												$GLOBALS['TL_CONTACTS']['networkOptions'],
+												$arrOptions['addNetworksFilter'], $arrOptions['networksFilter']);
 
 				// create network data
 				foreach ($arrNetworksWork as &$arrData)
