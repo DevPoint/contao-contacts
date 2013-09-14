@@ -60,7 +60,6 @@ class ModuleContact extends \Module {
 			return Contact::generateEmpty();
 		}
 
-
 		// Check if contact viewing is protected
 		// if ($objContact->protected)
 		// {
@@ -82,8 +81,13 @@ class ModuleContact extends \Module {
      */
     protected function compile() 
     {
+    	$arrOptions = array();
 		$contact = new Contact();
-		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template);
+    	$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
+    	$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
+    	$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
+    	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
+		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template, $arrOptions);
 	}
 }
 

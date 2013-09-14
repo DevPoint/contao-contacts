@@ -83,28 +83,92 @@ class Contact extends \Frontend {
 	{
 		global $objPage;
 
-		// create network data
-		$arrNetworks = array();
-		$arrNetworksWork = deserialize($arrContact['networks']);
-		if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
+		// create boolean array for filterable fields
+		$arrFieldsFilter = array();
+		if ($arrOptions['addFieldsFilter'])
 		{
-			foreach ($arrNetworksWork as &$arrData)
+			foreach ($arrOptions['fieldsFilter'] as $field)
 			{
-			 	$userID = $arrData['userID'];
-			 	$network = $arrData['channel'];
-			 	$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
-				if (null === $networkUrlStr) $networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls']['_default'];
-				$networklUrl = sprintf($networkUrlStr, $userID);
-				$networkName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$network];
-				if (null === $networkName) $networkName = $network;
-			 	$arrNetworks[$network] = array(
-			 		'href' => $networklUrl,
-			 		'name' => $networkName,
-			 		'userID' => $userID
-			 	);
+				$arrFieldsFilter[$field] = true;
 			}
-			$arrContact['networks'] = $arrNetworks;
+			foreach ($GLOBALS['TL_CONTACTS']['fieldOptions'] as $field)
+			{
+				if (!isset($arrFieldsFilter[$field]))
+				{
+					$arrFieldsFilter[$field] = false;
+				}
+			}
 		}
+		else
+		{
+			foreach ($GLOBALS['TL_CONTACTS']['fieldOptions'] as $field)
+			{
+				$arrFieldsFilter[$field] = true;
+			}
+		}
+
+		// apply fields filter to <arrContact>
+		foreach ($arrFieldsFilter as $field => $enabled)
+		{
+			if (!$enabled)
+			{
+				unset($arrContact[$field]);
+			}
+		}
+		
+		// setup social networks
+		$arrNetworks = array();
+		if (isset($arrContact['networks']))
+		{
+			$arrNetworksWork = deserialize($arrContact['networks']);
+			if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
+			{
+				// create boolean array for networks
+				$arrNetworksFilter = array();
+				if ($arrOptions['addNetworksFilter'])
+				{
+					foreach ($arrOptions['networksFilter'] as $network)
+					{
+						$arrNetworksFilter[$network] = true;
+					}
+					foreach ($GLOBALS['TL_CONTACTS']['networkOptions'] as $network)
+					{
+						if (!isset($arrNetworksFilter[$network]))
+						{
+							$arrNetworksFilter[$network] = false;
+						}
+					}
+				}
+				else
+				{
+					foreach ($GLOBALS['TL_CONTACTS']['networkOptions'] as $network)
+					{
+						$arrNetworksFilter[$network] = true;
+					}
+				}
+
+				// create network data
+				foreach ($arrNetworksWork as &$arrData)
+				{
+				 	$network = $arrData['channel'];
+				 	if (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network])
+				 	{
+					 	$userID = $arrData['userID'];
+					 	$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
+						if (null === $networkUrlStr) $networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls']['_default'];
+						$networklUrl = sprintf($networkUrlStr, $userID);
+						$networkName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$network];
+						if (null === $networkName) $networkName = $network;
+					 	$arrNetworks[$network] = array(
+					 		'href' => $networklUrl,
+					 		'name' => $networkName,
+					 		'userID' => $userID
+					 	);
+					 }
+				}
+			}
+		}
+		$arrContact['networks'] = $arrNetworks;
 
 		// parse data with template
 		$objTemplate = new \FrontendTemplate($template);

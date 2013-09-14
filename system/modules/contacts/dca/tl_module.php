@@ -31,12 +31,12 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter,contacts_addNetworksFilter';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addNetworksFilter'] = 'contacts_networksFilter';
 
  
@@ -88,8 +88,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_fieldsFilter'] = array
 (
 	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter'],
 	'inputType' 	=> 'checkbox',
-	'default'		=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
-	//'options'      	=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
 	'options_callback'	=> array('tl_module_contacts', 'getFieldFilterOptions'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'],
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
@@ -166,11 +164,11 @@ class tl_module_contacts extends Backend {
 	public function getFieldFilterOptions()
 	{
 		$options = array();
-		foreach($GLOBALS['TL_CONTACTS']['fieldOptions'] as $channel)
+		foreach($GLOBALS['TL_CONTACTS']['fieldOptions'] as $field)
 		{
-			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldOptions'][$channel];
-			if (null === $channelName) $channelName = $channel;
-			$options[$channel] = $channelName;
+			$fieldName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldOptions'][$field];
+			if (null === $fieldName) $fieldName = $field;
+			$options[$field] = $fieldName;
 		}
 		return $options;
 	}
