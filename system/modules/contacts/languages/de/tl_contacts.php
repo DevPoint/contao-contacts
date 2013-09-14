@@ -84,7 +84,7 @@ $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'imageLegend' 	=> 'Bild-Einstellungen',
 	'phoneLegend' 	=> 'Telefonnummern und Emailadresse',
 	'networksLegend'	=>	'Links auf soziale Netzwerke verwalten',
-	'networkSelectChannel'	=>	'Netzwerk-Name',
+	'networkOptions'	=>	'Netzwerk-Name',
 	'networkUserID'		=>	'Benutzer-Id für Netzwerk',
 );
 

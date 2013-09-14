@@ -89,7 +89,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_fieldsFilter'] = array
 	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter'],
 	'inputType' 	=> 'checkbox',
 	'default'		=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
-	'options'      	=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
+	//'options'      	=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
+	'options_callback'	=> array('tl_module_contacts', 'getFieldFilterOptions'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'],
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
@@ -108,7 +109,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_networksFilter'] = array
 (
 	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_networksFilter'],
 	'inputType' 	=> 'checkbox',
-	'options_callback'	=> array('tl_module_contacts', 'getNetworkChannels'),
+	'options_callback'	=> array('tl_module_contacts', 'getNetworkFilterOptions'),
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
 );
@@ -149,20 +150,6 @@ class tl_module_contacts extends Backend {
 	}
 
 	/**
-	 * Get all contacts field names which 
-	 * could be filtered by the user
-	 * @return array
-	 */
-	public function getContactFieldsFilter()
-	{
-		return array(
-			'name' => 'Name',
-			'name2' => 'Name2',
-			'street' => 'Straße'
-		);
-	}
-
-	/**
 	 * Return all contacts templates as array
 	 * @return array
 	 */
@@ -172,16 +159,33 @@ class tl_module_contacts extends Backend {
 	}
 
 	/**
+	 * Get all contacts field names which 
+	 * could be filtered by the user
+	 * @return array
+	 */
+	public function getFieldFilterOptions()
+	{
+		$options = array();
+		foreach($GLOBALS['TL_CONTACTS']['fieldOptions'] as $channel)
+		{
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldOptions'][$channel];
+			if (null === $channelName) $channelName = $channel;
+			$options[$channel] = $channelName;
+		}
+		return $options;
+	}
+
+	/**
 	 * Retrieve social channels
 	 * @param DataContainer
 	 * @return array
 	 */
-	public function getNetworkChannels(DataContainer $dc)
+	public function getNetworkFilterOptions(DataContainer $dc)
 	{
 		$options = array();
-		foreach($GLOBALS['TL_CONTACTS']['networkChannels'] as $channel)
+		foreach($GLOBALS['TL_CONTACTS']['networkOptions'] as $channel)
 		{
-			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$channel];
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkOptions'][$channel];
 			if (null === $channelName) $channelName = $channel;
 			$options[$channel] = $channelName;
 		}

@@ -424,9 +424,9 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'eval'			=> array(
 				'columnFields'	=> array(
 					'channel'	=> array(
-						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['networkSelectChannel'],
+						'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['networkOptions'],
 						'inputType'		=> 'select',
-						'options_callback'	=> array('tl_contacts', 'getNetworkChannels'),
+						'options_callback'	=> array('tl_contacts', 'getNetworkOptions'),
 						'eval'			=> array('style'=>'width:160px;margin:0 5px 5px 0','includeBlankOption' => true)),
 					'userID'	=> array(
 						'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['networkUserID'],
@@ -474,12 +474,12 @@ class tl_contacts extends Backend
 	 * @param DataContainer
 	 * @return array
 	 */
-	public function getNetworkChannels(DataContainer $dc)
+	public function getNetworkOptions(DataContainer $dc)
 	{
 		$options = array();
-		foreach($GLOBALS['TL_CONTACTS']['networkChannels'] as $channel)
+		foreach($GLOBALS['TL_CONTACTS']['networkOptions'] as $channel)
 		{
-			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$channel];
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkOptions'][$channel];
 			if (null === $channelName) $channelName = $channel;
 			$options[$channel] = $channelName;
 		}
