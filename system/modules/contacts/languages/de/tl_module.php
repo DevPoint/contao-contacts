@@ -27,9 +27,12 @@
  */
 
 $GLOBALS['TL_LANG']['tl_module']['contacts_multiSRC'] = array('Kontakteinträge', 'Bitte wählen Sie einen oder mehere Kontakteinträge.');
-$GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteinträge','Bitte wählen Sie einen Kontakteintrag.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteintrag','Bitte wählen Sie einen Kontakteintrag.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_template'] = array('Kontakttemplate','Hier können Sie das Kontakttemplate auswählen.');
 $GLOBALS['TL_LANG']['tl_module']['contacts_addFieldsFilter'] = array('Nur ausgewählte Felder','Erlaubt festzulegen, welche Felder angezeigt werden.');
 $GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter'] = array('Felder auswählen','Wählen Sie aus, welche Felder Sie angezeigt haben wollne.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_networksFilter'] = array('Soziale Netzwerke auswählen','Wählen Sie aus, welche Soziale Netzwerke Sie angezeigt haben wollne.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_addNetworksFilter'] = array('Nur ausgewählte Soziale Netzwerke','Erlaubt festzulegen, welche Soziale Netzwerke angezeigt werden.');
 $GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'] = array(
 	'title'		=> 'Title',
 	'name' 		=> 'Name',
@@ -46,4 +49,5 @@ $GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'] = array(
 	'fax'		=> 'Faxnummer',
 	'email'		=> 'E-Mail-Adresse',
 	'networks'	=> 'Soziale Netzwerke');
-$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsfilter_legend'] = 'Detaileinstellungen für die Anzeige eines Kontakteintrages';
+$GLOBALS['TL_LANG']['tl_module']['contacts_legend'] = 'Kontakt Einstellungen';
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter_legend'] = 'Detaileinstellungen für die Anzeige von Kontakten';

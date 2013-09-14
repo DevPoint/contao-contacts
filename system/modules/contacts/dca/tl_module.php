@@ -30,12 +30,14 @@
  * Add a palette to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{template_legend},contacts_singleSRC,contacts_template;{contacts_fieldsfilter_legend:hide},contacts_addFieldsFilter;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter,contacts_addNetworksFilter';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addNetworksFilter'] = 'contacts_networksFilter';
 
  
 /**
@@ -89,6 +91,24 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_fieldsFilter'] = array
 	'default'		=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
 	'options'      	=> array('name','name2','street','postal','city','phone','mobile','fax','email','networks'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'],
+	'eval'          => array('multiple'=>true, 'mandatory'=>false),
+	'sql'           => "blob NULL",
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_addNetworksFilter'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_addNetworksFilter'],
+	'exclude'		=> true,
+	'inputType'		=> 'checkbox',
+	'eval'			=> array('submitOnChange'=>true),
+	'sql'			=> "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_networksFilter'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_networksFilter'],
+	'inputType' 	=> 'checkbox',
+	'options_callback'	=> array('tl_module_contacts', 'getNetworkChannels'),
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
 );
@@ -150,6 +170,24 @@ class tl_module_contacts extends Backend {
 	{
 		return $this->getTemplateGroup('contact_');
 	}
+
+	/**
+	 * Retrieve social channels
+	 * @param DataContainer
+	 * @return array
+	 */
+	public function getNetworkChannels(DataContainer $dc)
+	{
+		$options = array();
+		foreach($GLOBALS['TL_CONTACTS']['networkChannels'] as $channel)
+		{
+			$channelName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$channel];
+			if (null === $channelName) $channelName = $channel;
+			$options[$channel] = $channelName;
+		}
+		return $options;
+	}
+
 
 
 
