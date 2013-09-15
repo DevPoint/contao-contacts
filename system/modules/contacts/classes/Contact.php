@@ -79,28 +79,30 @@ class Contact extends \Frontend {
 		return '';
 	}
 
-	protected function createOptionsFilterTable(&$options, $hasFilter, &$filters)
+	protected function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
 	{
 		$arrFilter = array();
+		$filterDefault = true;
+		if (is_array($excludes))
+		{
+			foreach ($excludes as $key)
+			{
+				$arrFilter[$key] = false;
+			}
+		}
 		if ($hasFilter)
 		{
 			foreach ($filters as $key)
 			{
 				$arrFilter[$key] = true;
 			}
-			foreach ($options as $key)
-			{
-				if (!isset($arrFilter[$key]))
-				{
-					$arrFilter[$key] = false;
-				}
-			}
+			$filterDefault = false;
 		}
-		else
+		foreach ($options as $key)
 		{
-			foreach ($options as $key)
+			if (!isset($arrFilter[$key]))
 			{
-				$arrFilter[$key] = true;
+				$arrFilter[$key] = $filterDefault;
 			}
 		}
 		return $arrFilter;
@@ -113,7 +115,8 @@ class Contact extends \Frontend {
 		// create boolean array for filterable fields
 		$arrFieldsFilter = $this->createOptionsFilterTable(
 										$GLOBALS['TL_CONTACTS']['fieldOptions'],
-										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter']);
+										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter'],
+										$GLOBALS['TL_CONTACTS']['fieldExcludes']);
 
 		// apply fields filter to <arrContact>
 		foreach ($arrFieldsFilter as $field => $enabled)
@@ -123,6 +126,9 @@ class Contact extends \Frontend {
 				unset($arrContact[$field]);
 			}
 		}
+
+		// create phone links
+		//$arrContact['phone_link'] = 'tel:+436644040425';
 		
 		// setup social networks
 		$arrNetworks = array();
@@ -149,7 +155,7 @@ class Contact extends \Frontend {
 						$networkName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$network];
 						if (null === $networkName) $networkName = $network;
 					 	$arrNetworks[$network] = array(
-					 		'href' => $networklUrl,
+					 		'link' => $networklUrl,
 					 		'name' => $networkName,
 					 		'userID' => $userID
 					 	);

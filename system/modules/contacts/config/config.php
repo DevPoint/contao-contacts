@@ -40,9 +40,11 @@ $GLOBALS['FE_MOD']['contacts'] = array
  */
 $GLOBALS['TL_CONTACTS'] = array
 (
-	'fieldOptions' => array(
+	'fieldOptions' 		=> array(
+		'title',
 		'name','name2','street','postal','city',
 		'phone','mobile','fax','email','networks'),
+	'fieldExcludes' 	=> array('title'),
 	'networkOptions' 	=> array(
 		'Facebook','Twitter','Pinterest','Xing','LinkedIn','GitHub'),
 	'networkUrls' 		=> array(
