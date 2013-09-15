@@ -31,7 +31,7 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
@@ -111,6 +111,17 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_networksFilter'] = array
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
 );
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_extendedSettings'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettings'],
+	'inputType' 	=> 'checkbox',
+	'options'		=> array('short_labels'),
+	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'],
+	'eval'          => array('multiple'=>true, 'mandatory'=>false),
+	'sql'           => "blob NULL",
+);
+
 
 /**
  * Class <tl_module_contacts>

@@ -127,10 +127,26 @@ class Contact extends \Frontend {
 			}
 		}
 
+		// create boolean array for extended settings
+		$arrExtendedSettings = array();
+		foreach($arrOptions['extendedSettings'] as $settingKey)
+		{
+			$arrExtendedSettings[$settingKey] = true;
+		}
+
+		// create labels
+		$fieldLabels = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'];
+		if (isset($arrExtendedSettings['short_labels'])) $fieldLabels = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
+		$arrContact['phone_label'] = $fieldLabels['phone'];
+		$arrContact['mobile_label'] = $fieldLabels['mobile'];
+		$arrContact['fax_label'] = $fieldLabels['fax'];
+		$arrContact['email_label'] = $fieldLabels['email'];
+		$arrContact['web_label'] = $fieldLabels['web'];
+		
 		// create links addresses
 		$arrContact['phone_link'] = 'tel:' . $arrContact['phone'];
 		$arrContact['email_link'] = 'mailto:' . $arrContact['email'];
-		
+
 		// setup social networks
 		$arrNetworks = array();
 		if (isset($arrContact['networks']))

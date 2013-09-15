@@ -87,6 +87,7 @@ class ModuleContact extends \Module {
     	$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
     	$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
     	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
+    	$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
 		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template, $arrOptions);
 	}
 }
