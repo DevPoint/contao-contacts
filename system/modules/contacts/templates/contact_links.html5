@@ -1,0 +1,20 @@
+<nav class="layout_links block<?php echo $this->class;?>">
+<ul class="links">
+
+<?php if ($this->phone_link):?>
+<li class="phone"><?php if ($this->phone_label):?><span class="label"><?php echo $this->phone_label;?></span><?php endif;?><a href="<?php echo $this->phone_link;?>"><span class="value"><?php echo $this->phone;?></span></a></li>
+<?php endif;?>
+<?php if ($this->mobile_link):?>
+<li class="mobile"><?php if ($this->mobile_label):?><span class="label"><?php echo $this->mobile_label;?></span><?php endif;?><a href="<?php echo $this->mobile_link;?>"><span class="value"><?php echo $this->mobile;?></span></a></li>
+<?php endif;?>
+<?php if ($this->email_link):?>
+<li class="email"><?php if ($this->email_label):?><span class="label"><?php echo $this->email_label;?></span><?php endif;?><a href="<?php echo $this->email_link;?>"><span class="value"><?php echo $this->email;?></span></a></li>
+<?php endif;?>
+<?php if (is_array($this->networks)):?>
+<?php foreach ($this->networks as $network => $arrNetwork):?>
+<li><a href="<?php echo $arrNetwork['link'];?>" title="<?php echo $arrNetwork['name'];?>" target="_blank"><span class="value"><?php echo $arrNetwork['name'];?></span></a></li>
+<?php endforeach;?>
+<?php endif;?>
+
+</ul>
+</nav>

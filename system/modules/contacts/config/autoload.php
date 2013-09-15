@@ -24,4 +24,5 @@ TemplateLoader::addFiles(array
 (
 	'mod_contact'			=> 'system/modules/contacts/templates',
 	'contact_basic'			=> 'system/modules/contacts/templates',
+	'contact_links'			=> 'system/modules/contacts/templates',
 ));

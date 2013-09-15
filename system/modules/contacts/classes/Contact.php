@@ -127,8 +127,9 @@ class Contact extends \Frontend {
 			}
 		}
 
-		// create phone links
-		//$arrContact['phone_link'] = 'tel:+436644040425';
+		// create links addresses
+		$arrContact['phone_link'] = 'tel:' . $arrContact['phone'];
+		$arrContact['email_link'] = 'mailto:' . $arrContact['email'];
 		
 		// setup social networks
 		$arrNetworks = array();
