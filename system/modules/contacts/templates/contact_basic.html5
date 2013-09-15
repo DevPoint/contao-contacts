@@ -31,7 +31,7 @@
 <?php if (is_array($this->networks) && !empty($this->networks)):?>
 <ul class="networks">
 <?php foreach ($this->networks as $network => $arrNetwork):?>
-<li><a href="<?php echo $arrNetwork['link'];?>" title="<?php echo $arrNetwork['name'];?>" target="_blank"><span class="value"><?php echo $arrNetwork['name'];?></span></a></li>
+<li class="network <?php echo strtolower($network);?>"><a href="<?php echo $arrNetwork['link'];?>" title="<?php echo $arrNetwork['name'];?>" target="_blank"><span class="value"><?php echo $arrNetwork['name'];?></span></a></li>
 <?php endforeach;?>
 </ul>
 <?php endif;?>
