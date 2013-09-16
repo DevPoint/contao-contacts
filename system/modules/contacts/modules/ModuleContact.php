@@ -40,6 +40,25 @@ class ModuleContact extends \Module {
     protected $objContact;
 
 
+	static public function generateWildcard($wildcardStr)
+	{
+		$objTemplate = new \BackendTemplate('be_wildcard');
+		$objTemplate->wildcard = $wildcardStr;
+		$objTemplate->title = $this->headline;
+		$objTemplate->id = $this->id;
+		$objTemplate->link = $this->name;
+		$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+		return $objTemplate->parse();
+	}
+
+	static public function generateEmpty()
+	{
+		global $objPage;
+		$objPage->noSearch = 1;
+		$objPage->cache = 0;
+		return '';
+	}
+
 	/**
      * Compile module
 	 */
@@ -88,7 +107,9 @@ class ModuleContact extends \Module {
     	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
     	$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
-		$objTemplate->setData($contact->getContactDetails($this->objContact, $arrOptions));
+		$objContact = $contact->getContactDetails($this->objContact, $arrOptions);
+		//$objTemplate->setData($contact->getContactDetails($this->objContact, $arrOptions));
+		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();
 	}
 }

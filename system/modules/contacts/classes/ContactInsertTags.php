@@ -25,7 +25,7 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-class InsertTagsContact extends \Frontend {
+class ContactInsertTags extends \Frontend {
 
 	protected function getContact($aliasId)
 	{
@@ -43,8 +43,11 @@ class InsertTagsContact extends \Frontend {
 									->limit(1)
 									->execute();
 		}
+		if (null !== $objContact)
+		{
+			$objContact = Contact::getContactDetails($objContact);
+		}
 		return $objContact;
-
 	}
 
 	public function replaceInsertTags($strTag)
@@ -57,7 +60,12 @@ class InsertTagsContact extends \Frontend {
 			{
 				case 'email_link':
 				{
-					break;
+					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : null;
+					$objContact = $this->getContact($aliasId);
+					if (null != $objContact)
+					{
+						break;
+					}
 				}
 				default:
 				{
@@ -65,9 +73,7 @@ class InsertTagsContact extends \Frontend {
 					$objContact = $this->getContact($aliasId);
 					if (null != $objContact)
 					{
-						$contact = new Contact();
-						$arrContact = $contact->getContactDetails($objContact);
-						$result = $arrContact[$arrSplit[1]];
+						$result = $objContact->{$arrSplit[1]};
 					}
 					break;
 				}

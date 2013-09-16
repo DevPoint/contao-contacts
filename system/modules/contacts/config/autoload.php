@@ -12,8 +12,8 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
-	'Contact' 			=>	'system/modules/contacts/classes/Contact.php',
-	'InsertTagsContact'		=>	'system/modules/contacts/classes/InsertTagsContact.php',
+	'Contact' 				=>	'system/modules/contacts/classes/Contact.php',
+	'ContactInsertTags'		=>	'system/modules/contacts/classes/ContactInsertTags.php',
 	'ModuleContact' 		=>	'system/modules/contacts/modules/ModuleContact.php',
 	'ModuleContactList'		=>	'system/modules/contacts/modules/ModuleContactList.php',
 ));

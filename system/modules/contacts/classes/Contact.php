@@ -59,40 +59,28 @@ class Contact extends \Frontend {
 		return true;
 	}
 
-	static public function generateWildcard($wildcardStr)
-	{
-		$objTemplate = new \BackendTemplate('be_wildcard');
-		$objTemplate->wildcard = $wildcardStr;
-		$objTemplate->title = $this->headline;
-		$objTemplate->id = $this->id;
-		$objTemplate->link = $this->name;
-		$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-		return $objTemplate->parse();
-	}
-
-	static public function generateEmpty()
-	{
-		global $objPage;
-		$objPage->noSearch = 1;
-		$objPage->cache = 0;
-		return '';
-	}
-
 	/**
 	 * remove parenthesis, slashes, dots and spaces
 	 * @param $phone string
 	 * @return string
 	 */
-	protected function createPhoneLink($phone)
+	static protected function createPhoneLink($phone)
 	{
-		// 
 		$phone = html_entity_decode($phone);
 		$phone = preg_replace('/\((.*?)\)|\[(.*?)\]/', '', $phone);
 		$phone = str_replace(array("/", "\\", ".", " "), "", $phone);
 		return 'tel:' . $phone;
 	}
 	
-	protected function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
+	/**
+	 * Create indexable Filter table
+	 * @param $options array
+	 * @param $hasFilter boolean
+	 * @param $filters array
+	 * @param $excludes array
+	 * @return string
+	 */
+	static protected function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
 	{
 		$arrFilter = array();
 		$filterDefault = true;
@@ -122,23 +110,27 @@ class Contact extends \Frontend {
 	}
 
 
-	public function getContactDetails($objContact, $arrOptions=array())
+	/**
+	 * Enrich DataRecord by addtional 
+	 * properties
+	 * @param $objContact DataRecord
+	 * @param $arrOptions array
+	 * @return data record
+	 */
+	static public function getContactDetails($objContact, $arrOptions=array())
 	{
-		global $objPage;
-
 		// create boolean array for filterable fields
-		$arrContact = $objContact->row();
-		$arrFieldsFilter = $this->createOptionsFilterTable(
+		$arrFieldsFilter = self::createOptionsFilterTable(
 										$GLOBALS['TL_CONTACTS']['fieldOptions'],
 										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter'],
 										$GLOBALS['TL_CONTACTS']['fieldExcludes']);
 
-		// apply fields filter to <arrContact>
+		// apply fields filter to <objContact>
 		foreach ($arrFieldsFilter as $field => $enabled)
 		{
 			if (!$enabled)
 			{
-				unset($arrContact[$field]);
+				$objContact->{$field} = null;
 			}
 		}
 
@@ -160,77 +152,63 @@ class Contact extends \Frontend {
 				{
 					$label = $fieldLabelsShort[$field];	
 				} 
-				$arrContact[$field.'_label'] = $label;
+				$objContact->{$field.'_label'} = $label;
 			}
 		}
 
 		// create links addresses
 		if (true !== $arrExtendedSettings['phone_nolink'])
 		{
-			if (isset($arrContact['phone']))
+			if (isset($objContact->phone))
 			{
-				$arrContact['phone_href'] = $this->createPhoneLink($arrContact['phone']);
+				$objContact->phone_href = self::createPhoneLink($objContact->phone);
 			}
-			if (isset($arrContact['mobile']))
+			if (isset($objContact->mobile))
 			{
-				$arrContact['mobile_href'] = $this->createPhoneLink($arrContact['mobile']);
+				$objContact->mobile_href = self::createPhoneLink($objContact->mobile);
 			}
 		}
-		$arrContact['email_href'] = 'mailto:' . $arrContact['email'];
+		if (isset($objContact->email))
+		{
+			$objContact->email_href = 'mailto:' . $objContact->email;
+		}
 
 		// setup social networks
 		$arrNetworks = array();
-		if (isset($arrContact['networks']))
+		if (isset($objContact->networks))
 		{
-			$arrNetworksWork = deserialize($arrContact['networks']);
+			$arrNetworksWork = deserialize($objContact->networks);
 			if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
 			{
 				// create boolean array for networks
-				$arrNetworksFilter = $this->createOptionsFilterTable(
+				$arrNetworksFilter = self::createOptionsFilterTable(
 												$GLOBALS['TL_CONTACTS']['networkOptions'],
 												$arrOptions['addNetworksFilter'], $arrOptions['networksFilter']);
 
 				// create network data
 				foreach ($arrNetworksWork as &$arrData)
 				{
-				 	$network = $arrData['channel'];
-				 	if (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network])
-				 	{
-					 	$userID = $arrData['userID'];
-					 	$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
+					$network = $arrData['channel'];
+					if (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network])
+					{
+						$userID = $arrData['userID'];
+						$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
 						if (null === $networkUrlStr) $networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls']['_default'];
 						$networklUrl = sprintf($networkUrlStr, $userID);
 						$networkName = $GLOBALS['TL_LANG']['MSC']['tl_contacts']['networkChannels'][$network];
 						if (null === $networkName) $networkName = $network;
-					 	$arrNetworks[$network] = array(
-					 		'link' => $networklUrl,
-					 		'name' => $networkName,
-					 		'userID' => $userID
-					 	);
+						$arrNetworks[$network] = array(
+							'link' => $networklUrl,
+							'name' => $networkName,
+							'userID' => $userID
+						);
 					 }
 				}
 			}
 		}
-		$arrContact['networks'] = $arrNetworks;
-		return $arrContact;
+		$objContact->networks = $arrNetworks;
+		return $objContact;
 	}
-
-	public function replaceInsertTags($strTag)
-	{
-      	$result = false;
-		$arrSplit = explode('::', $strTag);
-        if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
-        {
-        	switch($arrSplit[1])
-        	{
-        		case 'name':
-        			$result = "Wilfried Reiter";
-        			break;
-        	}
-        }
-        return $result;
-	}
-
 }
 
 
