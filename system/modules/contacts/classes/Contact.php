@@ -122,11 +122,12 @@ class Contact extends \Frontend {
 	}
 
 
-	public function getContactDetails($arrContact, $arrOptions=array())
+	public function getContactDetails($objContact, $arrOptions=array())
 	{
 		global $objPage;
 
 		// create boolean array for filterable fields
+		$arrContact = $objContact->row();
 		$arrFieldsFilter = $this->createOptionsFilterTable(
 										$GLOBALS['TL_CONTACTS']['fieldOptions'],
 										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter'],
@@ -212,13 +213,6 @@ class Contact extends \Frontend {
 		}
 		$arrContact['networks'] = $arrNetworks;
 		return $arrContact;
-	}
-
-	public function parseContact($arrContact, $template, $arrOptions=array())
-	{
-		$objTemplate = new \FrontendTemplate($template);
-		$objTemplate->setData($this->getContactDetails($arrContact, $arrOptions));
-		return $objTemplate->parse();
 	}
 
 	public function replaceInsertTags($strTag)

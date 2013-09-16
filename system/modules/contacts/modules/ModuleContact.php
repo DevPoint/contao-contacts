@@ -37,7 +37,7 @@ class ModuleContact extends \Module {
      * Contact Array
      * @var Array
      */
-    protected $arrContact;
+    protected $objContact;
 
 
 	/**
@@ -52,10 +52,10 @@ class ModuleContact extends \Module {
 		}
 
 		// Return, if contact doesn't exist anymore
-		$objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
+		$this->objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
 									 ->limit(1)
 									 ->execute($this->contacts_singleSRC);
-		if ($objContact === null)
+		if ($this->objContact === null)
 		{
 			return Contact::generateEmpty();
 		}
@@ -69,8 +69,7 @@ class ModuleContact extends \Module {
 		//		return Contact::generateEmpty();
 		// 	}
 		// }
-		$this->arrContact = $objContact->row();
-
+		
 		// Call parent class
 		return parent::generate();
 	}
@@ -88,7 +87,9 @@ class ModuleContact extends \Module {
     	$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
     	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
     	$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
-		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template, $arrOptions);
+		$objTemplate = new \FrontendTemplate($this->contacts_template);
+		$objTemplate->setData($contact->getContactDetails($this->objContact, $arrOptions));
+		$this->Template->contacts = $objTemplate->parse();
 	}
 }
 
