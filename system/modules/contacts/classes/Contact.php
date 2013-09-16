@@ -169,14 +169,14 @@ class Contact extends \Frontend {
 		{
 			if (isset($arrContact['phone']))
 			{
-				$arrContact['phone_link'] = $this->createPhoneLink($arrContact['phone']);
+				$arrContact['phone_href'] = $this->createPhoneLink($arrContact['phone']);
 			}
 			if (isset($arrContact['mobile']))
 			{
-				$arrContact['mobile_link'] = $this->createPhoneLink($arrContact['mobile']);
+				$arrContact['mobile_href'] = $this->createPhoneLink($arrContact['mobile']);
 			}
 		}
-		$arrContact['email_link'] = 'mailto:' . $arrContact['email'];
+		$arrContact['email_href'] = 'mailto:' . $arrContact['email'];
 
 		// setup social networks
 		$arrNetworks = array();
