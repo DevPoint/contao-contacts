@@ -28,6 +28,18 @@
 
 $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(
 	'networkChannels' => array(
-		'Facebook'		=> 'Facebook',
-		'Twitter'		=> 'Twitter')
+		'Facebook'	=> 'Facebook',
+		'Twitter'	=> 'Twitter'),
+	'fieldLabels'	=> array(
+		'phone'		=>	'Telefon: ',
+		'mobile'	=>	'Mobil: ',
+		'fax'		=>	'Fax: ',
+		'email'		=>	'E-Mail: ',
+		'web'		=>	'Webseite: '),
+	'fieldLabels_short'	=> array(
+		'phone'		=>	'Tel.: ',
+		'mobile'	=>	'Mobil: ',
+		'fax'		=>	'Fax: ',
+		'email'		=>	'Email: ',
+		'web'		=>	'Web: ')
 );

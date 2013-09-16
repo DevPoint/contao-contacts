@@ -27,4 +27,30 @@
  */
 
 $GLOBALS['TL_LANG']['tl_module']['contacts_multiSRC'] = array('Kontakteinträge', 'Bitte wählen Sie einen oder mehere Kontakteinträge.');
-$GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteinträge','Bitte wählen Sie einen Kontakteintrag.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_singleSRC'] = array('Kontakteintrag','Bitte wählen Sie einen Kontakteintrag.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_template'] = array('Kontakttemplate','Hier können Sie das Kontakttemplate auswählen.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_addFieldsFilter'] = array('Nur ausgewählte Felder','Erlaubt festzulegen, welche Felder angezeigt werden.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter'] = array('Felder auswählen','Wählen Sie aus, welche Felder Sie angezeigt haben wollen.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_networksFilter'] = array('Soziale Netzwerke auswählen','Wählen Sie aus, welche Soziale Netzwerke Sie angezeigt haben wollen.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_addNetworksFilter'] = array('Nur ausgewählte Soziale Netzwerke','Erlaubt festzulegen, welche Soziale Netzwerke angezeigt werden.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettings'] = array('Erweiterte Darstellungseinstellungen','Die Schalter ermöglichen Ihnen optionale Einstellungen zur Ausgabesteuerung.');
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilterOptions'] = array(
+	'title'		=> 'Title',
+	'name' 		=> 'Name',
+	'name2'		=> 'Namenszusatz',
+	'longName'	=> 'Vollständiger Name',
+	'street'	=> 'Straße',
+	'postal'	=> 'Postleitzahl',
+	'city'		=> 'Ort',
+	'state'		=> 'Bundesland',
+	'countryCode'	=> 'Land',
+	'singleSRC'	=> 'Bild',
+	'phone'		=> 'Telefonnummer',
+	'mobile'	=> 'Handynummer',
+	'fax'		=> 'Faxnummer',
+	'email'		=> 'E-Mail-Adresse',
+	'networks'	=> 'Soziale Netzwerke');
+$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'] = array(
+	'short_labels'	=> 'Kurzform für Bezeichner verwenden');
+$GLOBALS['TL_LANG']['tl_module']['contacts_legend'] = 'Kontakt Einstellungen';
+$GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter_legend'] = 'Detaileinstellungen für die Anzeige von Kontakten';

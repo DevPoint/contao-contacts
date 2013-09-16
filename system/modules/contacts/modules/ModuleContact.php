@@ -48,7 +48,7 @@ class ModuleContact extends \Module {
 		// Wildcard for BE mode
 		if (TL_MODE == 'BE')
 		{
-			return $this->generateWildcard('### CONTACT ###');
+			return Contact::generateWildcard('### CONTACT ###');
 		}
 
 		// Return, if contact doesn't exist anymore
@@ -57,12 +57,8 @@ class ModuleContact extends \Module {
 									 ->execute($this->contacts_singleSRC);
 		if ($objContact === null)
 		{
-			global $objPage;
-			$objPage->noSearch = 1;
-			$objPage->cache = 0;
-			return '';
+			return Contact::generateEmpty();
 		}
-
 
 		// Check if contact viewing is protected
 		// if ($objContact->protected)
@@ -70,10 +66,7 @@ class ModuleContact extends \Module {
 		// 	$this->import('FrontendUser', 'User');
 		// 	if (!Contact::checkProtectedArchiveVisible($objContact->groups, $this->User))
 		// 	{
-		// 		global $objPage;
-		// 		$objPage->noSearch = 1;
-		// 		$objPage->cache = 0;
-		// 		return '';
+		//		return Contact::generateEmpty();
 		// 	}
 		// }
 		$this->arrContact = $objContact->row();
@@ -88,8 +81,14 @@ class ModuleContact extends \Module {
      */
     protected function compile() 
     {
+    	$arrOptions = array();
 		$contact = new Contact();
-		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template);
+    	$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
+    	$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
+    	$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
+    	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
+    	$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
+		$this->Template->contacts = $contact->parseContact($this->arrContact, $this->contacts_template, $arrOptions);
 	}
 }
 
