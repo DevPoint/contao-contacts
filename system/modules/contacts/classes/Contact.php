@@ -122,7 +122,7 @@ class Contact extends \Frontend {
 	}
 
 
-	public function parseContact($arrContact, $template, $arrOptions=array())
+	public function getContactDetails($arrContact, $arrOptions=array())
 	{
 		global $objPage;
 
@@ -211,10 +211,13 @@ class Contact extends \Frontend {
 			}
 		}
 		$arrContact['networks'] = $arrNetworks;
+		return $arrContact;
+	}
 
-		// parse data with template
+	public function parseContact($arrContact, $template, $arrOptions=array())
+	{
 		$objTemplate = new \FrontendTemplate($template);
-		$objTemplate->setData($arrContact);
+		$objTemplate->setData($this->getContactDetails($arrContact, $arrOptions));
 		return $objTemplate->parse();
 	}
 
