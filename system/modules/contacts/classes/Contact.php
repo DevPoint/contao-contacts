@@ -92,7 +92,7 @@ class Contact extends \Frontend {
 				$arrFilter[$key] = false;
 			}
 		}
-		if ($hasFilter)
+		if ($hasFilter && is_array($filters))
 		{
 			foreach ($filters as $key)
 			{
@@ -137,9 +137,12 @@ class Contact extends \Frontend {
 
 		// create boolean array for extended settings
 		$arrExtendedSettings = array();
-		foreach($arrOptions['extendedSettings'] as $settingKey)
+		if (is_array($arrOptions['extendedSettings']))
 		{
-			$arrExtendedSettings[$settingKey] = true;
+			foreach($arrOptions['extendedSettings'] as $settingKey)
+			{
+				$arrExtendedSettings[$settingKey] = true;
+			}
 		}
 
 		// create labels
