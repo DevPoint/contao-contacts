@@ -59,7 +59,6 @@ class Contact extends \Frontend {
 		return true;
 	}
 
-
 	static public function generateWildcard($wildcardStr)
 	{
 		$objTemplate = new \BackendTemplate('be_wildcard');
@@ -79,6 +78,20 @@ class Contact extends \Frontend {
 		return '';
 	}
 
+	/**
+	 * remove parenthesis, slashes, dots and spaces
+	 * @param $phone string
+	 * @return string
+	 */
+	protected function createPhoneLink($phone)
+	{
+		// 
+		$phone = html_entity_decode($phone);
+		$phone = preg_replace('/\((.*?)\)|\[(.*?)\]/', '', $phone);
+		$phone = str_replace(array("/", "\\", ".", " "), "", $phone);
+		return 'tel:' . $phone;
+	}
+	
 	protected function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
 	{
 		$arrFilter = array();
@@ -107,7 +120,8 @@ class Contact extends \Frontend {
 		}
 		return $arrFilter;
 	}
-	
+
+
 	public function parseContact($arrContact, $template, $arrOptions=array())
 	{
 		global $objPage;
@@ -135,16 +149,32 @@ class Contact extends \Frontend {
 		}
 
 		// create labels
-		$fieldLabels = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'];
-		if (isset($arrExtendedSettings['short_labels'])) $fieldLabels = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
-		$arrContact['phone_label'] = $fieldLabels['phone'];
-		$arrContact['mobile_label'] = $fieldLabels['mobile'];
-		$arrContact['fax_label'] = $fieldLabels['fax'];
-		$arrContact['email_label'] = $fieldLabels['email'];
-		$arrContact['web_label'] = $fieldLabels['web'];
-		
+		$useShortLabels = (true === $arrExtendedSettings['short_labels']);
+		$fieldLabelsShort = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
+		foreach($GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'] as $field => $label)
+		{
+			if (true !== $arrExtendedSettings[$field.'_nolabel'])
+			{
+				if ($useShortLabels && isset($fieldLabelsShort[$field]))
+				{
+					$label = $fieldLabelsShort[$field];	
+				} 
+				$arrContact[$field.'_label'] = $label;
+			}
+		}
+
 		// create links addresses
-		$arrContact['phone_link'] = 'tel:' . $arrContact['phone'];
+		if (true !== $arrExtendedSettings['phone_nolink'])
+		{
+			if (isset($arrContact['phone']))
+			{
+				$arrContact['phone_link'] = $this->createPhoneLink($arrContact['phone']);
+			}
+			if (isset($arrContact['mobile']))
+			{
+				$arrContact['mobile_link'] = $this->createPhoneLink($arrContact['mobile']);
+			}
+		}
 		$arrContact['email_link'] = 'mailto:' . $arrContact['email'];
 
 		// setup social networks
@@ -187,6 +217,23 @@ class Contact extends \Frontend {
 		$objTemplate->setData($arrContact);
 		return $objTemplate->parse();
 	}
+
+	public function replaceInsertTags($strTag)
+	{
+      	$result = false;
+		$arrSplit = explode('::', $strTag);
+        if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
+        {
+        	switch($arrSplit[1])
+        	{
+        		case 'name':
+        			$result = "Wilfried Reiter";
+        			break;
+        	}
+        }
+        return $result;
+	}
+
 }
 
 

@@ -36,6 +36,12 @@ $GLOBALS['FE_MOD']['contacts'] = array
 
 
 /**
+ * Support of {{contact::*}} insert tags
+ */
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Contact','replaceInsertTags'); 
+
+
+/**
  * Contact module settings
  */
 $GLOBALS['TL_CONTACTS'] = array

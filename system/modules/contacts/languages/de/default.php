@@ -35,11 +35,8 @@ $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(
 		'mobile'	=>	'Mobil: ',
 		'fax'		=>	'Fax: ',
 		'email'		=>	'E-Mail: ',
-		'web'		=>	'Webseite: '),
+		'weblink'	=>	'Webseite: '),
 	'fieldLabels_short'	=> array(
 		'phone'		=>	'Tel.: ',
-		'mobile'	=>	'Mobil: ',
-		'fax'		=>	'Fax: ',
-		'email'		=>	'Email: ',
-		'web'		=>	'Web: ')
+		'weblink'	=>	'Web: ')
 );
