@@ -74,6 +74,7 @@ class Contact extends \Frontend {
 	
 	/**
 	 * Create indexable Filter table
+	 * for fields or networks
 	 * @param $options array
 	 * @param $hasFilter boolean
 	 * @param $filters array
