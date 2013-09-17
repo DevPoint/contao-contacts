@@ -28,6 +28,7 @@
 
 $GLOBALS['TL_LANG']['tl_contacts'] = array(
 	'title'		=>	array('Titel', 'Bitte geben Sie den Titel für diesen Eintrag ein.'),
+	'alias'		=>	array('Kontaktalias', 'Der Nachrichtenalias ist eine eindeutige Referenz, die anstelle der numerischen Kontakt-ID aufgerufen werden kann.'),
 	'name'		=>	array('Name', 'Bitte geben Sie einen Namen ein.'),
 	'name2'		=>	array('Namenszusatz', 'Hier können Sie den Namen um einen Zusatz erweitern.'),
 	'longName'	=>	array('Vollständiger Name', 'Bitte geben Sie den vollständigen Namen ein.'),

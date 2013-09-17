@@ -33,11 +33,12 @@ class ContactInsertTags extends \Frontend {
 		$arrSplit = explode('::', $strTag);
 		if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
 		{
-			switch($arrSplit[1])
+			$arrParams = explode(':', $arrSplit[1]);
+			switch($arrParams[0])
 			{
 				case 'email_link':
 				{
-					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : '@default';
+					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
 					if (null != $objContact)
 					{
@@ -46,11 +47,11 @@ class ContactInsertTags extends \Frontend {
 				}
 				default:
 				{
-					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : '@default';
+					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
 					if (null !== $objContact)
 					{
-						$result = $objContact->{$arrSplit[1]};
+						$result = $objContact->{$arrParams[0]};
 					}
 					break;
 				}

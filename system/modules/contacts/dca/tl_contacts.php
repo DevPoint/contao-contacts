@@ -9,7 +9,8 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 		'enableVersioning' => true,
 		'sql' => array(
 			'keys' => array(
-				'id' => 'primary'
+				'id' => 'primary',
+				'alias' => 'index'
 			)
 		)
 	),
@@ -57,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	// Palettes
 	'palettes' => array(
 		'__selector__'	=> array('addImage'),
-		'default'   	=> '{titleLegend},title;{contactLegend},name,name2,city,street,postal,countryCode;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;',
+		'default'   	=> '{titleLegend},title,alias;{contactLegend},name,name2,city,street,postal,countryCode;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;',
 	),
 
 	// Subpalettes
@@ -79,6 +80,16 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>true, 'maxLength'=>255),
 			'sql'			=> "varchar(255) NOT NULL default ''"
+		),
+		'alias' => array(
+			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['alias'],
+			'search'		=> true,
+			'inputType'		=> 'text',
+			'eval'			=> array('rgxp'=>'alias', 'unique'=>true, 'maxLength'=>255, 'tl_class'=>'w50'),
+			'save_callback' => array(
+				array('tl_contacts', 'generateAlias')
+			),
+			'sql'			=> "varbinary(128) NOT NULL default ''"
 		),
 		// address fields
 		'name' => array(
@@ -222,6 +233,43 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 
 class tl_contacts extends Backend
 {
+	/**
+	 * Auto-generate the news alias if it has not been set yet
+	 * @param mixed
+	 * @param \DataContainer
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function generateAlias($varValue, DataContainer $dc)
+	{
+		$autoAlias = false;
+
+		// Generate alias if there is none
+		if ($varValue == '')
+		{
+			$autoAlias = true;
+			$varValue = standardize(String::restoreBasicEntities($dc->activeRecord->title));
+		}
+
+		$objAlias = $this->Database->prepare("SELECT id FROM tl_contacts WHERE alias=?")
+								   ->execute($varValue);
+
+		// Check whether the news alias exists
+		if ($objAlias->numRows > 1 && !$autoAlias)
+		{
+			throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+		}
+
+		// Add ID to alias
+		if ($objAlias->numRows && $autoAlias)
+		{
+			$varValue .= '-' . $dc->id;
+		}
+
+		return $varValue;
+	}
+
+
 	/**
 	 * Correct language labels
 	 * @param string

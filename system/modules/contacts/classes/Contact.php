@@ -220,6 +220,7 @@ class Contact extends \Frontend {
 		$arrNetworks = array();
 		if (isset($objContact->networks))
 		{
+			\System::log("Contact Networks", "", TL_GENERAL);
 			$arrNetworksWork = deserialize($objContact->networks);
 			if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
 			{
@@ -232,7 +233,7 @@ class Contact extends \Frontend {
 				foreach ($arrNetworksWork as &$arrData)
 				{
 					$network = $arrData['channel'];
-					if (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network])
+					if (strlen($network) && (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network]))
 					{
 						$userID = $arrData['userID'];
 						$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
