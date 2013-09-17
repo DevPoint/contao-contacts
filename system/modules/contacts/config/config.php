@@ -55,6 +55,9 @@ $GLOBALS['TL_CONTACTS'] = array
 		'Xing'				=> 'http://www.xing.com/profile/%s',
 		'GitHub'			=> 'https://github.com/%s',
 		'FotoCommunity'		=> 'http://www.fotocommunity.de/fotograf/%s'),
+	'shortTemplates'	=> array(
+		'email_link'		=>	'<a href="%s" title="%s">%s</a>',
+		'external_link'		=>	'<a href="%s" title="%s" target="_blank">%s</a>')
 );
 
 
