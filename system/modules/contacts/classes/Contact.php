@@ -220,7 +220,6 @@ class Contact extends \Frontend {
 		$arrNetworks = array();
 		if (isset($objContact->networks))
 		{
-			\System::log("Contact Networks", "", TL_GENERAL);
 			$arrNetworksWork = deserialize($objContact->networks);
 			if (is_array($arrNetworksWork) && !empty($arrNetworksWork))
 			{
