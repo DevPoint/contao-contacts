@@ -28,7 +28,7 @@
 class Contact extends \Frontend {
 
 	/**
-	 * check if a protected archive is visible
+	 * Check if a protected archive is visible
 	 * @param $archiveGroups (serialized)
 	 * @param $user FrontendUser
 	 * @return array
@@ -60,7 +60,8 @@ class Contact extends \Frontend {
 	}
 
 	/**
-	 * remove parenthesis, slashes, dots and spaces
+	 * Remove parenthesis, slashes, dots and spaces
+	 * Add 'tel:' to trimmed phone number
 	 * @param $phone string
 	 * @return string
 	 */
@@ -73,8 +74,8 @@ class Contact extends \Frontend {
 	}
 	
 	/**
-	 * Create indexable Filter table
-	 * for fields or networks
+	 * Create Filter for fields or networks
+	 * as table with index key 
 	 * @param $options array
 	 * @param $hasFilter boolean
 	 * @param $filters array
@@ -112,7 +113,7 @@ class Contact extends \Frontend {
 
 
 	/**
-	 * Enrich DataRecord by addtional 
+	 * Enrich DataRecord by additional 
 	 * properties
 	 * @param $objContact DataRecord
 	 * @param $arrOptions array
@@ -120,12 +121,49 @@ class Contact extends \Frontend {
 	 */
 	static public function getContactDetails($objContact, $arrOptions=array())
 	{
+		// retrieve contact id
+		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;
+		if (!strlen($contactId) || $contactId < 1)
+		{
+			return null;
+		}
+
+		// try to locate contact in Cache
+		$strCacheKey = (!is_array($arrOptions) || empty($arrOptions)) ? (__METHOD__ . '-' . $contactId) : false;
+		if (false !== $strCacheKey && \Cache::has($strCacheKey))
+		{
+			return \Cache::get($strCacheKey);
+		}
+		
+		// load contact if necessary
+		if (!is_object($objContact))
+		{
+			$objDatabase = \Database::getInstance();
+			if ('@default' === $contactId)
+			{
+				$objContact = $objDatabase->prepare("SELECT * FROM tl_contacts")
+									->limit(1)
+									->execute();
+			}
+			else
+			{
+				$whereKey = (is_numeric($contactId)) ? 'id' : 'alias';
+				$objContact = $objDatabase->prepare("SELECT * FROM tl_contacts WHERE {$whereKey}=?")
+									->limit(1)
+									->execute($contactId);
+			}
+			if (null === $objContact)
+			{
+				return null;
+			}
+		}
+
 		// create boolean array for filterable fields
 		$arrFieldsFilter = self::createOptionsFilterTable(
 										$GLOBALS['TL_CONTACTS']['fieldOptions'],
 										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter'],
 										$GLOBALS['TL_CONTACTS']['fieldExcludes']);
-
+		
 		// apply fields filter to <objContact>
 		foreach ($arrFieldsFilter as $field => $enabled)
 		{
@@ -211,6 +249,12 @@ class Contact extends \Frontend {
 			}
 		}
 		$objContact->networks = $arrNetworks;
+
+		// store contact to cache
+		if (false !== $strCacheKey)
+		{
+			\Cache::set($strCacheKey, $objContact);
+		}
 		return $objContact;
 	}
 }

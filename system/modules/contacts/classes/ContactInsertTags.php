@@ -27,29 +27,6 @@
 
 class ContactInsertTags extends \Frontend {
 
-	protected function getContact($aliasId)
-	{
-		$objContact = null;
-		if (null !== $aliasId)
-		{
-			$whereKey = (is_numeric($aliasId)) ? 'id' : 'alias';
-			$objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE {$whereKey}=?")
-									->limit(1)
-									->execute($aliasId);
-		}
-		else
-		{
-			$objContact = $this->Database->prepare("SELECT * FROM tl_contacts")
-									->limit(1)
-									->execute();
-		}
-		if (null !== $objContact)
-		{
-			$objContact = Contact::getContactDetails($objContact);
-		}
-		return $objContact;
-	}
-
 	public function replaceInsertTags($strTag)
 	{
 		$result = false;
@@ -60,8 +37,8 @@ class ContactInsertTags extends \Frontend {
 			{
 				case 'email_link':
 				{
-					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : null;
-					$objContact = $this->getContact($aliasId);
+					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : '@default';
+					$objContact = Contact::getContactDetails($aliasId);
 					if (null != $objContact)
 					{
 						break;
@@ -69,8 +46,8 @@ class ContactInsertTags extends \Frontend {
 				}
 				default:
 				{
-					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : null;
-					$objContact = $this->getContact($aliasId);
+					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : '@default';
+					$objContact = Contact::getContactDetails($aliasId);
 					if (null != $objContact)
 					{
 						$result = $objContact->{$arrSplit[1]};
