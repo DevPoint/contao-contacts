@@ -139,7 +139,7 @@ class Contact extends \Frontend {
 		if (!is_object($objContact))
 		{
 			$objDatabase = \Database::getInstance();
-			if ('@default' === $contactId)
+			if ('@default' == $contactId)
 			{
 				$objContact = $objDatabase->prepare("SELECT * FROM tl_contacts")
 									->limit(1)

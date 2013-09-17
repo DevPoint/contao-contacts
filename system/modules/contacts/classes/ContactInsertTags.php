@@ -52,6 +52,10 @@ class ContactInsertTags extends \Frontend {
 					{
 						$result = $objContact->{$arrSplit[1]};
 					}
+					else
+					{
+						return $aliasId;
+					}
 					break;
 				}
 			}
