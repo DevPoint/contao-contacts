@@ -123,7 +123,7 @@ class Contact extends \Frontend {
 	{
 		// retrieve contact id
 		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;
-		if (!strlen($contactId) && $contactId < 1)
+		if (!strlen($contactId) || (is_numeric($contactId) && $contactId < 1))
 		{
 			return null;
 		}
