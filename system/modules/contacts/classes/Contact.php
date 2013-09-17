@@ -115,7 +115,7 @@ class Contact extends \Frontend {
 	/**
 	 * Enrich DataRecord by additional 
 	 * properties
-	 * @param $objContact DataRecord
+	 * @param $objContact mixed
 	 * @param $arrOptions array
 	 * @return data record
 	 */
@@ -123,7 +123,7 @@ class Contact extends \Frontend {
 	{
 		// retrieve contact id
 		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;
-		if (!strlen($contactId) || $contactId < 1)
+		if (!strlen($contactId) && $contactId < 1)
 		{
 			return null;
 		}
@@ -132,23 +132,24 @@ class Contact extends \Frontend {
 		$strCacheKey = (!is_array($arrOptions) || empty($arrOptions)) ? (__METHOD__ . '-' . $contactId) : false;
 		if (false !== $strCacheKey && \Cache::has($strCacheKey))
 		{
+			//\System::log("Contact from Cache", "", TL_GENERAL);
 			return \Cache::get($strCacheKey);
 		}
-		
+
 		// load contact if necessary
 		if (!is_object($objContact))
 		{
-			$objDatabase = \Database::getInstance();
-			if ('@default' == $contactId)
+			$db = \Database::getInstance();
+			if ('@default' === $contactId)
 			{
-				$objContact = $objDatabase->prepare("SELECT * FROM tl_contacts")
+				$objContact = $db->prepare("SELECT * FROM tl_contacts")
 									->limit(1)
 									->execute();
 			}
 			else
 			{
 				$whereKey = (is_numeric($contactId)) ? 'id' : 'alias';
-				$objContact = $objDatabase->prepare("SELECT * FROM tl_contacts WHERE {$whereKey}=?")
+				$objContact = $db->prepare("SELECT * FROM tl_contacts WHERE {$whereKey}=?")
 									->limit(1)
 									->execute($contactId);
 			}

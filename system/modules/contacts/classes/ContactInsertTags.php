@@ -27,7 +27,7 @@
 
 class ContactInsertTags extends \Frontend {
 
-	public function replaceInsertTags($strTag)
+	public function replaceInsertTags($strTag, $blnCache)
 	{
 		$result = false;
 		$arrSplit = explode('::', $strTag);
@@ -48,13 +48,9 @@ class ContactInsertTags extends \Frontend {
 				{
 					$aliasId = (3 <= count($arrSplit)) ? $arrSplit[2] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
-					if (null != $objContact)
+					if (null !== $objContact)
 					{
 						$result = $objContact->{$arrSplit[1]};
-					}
-					else
-					{
-						return $aliasId;
 					}
 					break;
 				}
