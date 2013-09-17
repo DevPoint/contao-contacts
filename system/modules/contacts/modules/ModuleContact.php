@@ -106,9 +106,8 @@ class ModuleContact extends \Module {
     	$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
     	$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
     	$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
-		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objContact = $contact->getContactDetails($this->objContact, $arrOptions);
-		//$objTemplate->setData($contact->getContactDetails($this->objContact, $arrOptions));
+		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();
 	}

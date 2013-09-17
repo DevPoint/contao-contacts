@@ -50,7 +50,7 @@ class ContactInsertTags extends \Frontend {
 				{
 					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
-					if (null !== $objContact)
+					if (null !== $objContact && isset($objContact->{$arrParams[0]}))
 					{
 						$result = $objContact->{$arrParams[0]};
 					}
@@ -60,7 +60,4 @@ class ContactInsertTags extends \Frontend {
 		}
 		return $result;
 	}
-
 }
-
-
