@@ -265,11 +265,22 @@ class Contact extends \Frontend {
 				elseif (0 > $lng) $eastWest .= 'W ';
 
 				// output MinDec
+				$strTemplate = '{direction} {degrees}° {minutes}';
+				$arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
+
 				$latMinDec = self::convertGeoCoordToMinDec($lat);
-				$objContact->geo_mindec_lat = sprintf('%s %s° %s', $northSouth, abs($latMinDec[0]), number_format($latMinDec[1], 5, '.', ''));
+				$objContact->geo_mindec_lat = str_replace(
+								$arrMinDecParams,
+								array($northSouth, abs($latMinDec[0]), number_format($latMinDec[1], 5, '.', '')), 
+								$strTemplate);
+				//$objContact->geo_mindec_lat = sprintf('%s %s° %s', $northSouth, abs($latMinDec[0]), );
 
 				$lngMinDec = self::convertGeoCoordToMinDec($lng);
-				$objContact->geo_mindec_lng = sprintf('%s %s° %s', $eastWest, abs($lngMinDec[0]), number_format($lngMinDec[1], 5, '.', ''));
+				$objContact->geo_mindec_lng = str_replace(
+								$arrMinDecParams,
+								array($eastWest, abs($lngMinDec[0]), number_format($lngMinDec[1], 5, '.', '')), 
+								$strTemplate);
+				//$objContact->geo_mindec_lng = sprintf('%s %s° %s', $eastWest, abs($lngMinDec[0]), number_format($lngMinDec[1], 5, '.', ''));
 			}
 		}
 
