@@ -246,7 +246,7 @@ class Contact extends \Frontend {
 			$objContact->email_href = 'mailto:' . $objContact->email;
 		}
 
-		// create geocoordinates in MinDec format
+		// create geocoordinates in MinDec and DMS format
 		if (!empty($objContact->geoCoords))
 		{
 			$geoCoords = explode(',', $objContact->geoCoords);

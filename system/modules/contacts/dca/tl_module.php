@@ -31,13 +31,15 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addMap';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{contacts_map_legend:hide},contacts_addMap;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addNetworksFilter'] = 'contacts_networksFilter';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addMap'] = 'contacts_mapSize,contacts_mapZoom';
 
  
 /**
@@ -73,7 +75,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_template'] = array
 	'eval'				=> array('tl_class'=>'w50'),
 	'sql'				=> "varchar(32) NOT NULL default ''"
 );
-
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_addFieldsFilter'] = array
 (
@@ -122,6 +123,37 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_extendedSettings'] = array
 	'sql'           => "blob NULL",
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_addMap'] = array
+(
+	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_addMap'],
+	'exclude'		=> true,
+	'inputType'		=> 'checkbox',
+	'eval'			=> array('submitOnChange'=>true),
+	'sql'			=> "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_mapZoom'] = array
+(
+	'label'         => &$GLOBALS['TL_LANG']['tl_module']['contacts_mapZoom'],
+	'exclude'       => true,
+	'filter'        => true,
+	'inputType'     => 'select',
+	'options'       => array('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'),
+	'default'       => '8',
+	'eval'          => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+	'sql'           => "varchar(2) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_mapSize'] = array
+(
+	'label'         => &$GLOBALS['TL_LANG']['tl_module']['contacts_mapSize'],
+	'exclude'       => true,
+	'inputType'     => 'imageSize',
+	'options'       => array('px', 'pcnt', 'em', 'pt', 'pc', 'in', 'cm', 'mm'),
+	'reference'     => &$GLOBALS['TL_LANG']['tl_module']['contacts_mapSizeOptions'],
+	'eval'			=> array('rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50'),
+	'sql'			=> "varchar(64) NOT NULL default ''"
+);
 
 /**
  * Class <tl_module_contacts>
