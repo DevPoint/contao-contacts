@@ -74,6 +74,34 @@ class Contact extends \Frontend {
 	}
 	
 	/**
+	 * Convert geocoordinate from 
+	 * DegDec to DMS format
+	 * @param $coord string
+	 * @return array[3]
+	 */
+	static protected function convertGeoCoordToDMS($coord)
+	{
+		$degrees = floor($coord);
+		$minutesSec = ($coord - $degrees) * 60.0;
+		$minutes = floor($minutesSec);
+		$seconds = ($minutesSec - $minutes) * 60.0;
+		return array($degrees, $minutes, $seconds);
+	}
+	
+	/**
+	 * Convert geocoordinate from 
+	 * DegDec to MinDec format
+	 * @param $coord string
+	 * @return array[2]
+	 */
+	static protected function convertGeoCoordToMinDec($coord)
+	{
+		$degrees = floor($coord);
+		$minutes = ($coord - $degrees) * 60.0;
+		return array($degrees, $minutes);
+	}
+	
+	/**
 	 * Create Filter for fields or networks
 	 * as table with index key 
 	 * @param $options array
@@ -119,7 +147,7 @@ class Contact extends \Frontend {
 	 * @param $arrOptions array
 	 * @return data record
 	 */
-	static public function getContactDetails($objContact, $arrOptions=array())
+	static public function getContactDetails($objContact, $arrOptions=null)
 	{
 		// retrieve contact id
 		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;
@@ -129,7 +157,8 @@ class Contact extends \Frontend {
 		}
 
 		// try to locate contact in Cache
-		$strCacheKey = (!is_array($arrOptions) || empty($arrOptions)) ? (__METHOD__ . '-' . $contactId) : false;
+		$hasOptions = (is_array($arrOptions) && !empty($arrOptions));
+		$strCacheKey = (!$hasOptions) ? (__METHOD__ . '-' . $contactId) : false;
 		if (false !== $strCacheKey && \Cache::has($strCacheKey))
 		{
 			//\System::log("Contact from Cache", "", TL_GENERAL);
@@ -160,10 +189,11 @@ class Contact extends \Frontend {
 		}
 
 		// create boolean array for filterable fields
+		$fieldExcludes = ($hasOptions) ? $GLOBALS['TL_CONTACTS']['fieldExcludes'] : null;
 		$arrFieldsFilter = self::createOptionsFilterTable(
 										$GLOBALS['TL_CONTACTS']['fieldOptions'],
 										$arrOptions['addFieldsFilter'], $arrOptions['fieldsFilter'],
-										$GLOBALS['TL_CONTACTS']['fieldExcludes']);
+										$fieldExcludes);
 		
 		// apply fields filter to <objContact>
 		foreach ($arrFieldsFilter as $field => $enabled)
@@ -214,6 +244,33 @@ class Contact extends \Frontend {
 		if (!empty($objContact->email))
 		{
 			$objContact->email_href = 'mailto:' . $objContact->email;
+		}
+
+		// create geocoordinates in MinDec format
+		if (!empty($objContact->geoCoords))
+		{
+			$geoCoords = explode(',', $objContact->geoCoords);
+			if (is_array($geoCoords) && 2 <= count($geoCoords))
+			{
+				// latidute
+				$northSouth = '';
+				$lat = trim($geoCoords[0]);
+				if (0 < $lat) $northSouth .= 'N ';
+				elseif (0 > $lat) $northSouth .= 'S ';
+				
+				// longidute
+				$eastWest = '';
+				$lng = trim($geoCoords[1]);
+				if (0 < $lng) $eastWest .= 'E ';
+				elseif (0 > $lng) $eastWest .= 'W ';
+
+				// output MinDec
+				$latMinDec = self::convertGeoCoordToMinDec($lat);
+				$objContact->geo_mindec_lat = sprintf('%s %s° %s', $northSouth, abs($latMinDec[0]), number_format($latMinDec[1], 5, '.', ''));
+
+				$lngMinDec = self::convertGeoCoordToMinDec($lng);
+				$objContact->geo_mindec_lng = sprintf('%s %s° %s', $eastWest, abs($lngMinDec[0]), number_format($lngMinDec[1], 5, '.', ''));
+			}
 		}
 
 		// setup social networks
