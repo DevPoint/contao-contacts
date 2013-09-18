@@ -143,17 +143,20 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 		),
 		'countryCode' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['countryCode'],
-			'search'		=> true,
-			'inputType'		=> 'text',
-			'eval'			=> array('mandatory'=>false, 'maxLength'=>2, 'tl_class'=>'w50'),
-			'sql'			=> "varchar(2) NOT NULL default ''"
+			'exclude'		=> true,
+			'filter'        => true,
+			'sorting'       => true,
+			'inputType'     => 'select',
+			'options'       => $this->getCountries(),
+			'eval'          => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
+			'sql'           => "varchar(2) NOT NULL default ''"
 		),
 		'geoCoords' => array(
 			'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['geoCoords'],
 			'exclude'       => true,
 			'search'        => true,
 			'inputType'     => 'text',
-			'eval'          => array('maxlength'=>64),
+			'eval'          => array('maxlength'=>64, 'tl_class'=>'clr'),
 			'save_callback' => array(
 				array('tl_contacts', 'generateCoords')
 			 ),
@@ -291,7 +294,7 @@ class tl_contacts extends Backend
 	{
 		if (!$varValue)
 		{
-			//"Rohrmoos-Südweg+235,+8971+Rohrmoos,+AT&sensor=false"
+			// calculate google API address string
 			$addPlus = '';
 			$geoAddress = '';
 			$varStreet = trim(String::restoreBasicEntities($dc->activeRecord->street));
@@ -312,13 +315,27 @@ class tl_contacts extends Backend
 				$geoAddress .= $addPlus . $varCountryCode;
 				$addPlus = ',+';
 			}
+			// try to retrieve geoCoords through curl API
 			$strGeoURL = sprintf('http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false', urlencode($geoAddress));
-			$arrGeoCode = json_decode(file_get_contents($strGeoURL), true);
-			if ($arrGeoCode['status'] != 'OK' && function_exists("curl_init"))
+			if (function_exists("curl_init"))
 			{
-
-
+			  	$curl = curl_init();
+			  	if ($curl)
+  				{
+    				if (curl_setopt($curl, CURLOPT_URL, $strGeoURL) && curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1) && curl_setopt($curl, CURLOPT_HEADER, 0))
+    				{
+	    				$curlVal = curl_exec($curl);
+						$arrGeoCode = json_decode($curlVal, true);
+    					curl_close($curl);
+					}
+				}
 			}
+			// try to retrieve geoCoords through <file_get_contents(..)>
+			if ($arrGeoCode['status'] != 'OK')
+			{
+				$arrGeoCode = json_decode(file_get_contents($strGeoURL), true);
+			}
+			// if one of the methods worked, store result
 			if ($arrGeoCode['status'] == 'OK')
 			{
 				$lat = $arrGeoCode['results'][0]['geometry']['location']['lat'];
