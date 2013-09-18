@@ -316,24 +316,22 @@ class tl_contacts extends Backend
 				$addPlus = ',+';
 			}
 			// try to retrieve geoCoords through curl API
-			$strGeoURL = sprintf('http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false', urlencode($geoAddress));
+			$arrGeoCode = array('status' => 'INIT');
+			$geoUrl = sprintf('http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false', urlencode($geoAddress));
 			if (function_exists("curl_init"))
 			{
 			  	$curl = curl_init();
-			  	if ($curl)
+			  	if ($curl && curl_setopt($curl, CURLOPT_URL, $geoUrl) && curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1) && curl_setopt($curl, CURLOPT_HEADER, 0))
   				{
-    				if (curl_setopt($curl, CURLOPT_URL, $strGeoURL) && curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1) && curl_setopt($curl, CURLOPT_HEADER, 0))
-    				{
-	    				$curlVal = curl_exec($curl);
-						$arrGeoCode = json_decode($curlVal, true);
-    					curl_close($curl);
-					}
+    				$curlVal = curl_exec($curl);
+					$arrGeoCode = json_decode($curlVal, true);
+					curl_close($curl);
 				}
 			}
 			// try to retrieve geoCoords through <file_get_contents(..)>
 			if ($arrGeoCode['status'] != 'OK')
 			{
-				$arrGeoCode = json_decode(file_get_contents($strGeoURL), true);
+				$arrGeoCode = json_decode(file_get_contents($geoUrl), true);
 			}
 			// if one of the methods worked, store result
 			if ($arrGeoCode['status'] == 'OK')
