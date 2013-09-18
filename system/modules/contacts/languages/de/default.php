@@ -39,4 +39,9 @@ $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(
 	'fieldLabels_short'	=> array(
 		'phone'		=>	'Tel.: ',
 		'weblink'	=>	'Web: '),
+	'shortTemplates'	=> array(
+		'email_link'	=>	'<a href="{href}" title="{title}">{value}</a>',
+		'external_link'	=>	'<a href="{href}" title="{title}" target="_blank">{value}</a>',
+		'geo_mindec'	=>  '{degrees}° {minutes} {direction}',
+		'geo_dms'		=>  '{degrees}° {minutes}\' {seconds}\'\' {direction}')
 );

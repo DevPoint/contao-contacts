@@ -42,8 +42,9 @@ class ContactInsertTags extends \Frontend {
 					$objContact = Contact::getContactDetails($aliasId);
 					if (null != $objContact && !empty($objContact->email_href))
 					{
-						$shortTemplate = &$GLOBALS['TL_CONTACTS']['shortTemplates']['email_link'];
-						$result = sprintf($shortTemplate, $objContact->email_href, $objContact->name, $objContact->email);
+						$result = str_replace(array('{href}','{title}','{value}'),
+											array($objContact->email_href, $objContact->name, $objContact->email),
+											$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['email_link']);
 					}
 					break;
 				}
