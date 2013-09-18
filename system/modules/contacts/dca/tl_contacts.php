@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 	// Palettes
 	'palettes' => array(
 		'__selector__'	=> array('addImage'),
-		'default'   	=> '{titleLegend},title,alias;{contactLegend},name,name2,city,street,postal,countryCode;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;',
+		'default'   	=> '{titleLegend},title,alias;{contactLegend},name,name2,city,street,postal,countryCode,geoCoords;{phoneLegend},phone,email,mobile,fax;{networksLegend},networks;',
 	),
 
 	// Subpalettes
@@ -147,6 +147,17 @@ $GLOBALS['TL_DCA']['tl_contacts'] = array(
 			'inputType'		=> 'text',
 			'eval'			=> array('mandatory'=>false, 'maxLength'=>2, 'tl_class'=>'w50'),
 			'sql'			=> "varchar(2) NOT NULL default ''"
+		),
+		'geoCoords' => array(
+			'label'         => &$GLOBALS['TL_LANG']['tl_contacts']['geoCoords'],
+			'exclude'       => true,
+			'search'        => true,
+			'inputType'     => 'text',
+			'eval'          => array('maxlength'=>64),
+			'save_callback' => array(
+				array('tl_contacts', 'generateCoords')
+			 ),
+			'sql'			=> "varchar(64) NOT NULL default ''"
 		),
 		'addImage' => array(
 			'label'			=> &$GLOBALS['TL_LANG']['tl_contacts']['addImage'],
@@ -269,6 +280,58 @@ class tl_contacts extends Backend
 		return $varValue;
 	}
 
+
+	/**
+	 * Get geo coodinates from address
+	 * @param string
+	 * @param DataContainer
+	 * @return string
+	 */
+	function generateCoords($varValue, DataContainer $dc) 
+	{
+		if (!$varValue)
+		{
+			//"Rohrmoos-Südweg+235,+8971+Rohrmoos,+AT&sensor=false"
+			$addPlus = '';
+			$geoAddress = '';
+			$varStreet = trim(String::restoreBasicEntities($dc->activeRecord->street));
+			$varCity = trim(String::restoreBasicEntities($dc->activeRecord->postal) . ' ' . String::restoreBasicEntities($dc->activeRecord->city));
+			$varCountryCode = trim(String::restoreBasicEntities($dc->activeRecord->countryCode));
+			if (!empty($varStreet))
+			{
+				$geoAddress .= $addPlus . $varStreet;
+				$addPlus = ',+';
+			}
+			if (!empty($varCity))
+			{
+				$geoAddress .= $addPlus . $varCity;
+				$addPlus = ',+';
+			}
+			if (!empty($varCountryCode))
+			{
+				$geoAddress .= $addPlus . $varCountryCode;
+				$addPlus = ',+';
+			}
+			$strGeoURL = sprintf('http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false', urlencode($geoAddress));
+			$arrGeoCode = json_decode(file_get_contents($strGeoURL), true);
+			if ($arrGeoCode['status'] != 'OK' && function_exists("curl_init"))
+			{
+
+
+			}
+			if ($arrGeoCode['status'] == 'OK')
+			{
+				$lat = $arrGeoCode['results'][0]['geometry']['location']['lat'];
+				$lng = $arrGeoCode['results'][0]['geometry']['location']['lng'];
+				$varValue = $lat . ', ' . $lng;
+			}
+			if (!$varValue)
+			{
+			 	$varValue = $GLOBALS['TL_LANG']['tl_contacts']['references']['noCoords'];
+			}
+		}
+		return $varValue;
+	}
 
 	/**
 	 * Correct language labels

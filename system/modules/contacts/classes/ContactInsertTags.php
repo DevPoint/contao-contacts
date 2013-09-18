@@ -40,17 +40,18 @@ class ContactInsertTags extends \Frontend {
 				{
 					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
-					if (null != $objContact && isset($objContact->email_href))
+					if (null != $objContact && !empty($objContact->email_href))
 					{
-						$result = sprintf($GLOBALS['TL_CONTACTS']['shortTemplates']['email_link'], $objContact->email_href, $objContact->name, $objContact->email);
-						break;
+						$shortTemplate = &$GLOBALS['TL_CONTACTS']['shortTemplates']['email_link'];
+						$result = sprintf($shortTemplate, $objContact->email_href, $objContact->name, $objContact->email);
 					}
+					break;
 				}
 				default:
 				{
 					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
 					$objContact = Contact::getContactDetails($aliasId);
-					if (null !== $objContact && isset($objContact->{$arrParams[0]}))
+					if (null !== $objContact && !empty($objContact->{$arrParams[0]}))
 					{
 						$result = $objContact->{$arrParams[0]};
 					}

@@ -123,7 +123,7 @@ class Contact extends \Frontend {
 	{
 		// retrieve contact id
 		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;
-		if (!strlen($contactId) || (is_numeric($contactId) && $contactId < 1))
+		if (empty($contactId) || (is_numeric($contactId) && $contactId < 1))
 		{
 			return null;
 		}
@@ -202,16 +202,16 @@ class Contact extends \Frontend {
 		// create links addresses
 		if (true !== $arrExtendedSettings['phone_nolink'])
 		{
-			if (isset($objContact->phone))
+			if (!empty($objContact->phone))
 			{
 				$objContact->phone_href = self::createPhoneLink($objContact->phone);
 			}
-			if (isset($objContact->mobile))
+			if (!empty($objContact->mobile))
 			{
 				$objContact->mobile_href = self::createPhoneLink($objContact->mobile);
 			}
 		}
-		if (isset($objContact->email))
+		if (!empty($objContact->email))
 		{
 			$objContact->email_href = 'mailto:' . $objContact->email;
 		}
@@ -232,7 +232,7 @@ class Contact extends \Frontend {
 				foreach ($arrNetworksWork as &$arrData)
 				{
 					$network = $arrData['channel'];
-					if (strlen($network) && (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network]))
+					if (!empty($network) && (!isset($arrNetworksFilter[$network]) || $arrNetworksFilter[$network]))
 					{
 						$userID = $arrData['userID'];
 						$networkUrlStr = $GLOBALS['TL_CONTACTS']['networkUrls'][$network];
