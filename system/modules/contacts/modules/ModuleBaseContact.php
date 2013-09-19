@@ -27,7 +27,25 @@
 
 abstract class ModuleBaseContact extends \Module {
 
-	
+	protected function generateWildcard($wildcardStr)
+	{
+		$objTemplate = new \BackendTemplate('be_wildcard');
+		$objTemplate->wildcard = $wildcardStr;
+		$objTemplate->title = $this->headline;
+		$objTemplate->id = $this->id;
+		$objTemplate->link = $this->name;
+		$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+		return $objTemplate->parse();
+	}
+
+	protected function generateEmpty()
+	{
+		global $objPage;
+		$objPage->noSearch = 1;
+		$objPage->cache = 0;
+		return '';
+	}
+
 }
 
 

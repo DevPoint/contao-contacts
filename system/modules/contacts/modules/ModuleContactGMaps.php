@@ -34,8 +34,14 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 	protected $strTemplate = 'mod_contact';
 
 	/**
+	 * Google Maps Template
+	 * @var string
+	 */
+	protected $strGoogleMapsTemplate = 'gmaps_simple';
+
+	/**
 	 * Contact DataRecord
-	 * @var Array
+	 * @var array
 	 */
 	protected $objContact;
 
@@ -82,11 +88,39 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		$arrOptions = array();
 		$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
 		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
-		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
+
+		if (!empty($objContact->geoCoords))
+		{
+			$styles = '';
+			$geoCoords = explode(',', $objContact->geoCoords);
+			$mapSize = deserialize($this->contacts_mapSize);
+			if ($mapSize[0])
+			{
+				$styles .= sprintf('width:%s%; ', $mapSize[0]);
+			}
+			if ($mapSize[1])
+			{
+				$styles .= sprintf('height:%spx; ', $mapSize[1]);
+			}
+			$styles = trim($styles);
+			\System::log("Contact arrOptions:" . is_array($arrOptions), "", TL_GENERAL);
+
+
+			$gmapsTemplate = new \FrontendTemplate($this->strGoogleMapsTemplate);
+			$gmapsTemplate->id = $objContact->id;
+			$gmapsTemplate->lat = $geoCoords[0];
+			$gmapsTemplate->lng = $geoCoords[1];
+			$gmapsTemplate->zoom = $this->contacts_mapZoom;
+			$gmapsTemplate->styles = $styles;
+			$objContact->gmaps = $gmapsTemplate->parse();
+		}
+
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();
+
+		$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
 	}
 }
 

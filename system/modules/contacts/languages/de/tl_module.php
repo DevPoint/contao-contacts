@@ -60,4 +60,4 @@ $GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'] = array(
 	'weblink_nolabel'	=> 'Feld \'Webseite\' ohne Bezeichner darstellen');
 $GLOBALS['TL_LANG']['tl_module']['contacts_legend'] = 'Kontakt Einstellungen';
 $GLOBALS['TL_LANG']['tl_module']['contacts_fieldsFilter_legend'] = 'Detaileinstellungen für die Anzeige von Kontakten';
-$GLOBALS['TL_LANG']['tl_module']['contacts_map_legend'] = 'Anzeigeeinstellungen für Karteneinblendung';
+$GLOBALS['TL_LANG']['tl_module']['contacts_maps_legend'] = 'Karteneinstellungen';

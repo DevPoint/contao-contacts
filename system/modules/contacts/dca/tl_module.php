@@ -31,17 +31,14 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addMap';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_maps_legend},contacts_singleSRC,contacts_template,contacts_mapSize,contacts_mapZoom;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addFieldsFilter'] = 'contacts_fieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addNetworksFilter'] = 'contacts_networksFilter';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['contacts_addMap'] = 'contacts_mapSize,contacts_mapZoom';
-
  
 /**
  * Add fields to tl_module
@@ -122,15 +119,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_extendedSettings'] = array
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'],
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
-);
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['contacts_addMap'] = array
-(
-	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_addMap'],
-	'exclude'		=> true,
-	'inputType'		=> 'checkbox',
-	'eval'			=> array('submitOnChange'=>true),
-	'sql'			=> "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_mapZoom'] = array
@@ -228,7 +216,7 @@ class tl_module_contacts extends Backend {
 
 	/**
 	 * Return all contacts templates as array
-	 * @param DataContainer
+	 * @param $dc DataContainer
 	 * @return array
 	 */
 	public function getContactTemplates(DataContainer $dc)
@@ -261,7 +249,7 @@ class tl_module_contacts extends Backend {
 
 	/**
 	 * Retrieve social channels
-	 * @param DataContainer
+	 * @param $dc DataContainer
 	 * @return array
 	 */
 	public function getNetworkFilterOptions(DataContainer $dc)
@@ -275,8 +263,4 @@ class tl_module_contacts extends Backend {
 		}
 		return $options;
 	}
-
-
-
-
 }

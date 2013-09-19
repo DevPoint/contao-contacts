@@ -74,9 +74,9 @@ class Contact extends \Frontend {
 	}
 	
 	/**
-	 * Convert geocoordinate from 
+	 * Convert geo-coordinate from 
 	 * DegDec to DMS format
-	 * @param $degreeValue real
+	 * @param $degreeValue float
 	 * @return array[3]
 	 */
 	protected static function convertGeoCoordToDMS($degreeValue)
@@ -89,9 +89,9 @@ class Contact extends \Frontend {
 	}
 	
 	/**
-	 * Convert geocoordinate from 
+	 * Convert geo-coordinate from 
 	 * DegDec to MinDec format
-	 * @param $degreeValue real
+	 * @param $degreeValue float
 	 * @return array[2]
 	 */
 	protected static function convertGeoCoordToMinDec($degreeValue)
@@ -107,8 +107,8 @@ class Contact extends \Frontend {
 	protected static $arrDMSParams = array('{direction}', '{degrees}', '{minutes}', '{seconds}');
 
 	/**
-	 * Parse geocoordinate in DMS format
-	 * @param $degreeValue real
+	 * Parse geo-coordinate in DMS format
+	 * @param $degreeValue float
 	 * @param $directions array[2]
 	 * @return string
 	 */
@@ -131,8 +131,8 @@ class Contact extends \Frontend {
 	protected static $arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
 
 	/**
-	 * Parse geocoordinate in MinDec format
-	 * @param $degreeValue real
+	 * Parse geo-coordinate in MinDec format
+	 * @param $degreeValue float
 	 * @param $directions array[2]
 	 * @return string
 	 */
@@ -169,11 +169,14 @@ class Contact extends \Frontend {
 				$arrFilter[$key] = false;
 			}
 		}
-		if ($hasFilter && is_array($filters))
+		if ($hasFilter)
 		{
-			foreach ($filters as $key)
+			if (is_array($filters))
 			{
-				$arrFilter[$key] = true;
+				foreach ($filters as $key)
+				{
+					$arrFilter[$key] = true;
+				}
 			}
 			$filterDefault = false;
 		}
@@ -192,6 +195,7 @@ class Contact extends \Frontend {
 	 * Enrich DataRecord by additional 
 	 * properties
 	 * @param $objContact mixed
+	 * @param $hasOptions boolean
 	 * @param $arrOptions array
 	 * @return data record
 	 */

@@ -249,8 +249,8 @@ class tl_contacts extends Backend
 {
 	/**
 	 * Auto-generate the news alias if it has not been set yet
-	 * @param mixed
-	 * @param \DataContainer
+	 * @param $varValue mixed
+	 * @param $dc DataContainer
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -286,8 +286,8 @@ class tl_contacts extends Backend
 
 	/**
 	 * Get geo coodinates from address
-	 * @param string
-	 * @param DataContainer
+	 * @param $varValue string
+	 * @param $dc DataContainer
 	 * @return string
 	 */
 	function generateCoords($varValue, DataContainer $dc) 
@@ -350,8 +350,8 @@ class tl_contacts extends Backend
 
 	/**
 	 * Correct language labels
-	 * @param string
-	 * @param DataContainer
+	 * @param $value string
+	 * @param $dc DataContainer
 	 * @return string
 	 */
 	public function tweakLanguageLabelCallBack($value, DataContainer $dc)
@@ -378,7 +378,7 @@ class tl_contacts extends Backend
 
 	/**
 	 * Retrieve social channels
-	 * @param DataContainer
+	 * @param $dc DataContainer
 	 * @return array
 	 */
 	public function getNetworkOptions(DataContainer $dc)
@@ -396,7 +396,7 @@ class tl_contacts extends Backend
 
 	/**
 	 * Convert language tags to lowercase letters
-	 * @param string
+	 * @param $varValue string
 	 * @return string
 	 */
 	public function languageToLower($varValue)

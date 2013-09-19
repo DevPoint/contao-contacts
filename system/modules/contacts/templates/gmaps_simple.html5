@@ -1,0 +1,18 @@
+<div id="gmap-canvas<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
+<script>
+var map<?php echo $this->id;?>;
+function initialize() {
+	var lat = <?php echo $this->lat;?>;
+	var lng = <?php echo $this->lng;?>;
+	var mapOptions = {
+		zoom: <?php echo $this->zoom;?>,
+		center: new google.maps.LatLng(lat, lng),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	map<?php echo $this->id;?> = new google.maps.Map(
+					document.getElementById('gmap-canvas<?php echo $this->id;?>'), 
+					mapOptions);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+

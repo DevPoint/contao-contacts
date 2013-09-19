@@ -22,4 +22,10 @@
 <div class="mobile"><?php if ($this->mobile_label):?><span class="label"><?php echo $this->mobile_label;?></span><?php endif;?><?php if ($this->mobile_href):?><a href="<?php echo $this->mobile_href;?>"><?php endif;?><span class="value"><?php echo $this->mobile;?></span><?php if ($this->mobile_href):?></a><?php endif;?></div>
 <?php endif;?>
 
+<?php if ($this->gmaps):?>
+<div class="gmaps">
+<?php echo $this->gmaps;?>
+</div>
+<?php endif;?>
+
 </div>
