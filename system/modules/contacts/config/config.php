@@ -31,6 +31,7 @@ array_insert($GLOBALS['BE_MOD']['content'], 1, array
 $GLOBALS['FE_MOD']['contacts'] = array
 (
     'contact' 		=> 'ModuleContact',
+    'contact_gmaps'	=> 'ModuleContactGMaps',
     'contact_list'	=> 'ModuleContactList',
 );
 

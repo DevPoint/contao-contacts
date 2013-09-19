@@ -37,7 +37,7 @@ class Contact extends \Frontend {
 	 * <Contao\Events::sortOutProtected> and
 	 * <Contao\ModuleNews::sortOutProtected> functions
 	 */
-	static public function checkProtectedArchiveVisible($archiveGroups, $user)
+	public static function checkProtectedArchiveVisible($archiveGroups, $user)
 	{
 		if (BE_USER_LOGGED_IN)
 		{
@@ -65,7 +65,7 @@ class Contact extends \Frontend {
 	 * @param $phone string
 	 * @return string
 	 */
-	static protected function createPhoneLink($phone)
+	protected static function createPhoneLink($phone)
 	{
 		$phone = html_entity_decode($phone);
 		$phone = preg_replace('/\((.*?)\)|\[(.*?)\]/', '', $phone);
@@ -79,7 +79,7 @@ class Contact extends \Frontend {
 	 * @param $degreeValue real
 	 * @return array[3]
 	 */
-	static protected function convertGeoCoordToDMS($degreeValue)
+	protected static function convertGeoCoordToDMS($degreeValue)
 	{
 		$degrees = floor($degreeValue);
 		$minutesSec = ($degreeValue - $degrees) * 60.0;
@@ -94,7 +94,7 @@ class Contact extends \Frontend {
 	 * @param $degreeValue real
 	 * @return array[2]
 	 */
-	static protected function convertGeoCoordToMinDec($degreeValue)
+	protected static function convertGeoCoordToMinDec($degreeValue)
 	{
 		$degrees = floor($degreeValue);
 		$minutes = ($degreeValue - $degrees) * 60.0;
@@ -104,7 +104,7 @@ class Contact extends \Frontend {
 	/**
 	 * Parameter array for shortTemplate <geo_dms>
 	 */
-	static protected $arrDMSParams = array('{direction}', '{degrees}', '{minutes}', '{seconds}');
+	protected static $arrDMSParams = array('{direction}', '{degrees}', '{minutes}', '{seconds}');
 
 	/**
 	 * Parse geocoordinate in DMS format
@@ -112,7 +112,7 @@ class Contact extends \Frontend {
 	 * @param $directions array[2]
 	 * @return string
 	 */
-	static public function parseGeoCoordDMS($degreeValue, $directions)
+	public static function parseGeoCoordDMS($degreeValue, $directions)
 	{
 		$directionStr = '';
 		if (0 < $degreeValue) $directionStr = $directions[0];
@@ -128,7 +128,7 @@ class Contact extends \Frontend {
 	/**
 	 * Parameter array for shortTemplate <geo_mindec>
 	 */
-	static protected $arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
+	protected static $arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
 
 	/**
 	 * Parse geocoordinate in MinDec format
@@ -136,7 +136,7 @@ class Contact extends \Frontend {
 	 * @param $directions array[2]
 	 * @return string
 	 */
-	static public function parseGeoCoordMinDec($degreeValue, $directions)
+	public static function parseGeoCoordMinDec($degreeValue, $directions)
 	{
 		$directionStr = '';
 		if (0 < $degreeValue) $directionStr = $directions[0];
@@ -158,7 +158,7 @@ class Contact extends \Frontend {
 	 * @param $excludes array
 	 * @return string
 	 */
-	static protected function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
+	protected static function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
 	{
 		$arrFilter = array();
 		$filterDefault = true;
@@ -195,7 +195,7 @@ class Contact extends \Frontend {
 	 * @param $arrOptions array
 	 * @return data record
 	 */
-	static public function getContactDetails($objContact, $arrOptions=null)
+	public static function getContactDetails($objContact, $arrOptions=null)
 	{
 		// retrieve contact id
 		$contactId = (is_object($objContact)) ? $objContact->id : $objContact;

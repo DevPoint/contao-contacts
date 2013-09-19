@@ -25,7 +25,7 @@
  * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
  */
 
-class ModuleContact extends \ModuleBaseContact {
+class ModuleContactGMaps extends \ModuleBaseContact {
 
 	/**
 	 * Template
@@ -47,7 +47,7 @@ class ModuleContact extends \ModuleBaseContact {
 		// Wildcard for BE mode
 		if (TL_MODE == 'BE')
 		{
-			return $this->generateWildcard('### CONTACT ###');
+			return $this->generateWildcard('### CONTACT GMAPS ###');
 		}
 
 		// Return, if contact doesn't exist anymore
@@ -83,8 +83,6 @@ class ModuleContact extends \ModuleBaseContact {
 		$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
 		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
 		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
-		$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
-		$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());

@@ -32,7 +32,8 @@
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addMap';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{contacts_map_legend:hide},contacts_addMap;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
@@ -192,11 +193,53 @@ class tl_module_contacts extends Backend {
 
 	/**
 	 * Return all contacts templates as array
+	 * @param $strTemplatePrefix string
+	 * @param $filter array
 	 * @return array
 	 */
-	public function getContactTemplates()
+	protected static function getTemplateGroupFiltered($strTemplatePrefix, $filters)
 	{
-		return $this->getTemplateGroup('contact_');
+		$templates = self::getTemplateGroup($strTemplatePrefix);
+		if (is_array($filters) && !empty($filters))
+		{
+			$templatesFiltered = array();
+			foreach ($templates as $template)
+			{
+				// any filter which matches?
+				$filtered = false;
+				foreach ($filters as $strFilterPrefix)
+				{
+					if (0 == strncmp($template, $strFilterPrefix, strlen($strFilterPrefix)))
+					{
+						$filtered = true;
+						break;
+					}
+				}
+				// no filter has matched
+				if (!$filtered)
+				{
+					$templatesFiltered[] = $template;
+				}
+			}			
+			$templates = $templatesFiltered;
+		}
+		return $templates;
+	}
+
+	/**
+	 * Return all contacts templates as array
+	 * @param DataContainer
+	 * @return array
+	 */
+	public function getContactTemplates(DataContainer $dc)
+	{
+		switch ($dc->activeRecord->type)
+		{
+			case 'contact_gmaps':
+				return $this->getTemplateGroup('contact_gmaps_');
+			default:
+				return $this->getTemplateGroupFiltered('contact_', array('contact_gmaps_'));
+		}
 	}
 
 	/**

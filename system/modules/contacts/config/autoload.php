@@ -14,7 +14,9 @@ ClassLoader::addClasses(array
 (
 	'Contact' 				=>	'system/modules/contacts/classes/Contact.php',
 	'ContactInsertTags'		=>	'system/modules/contacts/classes/ContactInsertTags.php',
+	'ModuleBaseContact' 	=>	'system/modules/contacts/modules/ModuleBaseContact.php',
 	'ModuleContact' 		=>	'system/modules/contacts/modules/ModuleContact.php',
+	'ModuleContactGMaps'	=>	'system/modules/contacts/modules/ModuleContactGMaps.php',
 	'ModuleContactList'		=>	'system/modules/contacts/modules/ModuleContactList.php',
 ));
 
@@ -26,4 +28,5 @@ TemplateLoader::addFiles(array
 	'mod_contact'		=> 'system/modules/contacts/templates',
 	'contact_basic'		=> 'system/modules/contacts/templates',
 	'contact_links'		=> 'system/modules/contacts/templates',
+	'contact_gmaps_basic'	=> 'system/modules/contacts/templates',
 ));
