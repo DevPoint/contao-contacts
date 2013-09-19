@@ -34,7 +34,7 @@ class ContactInsertTags extends \Frontend {
 		if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
 		{
 			$arrParams = explode(':', $arrSplit[1]);
-			switch($arrParams[0])
+			switch ($arrParams[0])
 			{
 				case 'email_link':
 				{
@@ -45,6 +45,39 @@ class ContactInsertTags extends \Frontend {
 						$result = str_replace(array('{href}','{title}','{value}'),
 											array($objContact->email_href, $objContact->name, $objContact->email),
 											$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['email_link']);
+					}
+					break;
+				}
+				case 'geo_dms_lat':
+				case 'geo_dms_lng':
+				case 'geo_mindec_lat':
+				case 'geo_mindec_lng':
+				{
+					$aliasId = (2 <= count($arrParams)) ? $arrParams[1] : '@default';
+					$objContact = Contact::getContactDetails($aliasId);
+					if (null != $objContact && !empty($objContact->geoCoords))
+					{
+						$geoCoords = explode(',', $objContact->geoCoords);
+						if (is_array($geoCoords) && 2 <= count($geoCoords))
+						{
+							$lat = trim($geoCoords[0]);
+							$lng = trim($geoCoords[1]);
+							switch ($arrParams[0])
+							{
+								case 'geo_dms_lat':
+									$result = Contact::parseGeoCoordDMS($lat, array('N','S'));
+									break;
+								case 'geo_dms_lng':
+									$result = Contact::parseGeoCoordDMS($lng, array('E','W'));
+									break;
+								case 'geo_mindec_lat':
+									$result = Contact::parseGeoCoordMinDec($lat, array('N','S'));
+									break;
+								case 'geo_mindec_lng':
+									$result = Contact::parseGeoCoordMinDec($lng, array('E','W'));
+									break;
+							}
+						}
 					}
 					break;
 				}

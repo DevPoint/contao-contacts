@@ -76,13 +76,13 @@ class Contact extends \Frontend {
 	/**
 	 * Convert geocoordinate from 
 	 * DegDec to DMS format
-	 * @param $coord string
+	 * @param $degreeValue real
 	 * @return array[3]
 	 */
-	static protected function convertGeoCoordToDMS($coord)
+	static protected function convertGeoCoordToDMS($degreeValue)
 	{
-		$degrees = floor($coord);
-		$minutesSec = ($coord - $degrees) * 60.0;
+		$degrees = floor($degreeValue);
+		$minutesSec = ($degreeValue - $degrees) * 60.0;
 		$minutes = floor($minutesSec);
 		$seconds = ($minutesSec - $minutes) * 60.0;
 		return array($degrees, $minutes, $seconds);
@@ -91,14 +91,62 @@ class Contact extends \Frontend {
 	/**
 	 * Convert geocoordinate from 
 	 * DegDec to MinDec format
-	 * @param $coord string
+	 * @param $degreeValue real
 	 * @return array[2]
 	 */
-	static protected function convertGeoCoordToMinDec($coord)
+	static protected function convertGeoCoordToMinDec($degreeValue)
 	{
-		$degrees = floor($coord);
-		$minutes = ($coord - $degrees) * 60.0;
+		$degrees = floor($degreeValue);
+		$minutes = ($degreeValue - $degrees) * 60.0;
 		return array($degrees, $minutes);
+	}
+
+	/**
+	 * Parameter array for shortTemplate <geo_dms>
+	 */
+	static protected $arrDMSParams = array('{direction}', '{degrees}', '{minutes}', '{seconds}');
+
+	/**
+	 * Parse geocoordinate in DMS format
+	 * @param $degreeValue real
+	 * @param $directions array[2]
+	 * @return string
+	 */
+	static public function parseGeoCoordDMS($degreeValue, $directions)
+	{
+		$directionStr = '';
+		if (0 < $degreeValue) $directionStr = $directions[0];
+		elseif (0 > $degreeValue) $directionStr = $directions[1];
+
+		$arrDMS = self::convertGeoCoordToDMS($degreeValue);
+		return str_replace(
+					self::$arrDMSParams,
+					array($directionStr, abs($arrDMS[0]), $arrDMS[1], number_format($arrDMS[2], 3, '.', '')), 
+					$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_dms']);
+	}
+	
+	/**
+	 * Parameter array for shortTemplate <geo_mindec>
+	 */
+	static protected $arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
+
+	/**
+	 * Parse geocoordinate in MinDec format
+	 * @param $degreeValue real
+	 * @param $directions array[2]
+	 * @return string
+	 */
+	static public function parseGeoCoordMinDec($degreeValue, $directions)
+	{
+		$directionStr = '';
+		if (0 < $degreeValue) $directionStr = $directions[0];
+		elseif (0 > $degreeValue) $directionStr = $directions[1];
+
+		$arrMinDec = self::convertGeoCoordToMinDec($degreeValue);
+		return str_replace(
+					self::$arrMinDecParams,
+					array($directionStr, abs($arrMinDec[0]), number_format($arrMinDec[1], 5, '.', '')), 
+					$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_mindec']);
 	}
 	
 	/**
@@ -244,62 +292,6 @@ class Contact extends \Frontend {
 		if (!empty($objContact->email))
 		{
 			$objContact->email_href = 'mailto:' . $objContact->email;
-		}
-
-		// create geocoordinates in MinDec and DMS format
-		if (!empty($objContact->geoCoords))
-		{
-			$geoCoords = explode(',', $objContact->geoCoords);
-			if (is_array($geoCoords) && 2 <= count($geoCoords))
-			{
-				// latidute
-				$northSouth = '';
-				$lat = trim($geoCoords[0]);
-				if (0 < $lat) $northSouth = 'N';
-				elseif (0 > $lat) $northSouth = 'S';
-				
-				// longidute
-				$eastWest = '';
-				$lng = trim($geoCoords[1]);
-				if (0 < $lng) $eastWest = 'E';
-				elseif (0 > $lng) $eastWest = 'W';
-
-				// output MinDec
-				if (true !== $arrExtendedSettings['geo_no_mindec'])
-				{
-					$arrMinDecParams = array('{direction}', '{degrees}', '{minutes}');
-
-					$latMinDec = self::convertGeoCoordToMinDec($lat);
-					$objContact->geo_mindec_lat = str_replace(
-									$arrMinDecParams,
-									array($northSouth, abs($latMinDec[0]), number_format($latMinDec[1], 5, '.', '')), 
-									$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_mindec']);
-
-					$lngMinDec = self::convertGeoCoordToMinDec($lng);
-					$objContact->geo_mindec_lng = str_replace(
-									$arrMinDecParams,
-									array($eastWest, abs($lngMinDec[0]), number_format($lngMinDec[1], 5, '.', '')), 
-									$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_mindec']);
-				}
-
-				// output DMS
-				if (true !== $arrExtendedSettings['geo_no_dms'])
-				{
-					$arrDMSParams = array('{direction}', '{degrees}', '{minutes}', '{seconds}');
-
-					$latDMS = self::convertGeoCoordToDMS($lat);
-					$objContact->geo_dms_lat = str_replace(
-									$arrDMSParams,
-									array($northSouth, abs($latDMS[0]), $latDMS[1], number_format($latDMS[2], 3, '.', '')), 
-									$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_dms']);
-
-					$lngDMS = self::convertGeoCoordToDMS($lng);
-					$objContact->geo_dms_lng = str_replace(
-									$arrDMSParams,
-									array($eastWest, abs($lngDMS[0]), $lngDMS[1], number_format($lngDMS[2], 3, '.', '')), 
-									$GLOBALS['TL_LANG']['MSC']['tl_contacts']['shortTemplates']['geo_dms']);
-				}
-			}
 		}
 
 		// setup social networks
