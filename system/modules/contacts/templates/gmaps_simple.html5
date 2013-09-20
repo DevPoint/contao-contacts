@@ -10,7 +10,7 @@ function initialize() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
-	var useAutoHeight = <?php echo $this->useAutoHeight;?>;
+	var useAutoHeight = <?php if ($this->useAutoHeight):?>true<?php else:?>false<?php endif;?>;
 	if (useAutoHeight)
 	{
 		var canvasHeight = Math.round(gmapCanvas.offsetWidth * <?php echo $this->autoHeightAspect;?>);

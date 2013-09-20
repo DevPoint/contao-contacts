@@ -79,13 +79,29 @@ class ModuleContact extends \ModuleBaseContact {
 	 */
 	protected function compile() 
 	{
+		// get contact details
 		$arrOptions = array();
 		$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
 		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
 		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
 		$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
-		$arrOptions['extendedSettings'] = deserialize($this->contacts_extendedSettings);
+		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings), true);
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
+
+		// parse contact gmap
+		if (true === $arrOptions['extendedSettings']['gmap_enable'])
+		{
+			$arrMapOptions = array();
+			$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
+			$arrMapOptions['useAutoHeight'] = (true !== $arrOptions['extendedSettings']['gmap_noautoheight']);
+			$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
+			if (!empty($objContact->gmaps))
+			{
+				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
+			}
+		}
+
+		// parse contact
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();

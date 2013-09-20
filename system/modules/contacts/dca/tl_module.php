@@ -115,7 +115,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_extendedSettings'] = array
 (
 	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettings'],
 	'inputType' 	=> 'checkbox',
-	'options'		=> array('short_labels','phone_nolink','email_nolabel','weblink_nolabel'),
+	'options'		=> array('short_labels','phone_nolink','email_nolabel','weblink_nolabel','gmap_enable','gmap_noautoheight'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'],
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",

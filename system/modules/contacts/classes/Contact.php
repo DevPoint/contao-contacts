@@ -158,7 +158,7 @@ class Contact extends \Frontend {
 	 * @param $excludes array
 	 * @return string
 	 */
-	protected static function createOptionsFilterTable(&$options, $hasFilter, &$filters, &$excludes=null)
+	public static function createOptionsFilterTable($options, $hasFilter, $filters, $excludes=null)
 	{
 		$arrFilter = array();
 		$filterDefault = true;
@@ -190,6 +190,31 @@ class Contact extends \Frontend {
 		return $arrFilter;
 	}
 
+	/**
+	 * Parse Gmaps
+	 * @param $objContact mixed
+	 * @param $strTemplate string
+	 * @param $arrMapOptions array
+	 * @return string
+	 */
+	public static function parseContactMap($objContact, $strTemplate, $arrMapOptions=null)
+	{
+		$result = '';
+		if (!empty($objContact->geoCoords))
+		{
+			$geoCoords = explode(',', $objContact->geoCoords);
+			$gmapsTemplate = new \FrontendTemplate($strTemplate);
+			$gmapsTemplate->id = $objContact->id;
+			$gmapsTemplate->lat = $geoCoords[0];
+			$gmapsTemplate->lng = $geoCoords[1];
+			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $GLOBALS['TL_CONTACTS']['mapOptions']['defaultZoom'];
+			$gmapsTemplate->useAutoHeight = $arrMapOptions['useAutoHeight'];
+			$gmapsTemplate->autoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['autoHeightAspect'];
+			$gmapsTemplate->minAutoHeight = $GLOBALS['TL_CONTACTS']['mapOptions']['minAutoHeight'];
+			$result = $gmapsTemplate->parse();
+		}
+		return $result;
+	}
 
 	/**
 	 * Enrich DataRecord by additional 
@@ -256,17 +281,8 @@ class Contact extends \Frontend {
 			}
 		}
 
-		// create boolean array for extended settings
-		$arrExtendedSettings = array();
-		if (is_array($arrOptions['extendedSettings']))
-		{
-			foreach($arrOptions['extendedSettings'] as $settingKey)
-			{
-				$arrExtendedSettings[$settingKey] = true;
-			}
-		}
-
 		// create labels
+		$arrExtendedSettings = $arrOptions['extendedSettings'];
 		$useShortLabels = (true === $arrExtendedSettings['short_labels']);
 		$fieldLabelsShort = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
 		foreach($GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'] as $field => $label)

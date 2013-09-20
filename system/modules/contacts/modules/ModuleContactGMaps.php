@@ -34,12 +34,6 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 	protected $strTemplate = 'mod_contact';
 
 	/**
-	 * Google Maps Template
-	 * @var string
-	 */
-	protected $strGoogleMapsTemplate = 'gmaps_simple';
-
-	/**
 	 * Contact DataRecord
 	 * @var array
 	 */
@@ -85,28 +79,24 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 	 */
 	protected function compile() 
 	{
+		// get contact details
 		$arrOptions = array();
 		$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
 		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
+		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings), true);
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
-		if (!empty($objContact->geoCoords))
+		// parse contact gmap
+		$arrMapOptions = array();
+		$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
+		$arrMapOptions['useAutoHeight'] = (true !== $arrOptions['extendedSettings']['gmap_noautoheight']);
+		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
+		if (!empty($objContact->gmaps))
 		{
-			$styles = '';
-			$geoCoords = explode(',', $objContact->geoCoords);
-			$gmapsTemplate = new \FrontendTemplate($this->strGoogleMapsTemplate);
-			$gmapsTemplate->id = $objContact->id;
-			$gmapsTemplate->lat = $geoCoords[0];
-			$gmapsTemplate->lng = $geoCoords[1];
-			$gmapsTemplate->zoom = $this->contacts_mapZoom;
-			$gmapsTemplate->useAutoHeight = 'true';
-			$gmapsTemplate->autoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['autoHeightAspect'];
-			$gmapsTemplate->minAutoHeight = $GLOBALS['TL_CONTACTS']['mapOptions']['minAutoHeight'];
-			$objContact->gmaps = $gmapsTemplate->parse();
-		
 			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
 		}
 
+		// parse contact
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();

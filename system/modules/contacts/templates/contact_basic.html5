@@ -36,4 +36,10 @@
 </ul>
 <?php endif;?>
 
+<?php if ($this->gmaps):?>
+<div class="gmaps">
+<?php echo $this->gmaps;?>
+</div>
+<?php endif;?>
+
 </div>
