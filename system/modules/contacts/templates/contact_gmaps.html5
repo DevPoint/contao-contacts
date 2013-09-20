@@ -1,8 +1,5 @@
 <div class="layout_gmaps_basic block<?php echo $this->class;?>">
 
-<?php if ($this->title):?>
-<div class="title"><?php echo $this->title;?></div>
-<?php endif;?>
 <?php if ($this->name):?>
 <div class="name"><?php echo $this->name;?></div>
 <?php endif;?>

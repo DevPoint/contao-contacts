@@ -56,9 +56,9 @@ $GLOBALS['TL_CONTACTS'] = array
 		'GitHub'			=> 'https://github.com/%s',
 		'FotoCommunity'		=> 'http://www.fotocommunity.de/fotograf/%s'),
 	'mapOptions'		=> array(
-		'defaultZoom'		=> 8,
+		'defaultZoom'		=> 6,
 		'autoHeightAspect'	=> 0.625,
-		'minAutoHeight'		=> 256),
+		'minAutoHeight'		=> 288),
 );
 
 

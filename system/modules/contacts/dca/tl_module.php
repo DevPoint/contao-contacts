@@ -221,13 +221,7 @@ class tl_module_contacts extends Backend {
 	 */
 	public function getContactTemplates(DataContainer $dc)
 	{
-		switch ($dc->activeRecord->type)
-		{
-			case 'contact_gmaps':
-				return $this->getTemplateGroup('contact_gmaps_');
-			default:
-				return $this->getTemplateGroupFiltered('contact_', array('contact_gmaps_'));
-		}
+		return $this->getTemplateGroup('contact_');
 	}
 
 	/**
