@@ -9,9 +9,16 @@ function initialize() {
 		center: new google.maps.LatLng(lat, lng),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	map<?php echo $this->id;?> = new google.maps.Map(
-					document.getElementById('gmap-canvas<?php echo $this->id;?>'), 
-					mapOptions);
+	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
+	var useAutoHeight = <?php echo $this->useAutoHeight;?>;
+	if (useAutoHeight)
+	{
+		var canvasHeight = Math.round(gmapCanvas.offsetWidth * <?php echo $this->autoHeightAspect;?>);
+		var minCanvasHeight = <?php echo $this->minAutoHeight;?>;
+		if (canvasHeight < minCanvasHeight) canvasHeight = minCanvasHeight;
+		gmapCanvas.style.height = canvasHeight + 'px';
+	}
+	map<?php echo $this->id;?> = new google.maps.Map(gmapCanvas, mapOptions);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>

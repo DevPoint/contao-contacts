@@ -55,6 +55,9 @@ $GLOBALS['TL_CONTACTS'] = array
 		'Xing'				=> 'http://www.xing.com/profile/%s',
 		'GitHub'			=> 'https://github.com/%s',
 		'FotoCommunity'		=> 'http://www.fotocommunity.de/fotograf/%s'),
+	'mapOptions'		=> array(
+		'autoHeightAspect'	=> 0.625,
+		'minAutoHeight'		=> 256),
 );
 
 

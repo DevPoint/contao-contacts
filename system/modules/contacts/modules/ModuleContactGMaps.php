@@ -94,33 +94,23 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		{
 			$styles = '';
 			$geoCoords = explode(',', $objContact->geoCoords);
-			$mapSize = deserialize($this->contacts_mapSize);
-			if ($mapSize[0])
-			{
-				$styles .= sprintf('width:%s%; ', $mapSize[0]);
-			}
-			if ($mapSize[1])
-			{
-				$styles .= sprintf('height:%spx; ', $mapSize[1]);
-			}
-			$styles = trim($styles);
-			\System::log("Contact arrOptions:" . is_array($arrOptions), "", TL_GENERAL);
-
-
 			$gmapsTemplate = new \FrontendTemplate($this->strGoogleMapsTemplate);
 			$gmapsTemplate->id = $objContact->id;
 			$gmapsTemplate->lat = $geoCoords[0];
 			$gmapsTemplate->lng = $geoCoords[1];
 			$gmapsTemplate->zoom = $this->contacts_mapZoom;
-			$gmapsTemplate->styles = $styles;
+			$gmapsTemplate->useAutoHeight = 'true';
+			$gmapsTemplate->autoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['autoHeightAspect'];
+			$gmapsTemplate->minAutoHeight = $GLOBALS['TL_CONTACTS']['mapOptions']['minAutoHeight'];
 			$objContact->gmaps = $gmapsTemplate->parse();
+		
+			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
 		}
 
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();
 
-		$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
 	}
 }
 
