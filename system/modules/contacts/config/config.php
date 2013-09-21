@@ -57,10 +57,15 @@ $GLOBALS['TL_CONTACTS'] = array
 		'FotoCommunity'		=> 'http://www.fotocommunity.de/fotograf/%s'),
 	'mapOptions'		=> array(
 		'defaultZoom'		=> 6,
-		'autoHeightAspect'	=> 0.625,
-		'minAutoHeight'		=> 288),
+		'maxScreenAspect'	=> 0.9,
+		'autoHeight'		=> array(
+			'2_1' 				=> array('aspect'=>0.5, 'min'=>256),
+			'16_9' 				=> array('aspect'=>0.5625, 'min'=>288),
+			'16_10' 			=> array('aspect'=>0.625, 'min'=>288),
+			'4_3' 				=> array('aspect'=>0.75, 'min'=>304),
+			'5_4' 				=> array('aspect'=>0.8, 'min'=>304),
+			'1_1' 				=> array('aspect'=>1.0, 'min'=>304))),
 );
-
 
 /**
  * Hooks

@@ -208,9 +208,12 @@ class Contact extends \Frontend {
 			$gmapsTemplate->lat = $geoCoords[0];
 			$gmapsTemplate->lng = $geoCoords[1];
 			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $GLOBALS['TL_CONTACTS']['mapOptions']['defaultZoom'];
-			$gmapsTemplate->useAutoHeight = $arrMapOptions['useAutoHeight'];
-			$gmapsTemplate->autoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['autoHeightAspect'];
-			$gmapsTemplate->minAutoHeight = $GLOBALS['TL_CONTACTS']['mapOptions']['minAutoHeight'];
+			$gmapsTemplate->useAutoHeight = ($arrMapOptions['mapAspect']) ? true : false;
+			$mapAspectRatio = ($arrMapOptions['mapAspect']) ? $arrMapOptions['mapAspect'] : '16_10';
+			$autoHeightParam = &$GLOBALS['TL_CONTACTS']['mapOptions']['autoHeight'][$mapAspectRatio];
+			$gmapsTemplate->autoHeightAspect = $autoHeightParam['aspect'];
+			$gmapsTemplate->minAutoHeight = $autoHeightParam['min'];
+			$gmapsTemplate->maxAutoHeightScreenAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['maxScreenAspect'];
 			$result = $gmapsTemplate->parse();
 		}
 		return $result;

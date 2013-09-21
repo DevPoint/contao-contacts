@@ -89,7 +89,7 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		// parse contact gmap
 		$arrMapOptions = array();
 		$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
-		$arrMapOptions['useAutoHeight'] = (true !== $arrOptions['extendedSettings']['gmap_noautoheight']);
+		$arrMapOptions['mapAspect'] = $this->contacts_mapAspect;
 		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
 		if (!empty($objContact->gmaps))
 		{
