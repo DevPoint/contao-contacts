@@ -1,24 +1,5 @@
 <div class="layout_gmaps_basic block<?php echo $this->class;?>">
 
-<?php if ($this->name):?>
-<div class="name"><?php echo $this->name;?></div>
-<?php endif;?>
-<?php if ($this->name2):?>
-<div class="name2"><?php echo $this->name2;?></div>
-<?php endif;?>
-<?php if ($this->street):?>
-<div class="street"><?php echo $this->street;?></div>
-<?php endif;?>
-<?php if ($this->postal || $this->city):?>
-<div class="city_postal"><?php if ($this->postal):?><span class="postal"><?php echo $this->postal;?> </span><?php endif;?><span class="city"><?php echo $this->city;?></span></div>
-<?php endif;?>
-<?php if ($this->phone):?>
-<div class="phone"><?php if ($this->phone_label):?><span class="label"><?php echo $this->phone_label;?></span><?php endif;?><?php if ($this->phone_href):?><a href="<?php echo $this->phone_href;?>"><?php endif;?><span class="value"><?php echo $this->phone;?></span><?php if ($this->phone_href):?></a><?php endif;?></div>
-<?php endif;?>
-<?php if ($this->mobile):?>
-<div class="mobile"><?php if ($this->mobile_label):?><span class="label"><?php echo $this->mobile_label;?></span><?php endif;?><?php if ($this->mobile_href):?><a href="<?php echo $this->mobile_href;?>"><?php endif;?><span class="value"><?php echo $this->mobile;?></span><?php if ($this->mobile_href):?></a><?php endif;?></div>
-<?php endif;?>
-
 <?php if ($this->gmaps):?>
 <div class="gmaps">
 <?php echo $this->gmaps;?>

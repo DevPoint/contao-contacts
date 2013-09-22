@@ -26,13 +26,15 @@
  * @license MIT
  */
 
+
+
 /**
  * Add a palette to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_maps_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_extendedSettings,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_maps_legend},contacts_singleSRC,contacts_template,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module
@@ -66,7 +68,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_multiSRC'] = array(
 $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_template'] = array
 (
 	'label'				=> &$GLOBALS['TL_LANG']['tl_module']['contacts_template'],
-	'default'			=> 'contacts_basic',
 	'exclude'			=> true,
 	'inputType'			=> 'select',
 	'options_callback'	=> array('tl_module_contacts', 'getContactTemplates'),
@@ -115,7 +116,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_extendedSettings'] = array
 (
 	'label'			=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettings'],
 	'inputType' 	=> 'checkbox',
-	'options'		=> array('short_labels','phone_nolink','email_nolabel','weblink_nolabel','gmap_enable','gmap_minheight'),
+	'options'		=> array('short_labels','phone_nolink','email_nolabel','weblink_nolabel','gmap_enable'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_extendedSettingsOptions'],
 	'eval'          => array('multiple'=>true, 'mandatory'=>false),
 	'sql'           => "blob NULL",
@@ -128,7 +129,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_mapZoom'] = array
 	'filter'        => true,
 	'inputType'     => 'select',
 	'options'       => array('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'),
-	'default'       => '8',
+	'default'       => '10',
 	'eval'          => array('includeBlankOption'=>true, 'tl_class'=>'w50 clr'),
 	'sql'           => "varchar(2) NOT NULL default ''"
 );
@@ -141,7 +142,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['contacts_mapAspect'] = array
 	'inputType'     => 'select',
 	'options'       => array('2_1','16_9','16_10','4_3','5_4','1_1'),
 	'reference'		=> &$GLOBALS['TL_LANG']['tl_module']['contacts_mapAspectOptions'],
-	'default'       => 'default',
+	'default'       => '16_10',
 	'eval'          => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
 	'sql'           => "varchar(8) NOT NULL default ''"
 );
@@ -184,36 +185,21 @@ class tl_module_contacts extends Backend {
 	/**
 	 * Return all contacts templates as array
 	 * @param $strTemplatePrefix string
-	 * @param $filter array
+	 * @param $templateFirst string
 	 * @return array
 	 */
-	protected static function getTemplateGroupFiltered($strTemplatePrefix, $filters)
+	protected function getTemplateGroupResorted($strTemplatePrefix, $templateFirst)
 	{
-		$templates = self::getTemplateGroup($strTemplatePrefix);
-		if (is_array($filters) && !empty($filters))
+		$templatesResorted = array($templateFirst);
+		$templates = $this->getTemplateGroup($strTemplatePrefix);
+		foreach ($templates as $template)
 		{
-			$templatesFiltered = array();
-			foreach ($templates as $template)
+			if ($template !== $templateFirst)
 			{
-				// any filter which matches?
-				$filtered = false;
-				foreach ($filters as $strFilterPrefix)
-				{
-					if (0 == strncmp($template, $strFilterPrefix, strlen($strFilterPrefix)))
-					{
-						$filtered = true;
-						break;
-					}
-				}
-				// no filter has matched
-				if (!$filtered)
-				{
-					$templatesFiltered[] = $template;
-				}
-			}			
-			$templates = $templatesFiltered;
-		}
-		return $templates;
+				$templatesResorted[] = $template;
+			}
+		}			
+		return $templatesResorted;
 	}
 
 	/**
@@ -223,6 +209,11 @@ class tl_module_contacts extends Backend {
 	 */
 	public function getContactTemplates(DataContainer $dc)
 	{
+		switch ($dc->activeRecord->type)
+		{
+			case 'contact_gmaps':
+				return $this->getTemplateGroupResorted('contact_', 'contact_gmaps');
+		}
 		return $this->getTemplateGroup('contact_');
 	}
 

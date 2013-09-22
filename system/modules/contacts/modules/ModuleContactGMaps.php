@@ -81,15 +81,16 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 	{
 		// get contact details
 		$arrOptions = array();
-		$arrOptions['addFieldsFilter'] = $this->contacts_addFieldsFilter;
-		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
-		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings), true);
+		$arrOptions['addFieldsFilter'] = false;
+		$arrOptions['addNetworksFilter'] = false;
+		$arrOptions['extendedSettings'] = array();
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
 		// parse contact gmap
 		$arrMapOptions = array();
 		$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
 		$arrMapOptions['mapAspect'] = $this->contacts_mapAspect;
+		$arrMapOptions['viewId'] = 'm' . $this->objModel->id;
 		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
 		if (!empty($objContact->gmaps))
 		{

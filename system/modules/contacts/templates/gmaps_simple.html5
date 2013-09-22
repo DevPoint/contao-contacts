@@ -1,6 +1,5 @@
 <div id="gmap-canvas<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
 <script>
-var gmap<?php echo $this->id;?>;
 function initialize() {
 	var lat = <?php echo $this->lat;?>;
 	var lng = <?php echo $this->lng;?>;
@@ -10,24 +9,28 @@ function initialize() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
-	var mapUseAutoHeight = <?php echo ($this->useAutoHeight) ? 'true' : 'false';?>;
-	var mapAspect = <?php echo ($this->maxAutoHeightScreenAspect) ? $this->maxAutoHeightScreenAspect : '0';?>;
-	var mapScreenAspect = <?php echo ($this->maxAutoHeightScreenAspect) ? $this->maxAutoHeightScreenAspect : '0';?>;
-	var mapMinAutoHeight = <?php echo ($this->minAutoHeight ) ? $this->minAutoHeight  : '0';?>;
+	<?php if ($this->useAutoHeight):?>
+
+	var useAutoHeight = <?php echo ($this->useAutoHeight) ? 'true' : 'false';?>;
+	var aspect = <?php echo ($this->autoHeightAspect) ? $this->autoHeightAspect : '0';?>;
+	var screenAspect = <?php echo ($this->maxAutoHeightScreenAspect) ? $this->maxAutoHeightScreenAspect : '0';?>;
 	var calculateAutoHeight = function() {
-		if (mapUseAutoHeight) {
+		if (useAutoHeight) {
 			var clientHeight = (window.innerWidth != undefined) ? window.innerHeight : document.documentElement.clientHeight;
-			var maxAutoHeight = clientHeight * mapScreenAspect;
-			var autoHeight = Math.max(gmapCanvas.offsetWidth * mapAspect, mapMinAutoHeight);
+			var maxAutoHeight = clientHeight * screenAspect;
+			var minAutoHeight = <?php echo ($this->minAutoHeight ) ? $this->minAutoHeight : '0';?>;
+			var autoHeight = Math.max(gmapCanvas.offsetWidth * aspect, minAutoHeight);
 			if (0 < autoHeight || 0 < maxAutoHeight) {
 				if (autoHeight > maxAutoHeight) autoHeight = maxAutoHeight;
 				gmapCanvas.style.height = Math.round(autoHeight) + 'px';
 			}
 		}
 	}
-	calculateAutoHeight();
-	gmap<?php echo $this->id;?> = new google.maps.Map(gmapCanvas, mapOptions);
 	google.maps.event.addDomListener(window, 'resize', calculateAutoHeight);
+	calculateAutoHeight();
+	<?php endif;?>
+
+	var map = new google.maps.Map(gmapCanvas, mapOptions);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>

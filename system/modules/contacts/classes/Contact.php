@@ -204,7 +204,7 @@ class Contact extends \Frontend {
 		{
 			$geoCoords = explode(',', $objContact->geoCoords);
 			$gmapsTemplate = new \FrontendTemplate($strTemplate);
-			$gmapsTemplate->id = $objContact->id;
+			$gmapsTemplate->id = $objContact->id . $arrMapOptions['viewId'];
 			$gmapsTemplate->lat = $geoCoords[0];
 			$gmapsTemplate->lng = $geoCoords[1];
 			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $GLOBALS['TL_CONTACTS']['mapOptions']['defaultZoom'];
@@ -214,6 +214,7 @@ class Contact extends \Frontend {
 			$gmapsTemplate->autoHeightAspect = $autoHeightParam['aspect'];
 			$gmapsTemplate->minAutoHeight = $autoHeightParam['min'];
 			$gmapsTemplate->maxAutoHeightScreenAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['maxScreenAspect'];
+			$gmapsTemplate->maxAutoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['maxAspect'];
 			$result = $gmapsTemplate->parse();
 		}
 		return $result;

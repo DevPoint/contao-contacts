@@ -58,6 +58,7 @@ $GLOBALS['TL_CONTACTS'] = array
 	'mapOptions'		=> array(
 		'defaultZoom'		=> 6,
 		'maxScreenAspect'	=> 0.9,
+		'maxAspect'			=> 1.333,
 		'autoHeight'		=> array(
 			'2_1' 				=> array('aspect'=>0.5, 'min'=>256),
 			'16_9' 				=> array('aspect'=>0.5625, 'min'=>288),
