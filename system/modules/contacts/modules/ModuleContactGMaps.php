@@ -91,6 +91,7 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
 		$arrMapOptions['mapAspect'] = $this->contacts_mapAspect;
 		$arrMapOptions['viewId'] = 'm' . $this->objModel->id;
+		$arrMapOptions['addInfoWindow'] = false;
 		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
 		if (!empty($objContact->gmaps))
 		{

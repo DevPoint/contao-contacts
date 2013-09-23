@@ -216,6 +216,7 @@ class Contact extends \Frontend {
 			$gmapsTemplate->minAutoHeight = ($arrAspectRatioParams['min']) ? $arrAspectRatioParams['min'] : 0;
 			$gmapsTemplate->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
 			$gmapsTemplate->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
+			$gmapsTemplate->addInfoWindow = ($arrMapOptions['addInfoWindow']) ? true : false;
 			$gmapsTemplate->name = $objContact->name;
 			$gmapsTemplate->name2 = $objContact->name2;
 			$gmapsTemplate->street = $objContact->street;
