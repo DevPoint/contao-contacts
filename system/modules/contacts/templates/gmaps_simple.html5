@@ -47,7 +47,7 @@ function initialize() {
 		title: markerTitle
 	});
 	<?php if ($this->addInfoWindow):?>
-
+	
 	// create info window content
 	var contentStr = '';
 	<?php if ($marker->name):?>
@@ -65,7 +65,7 @@ function initialize() {
 
 	// add info window to marker
 	var infowindow = new google.maps.InfoWindow({
-		content: '<div class="content">' + contentStr + '</div>'
+		content: '<div class="info_window">' + contentStr + '</div>'
 	});
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.open(map,marker);

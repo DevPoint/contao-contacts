@@ -199,6 +199,7 @@ class Contact extends \Frontend {
 	 */
 	public static function compileContactMapMarker($objContact)
 	{
+		// add contact properties to result
 		$result = new stdClass();
 		$geoCoords = explode(',', $objContact->geoCoords);
 		$result->lat = trim($geoCoords[0]);
@@ -209,6 +210,16 @@ class Contact extends \Frontend {
 		$result->cityPostal = $objContact->cityPostal;
 		$result->postal = $objContact->postal;
 		$result->city = $objContact->city;
+		$result->phone = $objContact->phone;
+		$result->email = $objContact->email;
+		
+		// add various labels to result
+		$fieldLabelsShort = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
+		foreach($GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'] as $field => $label)
+		{
+			$result->{$field.'_label'} = $label;
+			$result->{$field.'_label_short'} = (isset($fieldLabelsShort[$field])) ? $fieldLabelsShort[$field] : $label;
+		}
 		return $result;
 	}
 
