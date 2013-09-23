@@ -1,4 +1,4 @@
-<div class="layout_gmaps_basic block<?php echo $this->class;?>">
+<div class="layout_gmaps block<?php echo $this->class;?>">
 
 <?php if ($this->gmaps):?>
 <div class="gmaps">

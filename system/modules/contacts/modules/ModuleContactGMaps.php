@@ -94,7 +94,7 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
 		if (!empty($objContact->gmaps))
 		{
-			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&sensor=false';
+			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&sensor=false';
 		}
 
 		// parse contact

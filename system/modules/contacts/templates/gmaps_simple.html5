@@ -1,16 +1,10 @@
 <div id="gmap-canvas<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
 <script>
 function initialize() {
-	var lat = <?php echo $this->lat;?>;
-	var lng = <?php echo $this->lng;?>;
-	var mapOptions = {
-		zoom: <?php echo $this->zoom;?>,
-		center: new google.maps.LatLng(lat, lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
 	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
 	<?php if ($this->useAutoHeight === 'true'):?>
 
+	// automatic calculation of canvas height
 	var calculateAutoHeight = function() {
 		var useAutoHeight = <?php echo $this->useAutoHeight;?>;
 		if (useAutoHeight) {
@@ -34,7 +28,56 @@ function initialize() {
 	calculateAutoHeight();
 	<?php endif;?>
 
+	// create google map
+	var lat = <?php echo $this->lat;?>;
+	var lng = <?php echo $this->lng;?>;
+	var mapCenter = new google.maps.LatLng(lat, lng);
+	var mapOptions = {
+		zoom: <?php echo $this->zoom;?>,
+		center: mapCenter,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
 	var map = new google.maps.Map(gmapCanvas, mapOptions);
+
+	// add marker to google map
+	var markerTitle = '<?php echo $this->name;?>'<?php if ($this->city):?> + ' - <?php echo $this->city?>'<?php endif;?>;
+	var marker = new google.maps.Marker({
+		position: mapCenter,
+		map: map,
+		title: markerTitle
+	});
+
+	// create info window content
+	var cityStr = '';
+	var contentStr = '';
+	<?php if ($this->name):?>
+	
+	contentStr += '<?php echo '<div class="name">'.$this->name.'</div>';?>';
+	<?php endif;?>
+	<?php if ($this->street):?>
+
+	contentStr += '<?php echo '<div class="street">'.$this->street.'</div>';?>';
+	<?php endif;?>
+	<?php if ($this->postal || $this->city):?>
+	<?php if ($this->postal):?>
+
+	cityStr += '<?php echo '<span class="postal">'.$this->postal.'</span>';?><?php if ($this->city):?><?php echo ' ';?><?php endif;?>';
+	<?php endif;?>
+	<?php if ($this->city):?>
+
+	cityStr += '<?php echo '<span class="city">'.$this->city.'</span>';?>';
+	<?php endif;?>
+
+	contentStr += '<div class="city_postal">' + cityStr + '</div>';
+	<?php endif;?>
+	
+	// add info window to marker
+	var infowindow = new google.maps.InfoWindow({
+		content: '<div class="content">' + contentStr + '</div>'
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>

@@ -290,7 +290,7 @@ class tl_contacts extends Backend
 	 * @param $dc DataContainer
 	 * @return string
 	 */
-	function generateCoords($varValue, DataContainer $dc) 
+	public function generateCoords($varValue, DataContainer $dc) 
 	{
 		if (!$varValue)
 		{
