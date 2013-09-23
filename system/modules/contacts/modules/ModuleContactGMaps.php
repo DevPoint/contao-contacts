@@ -87,22 +87,29 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
 		// parse contact gmap
-		$arrMapOptions = array();
-		$arrMapOptions['mapZoom'] = $this->contacts_mapZoom;
-		$arrMapOptions['mapAspect'] = $this->contacts_mapAspect;
-		$arrMapOptions['viewId'] = 'm' . $this->objModel->id;
-		$arrMapOptions['addInfoWindow'] = false;
-		$objContact->gmaps = Contact::parseContactMap($this->objContact, 'gmaps_simple', $arrMapOptions);
-		if (!empty($objContact->gmaps))
+		if (!empty($objContact->geoCoords))
 		{
-			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&sensor=false';
+			$arrCenter = explode(',', $objContact->geoCoords);
+			$mapTemplate = new \FrontendTemplate('gmaps_simple');
+			$mapTemplate->id = $objContact->id . 'm' . $this->objModel->id;
+			$mapTemplate->lat = trim($arrCenter[0]);
+			$mapTemplate->lng = trim($arrCenter[1]);
+			$mapTemplate->zoom = $this->contacts_mapZoom;
+			$mapTemplate->mapAspect = $this->contacts_mapAspect;
+			$mapTemplate->addInfoWindow = true;
+			$mapTemplate->markers = array(Contact::compileContactMapMarker($objContact));
+			$mapTemplate = Contact::getContactMapDetails($mapTemplate);
+			$objContact->gmaps = $mapTemplate->parse();
+			if ($objContact->gmaps)
+			{
+				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&sensor=false';
+			}
 		}
 
 		// parse contact
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
 		$this->Template->contacts = $objTemplate->parse();
-
 	}
 }
 

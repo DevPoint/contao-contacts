@@ -191,40 +191,44 @@ class Contact extends \Frontend {
 	}
 
 	/**
-	 * Parse Gmaps
+	 * Compile Contact Map marker
 	 * @param $objContact mixed
 	 * @param $strTemplate string
 	 * @param $arrMapOptions array
 	 * @return string
 	 */
-	public static function parseContactMap($objContact, $strTemplate, $arrMapOptions=null)
+	public static function compileContactMapMarker($objContact)
 	{
-		$result = '';
-		if (!empty($objContact->geoCoords))
-		{
-			$geoCoords = explode(',', $objContact->geoCoords);
-			$arrGlobalOptions = &$GLOBALS['TL_CONTACTS']['mapOptions'];
-			$gmapsTemplate = new \FrontendTemplate($strTemplate);
-			$gmapsTemplate->id = $objContact->id . $arrMapOptions['viewId'];
-			$gmapsTemplate->lat = $geoCoords[0];
-			$gmapsTemplate->lng = $geoCoords[1];
-			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $arrGlobalOptions['defaultZoom'];
-			$gmapsTemplate->useAutoHeight = ($arrMapOptions['mapAspect']) ? 'true' : 'false';
-			$mapAspectRatio = ($arrMapOptions['mapAspect']) ? $arrMapOptions['mapAspect'] : '16_10';
-			$arrAspectRatioParams = &$arrGlobalOptions['autoHeight'][$mapAspectRatio];
-			$gmapsTemplate->autoHeightAspect = ($arrAspectRatioParams['aspect']) ? $arrAspectRatioParams['aspect'] : 0;
-			$gmapsTemplate->minAutoHeight = ($arrAspectRatioParams['min']) ? $arrAspectRatioParams['min'] : 0;
-			$gmapsTemplate->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
-			$gmapsTemplate->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
-			$gmapsTemplate->addInfoWindow = ($arrMapOptions['addInfoWindow']) ? true : false;
-			$gmapsTemplate->name = $objContact->name;
-			$gmapsTemplate->name2 = $objContact->name2;
-			$gmapsTemplate->street = $objContact->street;
-			$gmapsTemplate->postal = $objContact->postal;
-			$gmapsTemplate->city = $objContact->city;
-			$result = $gmapsTemplate->parse();
-		}
+		$result = new stdClass();
+		$geoCoords = explode(',', $objContact->geoCoords);
+		$result->lat = trim($geoCoords[0]);
+		$result->lng = trim($geoCoords[1]);
+		$result->name = $objContact->name;
+		$result->name2 = $objContact->name2;
+		$result->street = $objContact->street;
+		$result->cityPostal = $objContact->cityPostal;
+		$result->postal = $objContact->postal;
+		$result->city = $objContact->city;
 		return $result;
+	}
+
+	/**
+	 * Get Contact Map details
+	 * @param $objMap object
+	 * @return string
+	 */
+	public static function getContactMapDetails($objMap)
+	{
+		$arrGlobalOptions = &$GLOBALS['TL_CONTACTS']['mapOptions'];
+		$mapAspect = ($objMap->mapAspect) ? $objMap->mapAspect : '16_10';
+		$arrAspectParams = &$arrGlobalOptions['autoHeight'][$mapAspect];
+		if (!$objMap->zoom) $objMap->zoom = $arrGlobalOptions['defaultZoom'];
+		$objMap->useAutoHeight = ($objMap->mapAspect) ? 'true' : 'false';
+		$objMap->autoHeightAspect = ($arrAspectParams['aspect']) ? $arrAspectParams['aspect'] : 0;
+		$objMap->minAutoHeight = ($arrAspectParams['min']) ? $arrAspectParams['min'] : 0;
+		$objMap->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
+		$objMap->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
+		return $objMap;
 	}
 
 	/**
@@ -290,6 +294,22 @@ class Contact extends \Frontend {
 			{
 				$objContact->{$field} = null;
 			}
+		}
+
+		// create city and postal string
+		if ($objContact->postal || $objContact->city)
+		{
+			$cityPostalStr = '';
+			if ($objContact->postal) 
+			{
+				$cityPostalStr .= $objContact->postal;
+				if ($objContact->city) $cityPostalStr .= ' ';
+			}
+			if ($objContact->city) 
+			{
+				$cityPostalStr .= $objContact->city;
+			}	
+			$objContact->cityPostal = $cityPostalStr;
 		}
 
 		// create labels

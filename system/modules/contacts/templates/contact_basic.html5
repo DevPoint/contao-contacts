@@ -12,8 +12,8 @@
 <?php if ($this->street):?>
 <div class="street"><?php echo $this->street;?></div>
 <?php endif;?>
-<?php if ($this->postal || $this->city):?>
-<div class="city_postal"><?php if ($this->postal):?><span class="postal"><?php echo $this->postal;?> </span><?php endif;?><span class="city"><?php echo $this->city;?></span></div>
+<?php if ($this->cityPostal):?>
+<div class="city_postal"><?php echo $this->cityPostal;?></div>
 <?php endif;?>
 <?php if ($this->phone):?>
 <div class="phone"><?php if ($this->phone_label):?><span class="label"><?php echo $this->phone_label;?></span><?php endif;?><?php if ($this->phone_href):?><a href="<?php echo $this->phone_href;?>"><?php endif;?><span class="value"><?php echo $this->phone;?></span><?php if ($this->phone_href):?></a><?php endif;?></div>
