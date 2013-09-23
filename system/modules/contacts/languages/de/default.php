@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Contao Open Source CMS
  *
@@ -20,10 +19,10 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @package    Contacts
- * @copyright  DevPoint | Wilfried Reiter 2013
- * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
- * @license MIT
+ * @package    	Contacts
+ * @copyright  	DevPoint | Wilfried Reiter 2013
+ * @author     	DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
+ * @license		LGPL
  */
 
 $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(

@@ -5,12 +5,12 @@
  *
  * Copyright (C) 2005-2013 Leo Feyer
  *
- * @package    Contacts
- * @copyright  DevPoint | Wilfried Reiter 2013
- * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
- * @link       http://contao.org
- * @license    MIT
- */
+ * @package    	Contacts
+ * @copyright  	DevPoint | Wilfried Reiter 2013
+ * @author     	DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
+ * @link       	http://devpoint.at
+ * @license		LGPL
+*/
 
 
 /**
@@ -30,9 +30,9 @@ array_insert($GLOBALS['BE_MOD']['content'], 1, array
  */
 $GLOBALS['FE_MOD']['contacts'] = array
 (
-    'contact' 		=> 'ModuleContact',
-    'contact_gmaps'	=> 'ModuleContactGMaps',
-    'contact_list'	=> 'ModuleContactList',
+	'contact' 		=> 'ModuleContact',
+	'contact_gmaps'	=> 'ModuleContactGMaps',
+	'contact_list'	=> 'ModuleContactList',
 );
 
 

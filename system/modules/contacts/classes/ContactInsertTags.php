@@ -20,9 +20,10 @@
  * Software Foundation website at http://www.gnu.org/licenses/.
  *
  * PHP version 5
- * @package    Contacts
- * @copyright  DevPoint | Wilfried Reiter 2013
- * @author     DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
+ * @package     Contacts
+ * @copyright   DevPoint | Wilfried Reiter 2013
+ * @author      DevPoint | Wilfried Reiter <wilfried.reiter@devpoint.at>
+ * @license		LGPL
  */
 
 class ContactInsertTags extends \Frontend {
@@ -48,6 +49,8 @@ class ContactInsertTags extends \Frontend {
 					}
 					break;
 				}
+				case 'geo_dec_lat':
+				case 'geo_dec_lng':
 				case 'geo_dms_lat':
 				case 'geo_dms_lng':
 				case 'geo_mindec_lat':
@@ -64,6 +67,12 @@ class ContactInsertTags extends \Frontend {
 							$lng = trim($geoCoords[1]);
 							switch ($arrParams[0])
 							{
+								case 'geo_dec_lat':
+									$result = $lat;
+									break;
+								case 'geo_dec_lng':
+									$result = $lng;
+									break;
 								case 'geo_dms_lat':
 									$result = Contact::parseGeoCoordDMS($lat, array('N','S'));
 									break;
