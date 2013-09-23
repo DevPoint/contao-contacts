@@ -203,18 +203,19 @@ class Contact extends \Frontend {
 		if (!empty($objContact->geoCoords))
 		{
 			$geoCoords = explode(',', $objContact->geoCoords);
+			$arrGlobalOptions = &$GLOBALS['TL_CONTACTS']['mapOptions'];
 			$gmapsTemplate = new \FrontendTemplate($strTemplate);
 			$gmapsTemplate->id = $objContact->id . $arrMapOptions['viewId'];
 			$gmapsTemplate->lat = $geoCoords[0];
 			$gmapsTemplate->lng = $geoCoords[1];
-			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $GLOBALS['TL_CONTACTS']['mapOptions']['defaultZoom'];
-			$gmapsTemplate->useAutoHeight = ($arrMapOptions['mapAspect']) ? true : false;
+			$gmapsTemplate->zoom = ($arrMapOptions['mapZoom']) ? $arrMapOptions['mapZoom'] : $arrGlobalOptions['defaultZoom'];
+			$gmapsTemplate->useAutoHeight = ($arrMapOptions['mapAspect']) ? 'true' : 'false';
 			$mapAspectRatio = ($arrMapOptions['mapAspect']) ? $arrMapOptions['mapAspect'] : '16_10';
-			$autoHeightParam = &$GLOBALS['TL_CONTACTS']['mapOptions']['autoHeight'][$mapAspectRatio];
-			$gmapsTemplate->autoHeightAspect = $autoHeightParam['aspect'];
-			$gmapsTemplate->minAutoHeight = $autoHeightParam['min'];
-			$gmapsTemplate->maxAutoHeightScreenAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['maxScreenAspect'];
-			$gmapsTemplate->maxAutoHeightAspect = $GLOBALS['TL_CONTACTS']['mapOptions']['maxAspect'];
+			$arrAspectRatioParams = &$arrGlobalOptions['autoHeight'][$mapAspectRatio];
+			$gmapsTemplate->autoHeightAspect = ($arrAspectRatioParams['aspect']) ? $arrAspectRatioParams['aspect'] : 0;
+			$gmapsTemplate->minAutoHeight = ($arrAspectRatioParams['min']) ? $arrAspectRatioParams['min'] : 0;
+			$gmapsTemplate->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
+			$gmapsTemplate->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
 			$result = $gmapsTemplate->parse();
 		}
 		return $result;

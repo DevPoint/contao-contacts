@@ -9,17 +9,21 @@ function initialize() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
-	<?php if ($this->useAutoHeight):?>
+	<?php if ($this->useAutoHeight === 'true'):?>
 
-	var useAutoHeight = <?php echo ($this->useAutoHeight) ? 'true' : 'false';?>;
-	var aspect = <?php echo ($this->autoHeightAspect) ? $this->autoHeightAspect : '0';?>;
-	var screenAspect = <?php echo ($this->maxAutoHeightScreenAspect) ? $this->maxAutoHeightScreenAspect : '0';?>;
 	var calculateAutoHeight = function() {
+		var useAutoHeight = <?php echo $this->useAutoHeight;?>;
 		if (useAutoHeight) {
+			var minAutoHeight = <?php echo ($this->minAutoHeight);?>;
+			if (minAutoHeight > gmapCanvas.offsetWidth * <?php echo $this->maxAutoHeightAspect;?>) {
+				minAutoHeight = gmapCanvas.offsetWidth * <?php echo $this->maxAutoHeightAspect;?>;
+			}
+			var autoHeight = gmapCanvas.offsetWidth * <?php echo $this->autoHeightAspect;?>;
+			if (autoHeight < minAutoHeight) {
+				autoHeight = minAutoHeight;	
+			} 
 			var clientHeight = (window.innerWidth != undefined) ? window.innerHeight : document.documentElement.clientHeight;
-			var maxAutoHeight = clientHeight * screenAspect;
-			var minAutoHeight = <?php echo ($this->minAutoHeight ) ? $this->minAutoHeight : '0';?>;
-			var autoHeight = Math.max(gmapCanvas.offsetWidth * aspect, minAutoHeight);
+			var maxAutoHeight = clientHeight * <?php echo $this->maxAutoHeightScreenAspect;?>;
 			if (0 < autoHeight || 0 < maxAutoHeight) {
 				if (autoHeight > maxAutoHeight) autoHeight = maxAutoHeight;
 				gmapCanvas.style.height = Math.round(autoHeight) + 'px';
