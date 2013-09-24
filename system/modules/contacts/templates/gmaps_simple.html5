@@ -1,7 +1,7 @@
-<div id="gmap-canvas<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
+<div id="gmap-canvas-<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
 <script>
 function initialize() {
-	var gmapCanvas = document.getElementById('gmap-canvas<?php echo $this->id;?>');
+	var gmapCanvas = document.getElementById('gmap-canvas-<?php echo $this->id;?>');
 	<?php if ($this->useAutoHeight === 'true'):?>
 
 	// automatic calculation of canvas height

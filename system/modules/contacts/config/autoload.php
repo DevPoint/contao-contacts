@@ -27,7 +27,7 @@ TemplateLoader::addFiles(array
 (
 	'mod_contact'		=> 'system/modules/contacts/templates',
 	'contact_basic'		=> 'system/modules/contacts/templates',
-	'contact_links'		=> 'system/modules/contacts/templates',
+	'contact_networks'	=> 'system/modules/contacts/templates',
 	'contact_gmaps'		=> 'system/modules/contacts/templates',
 	'gmaps_simple'		=> 'system/modules/contacts/templates',
 ));

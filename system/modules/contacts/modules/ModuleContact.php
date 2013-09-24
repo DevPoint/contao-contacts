@@ -86,7 +86,7 @@ class ModuleContact extends \ModuleBaseContact {
 		$arrOptions['fieldsFilter'] = deserialize($this->contacts_fieldsFilter);
 		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
 		$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
-		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings), true);
+		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings, true), true);
 		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
 		// parse contact gmap

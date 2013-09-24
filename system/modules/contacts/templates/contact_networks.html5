@@ -1,0 +1,11 @@
+<nav class="layout_networks block<?php echo $this->class;?>">
+<ul>
+
+<?php if (is_array($this->networks)):?>
+<?php foreach ($this->networks as $network => $arrNetwork):?>
+<li class="network <?php echo strtolower($network);?>"><a href="<?php echo $arrNetwork['link'];?>" title="<?php echo $arrNetwork['name'];?>" target="_blank"><span class="value"><?php echo $arrNetwork['name'];?></span></a></li>
+<?php endforeach;?>
+<?php endif;?>
+
+</ul>
+</nav>

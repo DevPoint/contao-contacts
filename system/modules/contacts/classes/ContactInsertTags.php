@@ -28,10 +28,10 @@
 
 class ContactInsertTags extends \Frontend {
 
-	public function replaceInsertTags($strTag, $blnCache)
+	protected function replaceInsertTags($strBuffer, $blnCache=true)
 	{
 		$result = false;
-		$arrSplit = explode('::', $strTag);
+		$arrSplit = explode('::', $strBuffer);
 		if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
 		{
 			$arrParams = explode(':', $arrSplit[1]);

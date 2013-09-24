@@ -201,7 +201,7 @@ class Contact extends \Frontend {
 	public static function compileContactMapMarker($objContact)
 	{
 		// add contact properties to result
-		$result = new stdClass();
+		$result = new \stdClass();
 		$geoCoords = explode(',', $objContact->geoCoords);
 		$result->lat = trim($geoCoords[0]);
 		$result->lng = trim($geoCoords[1]);
@@ -260,18 +260,25 @@ class Contact extends \Frontend {
 			return null;
 		}
 
-		// try to locate contact in Cache
+		// What options are provided by caller?
 		$hasOptions = (is_array($arrOptions) && !empty($arrOptions));
+		$hasFilters = ($hasOptions && $arrOptions['addFieldsFilter'] && !empty($arrOptions['fieldsFilter']));
+		$hasNetworkFilters = ($hasOptions && $arrOptions['addNetworksFilter'] && !empty($arrOptions['networksFilter']));
+		$hasExtendedSetting = ($hasOptions && !empty($arrOptions['extendedSettings']));
+		$hasOptions = ($hasFilters || $hasNetworkFilters || $hasExtendedSetting);
+
+		// try to locate contact in Cache
 		$strCacheKey = (!$hasOptions) ? (__METHOD__ . '-' . $contactId) : false;
 		if (false !== $strCacheKey && \Cache::has($strCacheKey))
 		{
-			//\System::log("Contact from Cache", "", TL_GENERAL);
+			//\System::log("Contact from Cache: {$contactId}", "", TL_GENERAL);
 			return \Cache::get($strCacheKey);
 		}
 
 		// load contact if necessary
 		if (!is_object($objContact))
 		{
+			//\System::log("Contact from Database: {$contactId}", "", TL_GENERAL);
 			$db = \Database::getInstance();
 			if ('@default' === $contactId)
 			{
