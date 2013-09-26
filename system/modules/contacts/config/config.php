@@ -37,6 +37,15 @@ $GLOBALS['FE_MOD']['contacts'] = array
 
 
 /**
+ * Content elements
+ */
+array_insert($GLOBALS['TL_CTE']['media'], count($GLOBALS['TL_CTE']['media']), array
+(
+	'contact' => 'ContentContact'
+));
+
+
+/**
  * Contact module settings
  */
 $GLOBALS['TL_CONTACTS'] = array
