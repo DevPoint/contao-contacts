@@ -25,6 +25,16 @@
  * @license		LGPL
  */
 
+
+/**
+ * Miscellaneous
+ */
+$GLOBALS['TL_LANG']['CTE']['contact'] = array('Kontakt','Element zur Anzeige von Kontaktdaten.');
+
+
+/**
+ * Common module contact translations
+ */
 $GLOBALS['TL_LANG']['MSC']['tl_contacts'] = array(
 	'networkChannels' => array(
 		'Facebook'	=> 'Facebook',

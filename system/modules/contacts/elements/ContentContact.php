@@ -35,25 +35,6 @@ class ContentContact extends \ContentElement {
 	protected $strTemplate = 'ce_contact';
 
 	/**
-	 * Compile module
-	 */
-	public function generate()
-	{
-		// Wildcard for BE mode
-		if (TL_MODE == 'BE')
-		{
-			$this->objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
-										->limit(1)
-										->execute($this->contacts_singleSRC);
-			return '<h1>' . $objContact->title . '</h1>';
-		}
-
-		// Call parent class
-		return parent::generate();
-	}
-
-
-	/**
 	 * Generate module
 	 */
 	protected function compile() 
@@ -79,29 +60,19 @@ class ContentContact extends \ContentElement {
 		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings, true), true);
 		$objContact = Contact::getContactDetails($objContact, $arrOptions);
 
-		// parse contact gmap
-		if (true === $arrOptions['extendedSettings']['gmap_enable'] && !empty($objContact->geoCoords))
-		{
-			$arrCenter = explode(',', $objContact->geoCoords);
-			$mapTemplate = new \FrontendTemplate('gmaps_simple');
-			$mapTemplate->id = $objContact->id . 'm' . $this->objModel->id;
-			$mapTemplate->lat = trim($arrCenter[0]);
-			$mapTemplate->lng = trim($arrCenter[1]);
-			$mapTemplate->zoom = $this->contacts_mapZoom;
-			$mapTemplate->mapAspect = $this->contacts_mapAspect;
-			$mapTemplate->markers = array(Contact::compileContactMapMarker($objContact));
-			$mapTemplate = Contact::getContactMapDetails($mapTemplate);
-			$objContact->gmaps = $mapTemplate->parse();
-			if ($objContact->gmaps)
-			{
-				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&amp;sensor=false';
-			}
-		}
-
 		// parse contact
-		$objTemplate = new \FrontendTemplate($this->contacts_template);
-		$objTemplate->setData($objContact->row());
-		$this->Template->contacts = $objTemplate->parse();
+		if (TL_MODE == 'BE')
+		{
+			$objTemplate = new \BackendTemplate($this->contacts_template);
+			$objTemplate->setData($objContact->row());
+			$this->Template->contacts = $objTemplate->parse();
+		}
+		else
+		{
+			$objTemplate = new \FrontendTemplate($this->contacts_template);
+			$objTemplate->setData($objContact->row());
+			$this->Template->contacts = $objTemplate->parse();
+		}
 	}
 }
 

@@ -33,7 +33,7 @@
  */
 $GLOBALS['TL_DCA']['tl_content']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_content']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['contact'] = '{title_legend},type,headline;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['contact'] = '{type_legend},type,headline;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_content
