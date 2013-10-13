@@ -103,7 +103,7 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 			$objContact->gmaps = $mapTemplate->parse();
 			if ($objContact->gmaps)
 			{
-				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&amp;sensor=false';
+				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
 			}
 		}
 
