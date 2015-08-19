@@ -1,6 +1,7 @@
 <div id="gmap-canvas-<?php echo $this->id;?>" class="gmap-canvas" <?php if($this->styles):?> style="<?php echo $this->styles;?>"<?php endif;?>></div>
 <script>
 function initialize() {
+    var marker, markerPos, markerTitle, infoWindow, contact;
 	var gmapCanvas = document.getElementById('gmap-canvas-<?php echo $this->id;?>');
 	<?php if ($this->useAutoHeight === 'true'):?>
 
@@ -29,51 +30,73 @@ function initialize() {
 	<?php endif;?>
 
 	// create google map
+    var i18n = {
+        label_phone: "Tel: "
+    };
 	var mapCenter = new google.maps.LatLng(<?php echo $this->lat;?>, <?php echo $this->lng;?>);
 	var mapOptions = {
 		zoom: <?php echo $this->zoom;?>,
 		center: mapCenter,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
+    var createMarker = function(map,position,title) {
+        var marker = new google.maps.Marker({
+            position: position,
+            title: title,
+            map: map
+        });
+        return marker;
+    };
+    var addInfoWindow = function(map,marker,contact) {
+        var contentStr = '';
+        contentStr += '  <div>' + contact.name + '</div>';
+        contentStr += '  <div>' + contact.street + '</div>';
+        contentStr += '  <div>' + contact.city + '</div>';
+        var infoWindow = new google.maps.InfoWindow({
+            content: '<div class="info-window">' + contentStr + '</div>'
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.open(map, marker);
+        });
+        return infoWindow;
+    };
+
+    // add markers and info windows
 	var map = new google.maps.Map(gmapCanvas, mapOptions);
-	<?php foreach ($this->markers as $marker):?>
-
-	// add marker to google map
-	var markerPos = new google.maps.LatLng(<?php echo $marker->lat;?>, <?php echo $marker->lng;?>);
-	var markerTitle = '<?php echo $marker->name;?>'<?php if ($marker->city):?> + ' - <?php echo $marker->city?>'<?php endif;?>;
-	var marker = new google.maps.Marker({
-		position: markerPos,
-		map: map,
-		title: markerTitle
-	});
-	<?php if ($this->addInfoWindow):?>
-	
-	// create info window content
-	var contentStr = '';
-	<?php if ($marker->name):?>
-	
-	contentStr += '<?php echo '<div class="name">'.$marker->name.'</div>';?>';
-	<?php endif;?>
+    <?php foreach ($this->markers as $marker) : ?> 
+	contact = {
+		name: '<?php echo $marker->name;?>',
+		lat: <?php echo $marker->lat;?>,
+		lng: <?php echo $marker->lng;?>,
+	};
+	<?php if ($marker->name2):?>
+	contact.name2 = '<?php echo $marker->name2?>';
+	<?php endif; ?>
 	<?php if ($marker->street):?>
-	
-	contentStr += '<?php echo '<div class="street">'.$marker->street.'</div>';?>';
+	contact.street = '<?php echo $marker->street?>';
+	<?php endif; ?>
+	<?php if ($marker->city):?>
+	contact.city = '<?php echo $marker->city?>';
+	<?php endif; ?>
+	<?php if ($marker->postal):?>
+	contact.postal = '<?php echo $marker->postal?>';
+	<?php endif; ?>
+	<?php if ($marker->country):?>
+	contact.country = '<?php echo $marker->country?>';
+	<?php endif; ?>
+	<?php if ($marker->phone):?>
+	contact.phone = '<?php echo $marker->phone?>';
+	<?php endif; ?>
+	markerPos = new google.maps.LatLng(contact.lat, contact.lng);
+	markerTitle = '<?php echo $marker->name;?>';
+	if (contact.city) {
+		markerTitle += ', ' + contact.city;
+	}
+	marker = createMarker(map, markerPos, markerTitle);
+	<?php if ($this->addInfoWindow):?>
+	addInfoWindow(map, marker, contact);
 	<?php endif;?>
-	<?php if ($marker->cityPostal):?>
-	
-	contentStr += '<?php echo '<div class="city_postal">'.$marker->cityPostal.'</div>';?>';
-	<?php endif;?>
-
-	// add info window to marker
-	var infowindow = new google.maps.InfoWindow({
-		content: '<div class="info_window">' + contentStr + '</div>'
-	});
-	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.open(map,marker);
-	});
-	<?php endif;?>
-
-	<?php endforeach;?>
-	
+    <?php endforeach; ?>
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
