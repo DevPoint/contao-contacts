@@ -79,6 +79,6 @@ $GLOBALS['TL_CONTACTS'] = array
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ContactInsertTags','replaceInsertTags'); 
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ContactTags','replaceContactInsertTags'); 
 
  

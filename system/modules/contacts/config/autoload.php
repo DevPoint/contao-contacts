@@ -13,7 +13,7 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	'Contact' 				=>	'system/modules/contacts/classes/Contact.php',
-	'ContactInsertTags'		=>	'system/modules/contacts/classes/ContactInsertTags.php',
+	'ContactTags'			=>	'system/modules/contacts/classes/ContactTags.php',
 	'ModuleBaseContact' 	=>	'system/modules/contacts/modules/ModuleBaseContact.php',
 	'ModuleContact' 		=>	'system/modules/contacts/modules/ModuleContact.php',
 	'ModuleContactGMaps'	=>	'system/modules/contacts/modules/ModuleContactGMaps.php',

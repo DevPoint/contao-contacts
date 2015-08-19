@@ -26,12 +26,12 @@
  * @license		LGPL
  */
 
-class ContactInsertTags extends \Frontend {
+class ContactTags extends \Frontend {
 
-	protected function replaceInsertTags($strBuffer, $blnCache=true)
+	public function replaceContactInsertTags($strTag)
 	{
 		$result = false;
-		$arrSplit = explode('::', $strBuffer);
+		$arrSplit = explode('::', $strTag);
 		if ($arrSplit[0] == 'contact' && 2 <= count($arrSplit))
 		{
 			$arrParams = explode(':', $arrSplit[1]);
