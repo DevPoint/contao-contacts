@@ -52,10 +52,10 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		}
 
 		// Return, if contact doesn't exist anymore
-		$this->objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
-									 ->limit(1)
-									 ->execute($this->contacts_singleSRC);
-		if ($this->objContact === null)
+		$multiSRC = deserialize($this->contacts_multiSRC);
+		$arrIds = array_map('intval', $multiSRC);
+		$this->objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id IN(".implode(',', $arrIds).")")->execute();
+		if ($this->objContact === null || $this->objContact->numRows < 1)
 		{
 			return $this->generateEmpty();
 		}
@@ -85,31 +85,38 @@ class ModuleContactGMaps extends \ModuleBaseContact {
 		$arrOptions['addFieldsFilter'] = false;
 		$arrOptions['addNetworksFilter'] = false;
 		$arrOptions['extendedSettings'] = array();
-		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
-		// parse contact gmap
-		if (!empty($objContact->geoCoords))
+		// create markers and map center
+		$centerLat = 0;
+		$centerLng = 0;
+		$mapMarkers = array();
+		while ($this->objContact->next())
 		{
-			$arrCenter = explode(',', $objContact->geoCoords);
-			$mapTemplate = new \FrontendTemplate('gmaps_simple');
-			$mapTemplate->id = $objContact->id . 'm' . $this->objModel->id;
-			$mapTemplate->lat = trim($arrCenter[0]);
-			$mapTemplate->lng = trim($arrCenter[1]);
-			$mapTemplate->zoom = $this->contacts_mapZoom;
-			$mapTemplate->mapAspect = $this->contacts_mapAspect;
-			$mapTemplate->addInfoWindow = true;
-			$mapTemplate->markers = array(Contact::compileContactMapMarker($objContact));
-			$mapTemplate = Contact::getContactMapDetails($mapTemplate);
-			$objContact->gmaps = $mapTemplate->parse();
-			if ($objContact->gmaps)
-			{
-				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
-			}
+			$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
+			$mapMarkers[] = Contact::compileContactMapMarker($objContact);
+			$arrCoords = explode(',', $objContact->geoCoords);
+			$centerLat += trim($arrCoords[0]);
+			$centerLng += trim($arrCoords[1]);
+		//	break;
 		}
 
-		// parse contact
+		// parse map template
+		$mapTemplate = new \FrontendTemplate('gmaps_simple');
+		$mapTemplate->id = 'm' . $this->objModel->id;
+		$mapTemplate->markers = $mapMarkers;
+		$mapTemplate->zoom = $this->contacts_mapZoom;
+		$mapTemplate->mapAspect = $this->contacts_mapAspect;
+		$mapTemplate->addInfoWindow = true;
+		$mapTemplate->lat = $centerLat / $this->objContact->numRows;
+		$mapTemplate->lng = $centerLng / $this->objContact->numRows;
+
+		// parse contact template
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
-		$objTemplate->setData($objContact->row());
+		$objTemplate->gmaps = $mapTemplate->parse();
+		if ($objTemplate->gmaps)
+		{
+			$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
+		}
 		$this->Template->contacts = $objTemplate->parse();
 	}
 }

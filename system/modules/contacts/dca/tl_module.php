@@ -34,7 +34,7 @@
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addFieldsFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'contacts_addNetworksFilter';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['contact'] = '{title_legend},name,headline,type;{contacts_legend},contacts_singleSRC,contacts_template;{contacts_fieldsFilter_legend:hide},contacts_addFieldsFilter,contacts_addNetworksFilter,contacts_extendedSettings,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_maps_legend},contacts_singleSRC,contacts_template,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['contact_gmaps'] = '{title_legend},name,headline,type;{contacts_maps_legend},contacts_multiSRC,contacts_template,contacts_mapZoom,contacts_mapAspect;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add subpalettes to tl_module

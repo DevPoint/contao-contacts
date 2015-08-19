@@ -226,21 +226,21 @@ class Contact extends \Frontend {
 
 	/**
 	 * Get Contact Map details
-	 * @param $objMap object
+	 * @param $objMapTemplate object
 	 * @return string
 	 */
-	public static function getContactMapDetails($objMap)
+	public static function getContactMapDetails($objMapTemplate)
 	{
 		$arrGlobalOptions = &$GLOBALS['TL_CONTACTS']['mapOptions'];
-		$mapAspect = ($objMap->mapAspect) ? $objMap->mapAspect : '16_10';
+		$mapAspect = ($objMapTemplate->mapAspect) ? $objMapTemplate->mapAspect : '16_10';
 		$arrAspectParams = &$arrGlobalOptions['autoHeight'][$mapAspect];
-		if (!$objMap->zoom) $objMap->zoom = $arrGlobalOptions['defaultZoom'];
-		$objMap->useAutoHeight = ($objMap->mapAspect) ? 'true' : 'false';
-		$objMap->autoHeightAspect = ($arrAspectParams['aspect']) ? $arrAspectParams['aspect'] : 0;
-		$objMap->minAutoHeight = ($arrAspectParams['min']) ? $arrAspectParams['min'] : 0;
-		$objMap->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
-		$objMap->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
-		return $objMap;
+		if (!$objMapTemplate->zoom) $objMapTemplate->zoom = $arrGlobalOptions['defaultZoom'];
+		$objMapTemplate->useAutoHeight = ($objMapTemplate->mapAspect) ? 'true' : 'false';
+		$objMapTemplate->autoHeightAspect = ($arrAspectParams['aspect']) ? $arrAspectParams['aspect'] : 0;
+		$objMapTemplate->minAutoHeight = ($arrAspectParams['min']) ? $arrAspectParams['min'] : 0;
+		$objMapTemplate->maxAutoHeightAspect = ($arrGlobalOptions['maxAspect']) ? $arrGlobalOptions['maxAspect'] : 0;
+		$objMapTemplate->maxAutoHeightScreenAspect = ($arrGlobalOptions['maxScreenAspect']) ? $arrGlobalOptions['maxScreenAspect'] : 0;
+		return $objMapTemplate;
 	}
 
 	/**
