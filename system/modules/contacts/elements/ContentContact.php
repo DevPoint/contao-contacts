@@ -58,7 +58,7 @@ class ContentContact extends \ContentElement {
 		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
 		$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
 		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings, true), true);
-		$objContact = Contact::getContactDetails($objContact, $arrOptions);
+		$objContact = \Contact::getContactDetails($objContact, $arrOptions);
 
 		// parse contact
 		if (TL_MODE == 'BE')

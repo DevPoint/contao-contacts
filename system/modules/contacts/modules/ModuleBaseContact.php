@@ -47,6 +47,44 @@ abstract class ModuleBaseContact extends \Module {
 		return '';
 	}
 
+	/**
+	 * Generate map
+	 * @param $objContact mixed
+	 * @param $strTemplate string
+	 * @param $arrOptions array
+	 * @return string
+	 */
+	public function generateContactMap($objContacts, $strTemplate, array $arrOptions = array()) 
+	{
+		// create markers and map center
+		$contactCount = 0;
+		$centerLat = 0;
+		$centerLng = 0;
+		$mapMarkers = array();
+		while ($objContacts->next())
+		{
+			$objContact = \Contact::getContactDetails($objContacts, $arrOptions);
+			$mapMarkers[] = \Contact::buildContactMapMarker($objContact);
+			if (!empty($objContact->geoCoords))
+			{
+				$arrCoords = explode(',', $objContact->geoCoords);
+				$centerLat += trim($arrCoords[0]);
+				$centerLng += trim($arrCoords[1]);
+				$contactCount += 1;
+			}
+		}
+		$objContacts->reset();
+
+		// parse map template
+		$mapTemplate = new \FrontendTemplate($strTemplate);
+		$mapTemplate->id = 'm' . $this->objModel->id;
+		$mapTemplate->markers = $mapMarkers;
+		$mapTemplate->zoom = $this->contacts_mapZoom;
+		$mapTemplate->mapAspect = $this->contacts_mapAspect;
+		$mapTemplate->addInfoWindow = true;
+		$mapTemplate->lat = $centerLat / $contactCount;
+		$mapTemplate->lng = $centerLng / $contactCount;
+		$mapTemplate = \Contact::getContactMapDetails($mapTemplate);
+		return $mapTemplate->parse();
+	}
 }
-
-

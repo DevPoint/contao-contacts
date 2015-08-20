@@ -52,9 +52,7 @@ class ModuleContact extends \ModuleBaseContact {
 		}
 
 		// Return, if contact doesn't exist anymore
-		$this->objContact = $this->Database->prepare("SELECT * FROM tl_contacts WHERE id=?")
-									 ->limit(1)
-									 ->execute($this->contacts_singleSRC);
+		$this->objContact = \ContactsModel::findById($this->contacts_singleSRC);
 		if ($this->objContact === null)
 		{
 			return $this->generateEmpty();
@@ -87,30 +85,31 @@ class ModuleContact extends \ModuleBaseContact {
 		$arrOptions['addNetworksFilter'] = $this->contacts_addNetworksFilter;
 		$arrOptions['networksFilter'] = deserialize($this->contacts_networksFilter);
 		$arrOptions['extendedSettings'] = array_fill_keys(deserialize($this->contacts_extendedSettings, true), true);
-		$objContact = Contact::getContactDetails($this->objContact, $arrOptions);
 
-		// parse contact gmap
-		if (true === $arrOptions['extendedSettings']['gmap_enable'] && !empty($objContact->geoCoords))
-		{
-			$arrCenter = explode(',', $objContact->geoCoords);
-			$mapTemplate = new \FrontendTemplate('gmaps_simple');
-			$mapTemplate->id = $objContact->id . 'm' . $this->objModel->id;
-			$mapTemplate->lat = trim($arrCenter[0]);
-			$mapTemplate->lng = trim($arrCenter[1]);
-			$mapTemplate->zoom = $this->contacts_mapZoom;
-			$mapTemplate->mapAspect = $this->contacts_mapAspect;
-			$mapTemplate->markers = array(Contact::compileContactMapMarker($objContact));
-			$mapTemplate = Contact::getContactMapDetails($mapTemplate);
-			$objContact->gmaps = $mapTemplate->parse();
-			if ($objContact->gmaps)
-			{
-				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.9&amp;sensor=false';
-			}
-		}
-
-		// parse contact
+		// prepare Template
+		$objContact = \Contact::getContactDetails($this->objContact, $arrOptions);
 		$objTemplate = new \FrontendTemplate($this->contacts_template);
 		$objTemplate->setData($objContact->row());
+
+		// generate contact gmap
+		if (true === $arrOptions['extendedSettings']['gmap_enable'] && !empty($objContact->geoCoords))
+		{
+			$arrMapOptions = array();
+			$arrMapOptions['addFieldsFilter'] = false;
+			$arrMapOptions['addNetworksFilter'] = false;
+			$arrMapOptions['extendedSettings'] = array();
+			$objTemplate->gmaps = $this->generateContactMap($this->objContacts, 'gmaps_simple', $arrMapOptions);
+			if ($objTemplate->gmaps)
+			{
+				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
+			}
+		}
+		else
+		{
+			$objTemplate->gmaps = false;
+		}
+
+		// parse contact template
 		$this->Template->contacts = $objTemplate->parse();
 	}
 }

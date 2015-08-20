@@ -14,6 +14,7 @@ ClassLoader::addClasses(array
 (
 	'Contact' 				=>	'system/modules/contacts/classes/Contact.php',
 	'ContactTags'			=>	'system/modules/contacts/classes/ContactTags.php',
+	'ContactsModel' 		=>	'system/modules/contacts/models/ContactsModel.php',
 	'ModuleBaseContact' 	=>	'system/modules/contacts/modules/ModuleBaseContact.php',
 	'ModuleContact' 		=>	'system/modules/contacts/modules/ModuleContact.php',
 	'ModuleContactGMaps'	=>	'system/modules/contacts/modules/ModuleContactGMaps.php',

@@ -151,80 +151,6 @@ class Contact extends \Frontend {
 	}
 	
 	/**
-	 * Create Filter for fields or networks
-	 * as table with index key 
-	 * @param $options array
-	 * @param $hasFilter boolean
-	 * @param $filters array
-	 * @param $excludes array
-	 * @return string
-	 */
-	public static function createOptionsFilterTable($options, $hasFilter, $filters, $excludes=null)
-	{
-		$arrFilter = array();
-		$filterDefault = true;
-		if (is_array($excludes))
-		{
-			foreach ($excludes as $key)
-			{
-				$arrFilter[$key] = false;
-			}
-		}
-		if ($hasFilter)
-		{
-			if (is_array($filters))
-			{
-				foreach ($filters as $key)
-				{
-					$arrFilter[$key] = true;
-				}
-			}
-			$filterDefault = false;
-		}
-		foreach ($options as $key)
-		{
-			if (!isset($arrFilter[$key]))
-			{
-				$arrFilter[$key] = $filterDefault;
-			}
-		}
-		return $arrFilter;
-	}
-
-	/**
-	 * Compile Contact Map marker
-	 * @param $objContact mixed
-	 * @param $strTemplate string
-	 * @param $arrMapOptions array
-	 * @return string
-	 */
-	public static function compileContactMapMarker($objContact)
-	{
-		// add contact properties to result
-		$result = new \stdClass();
-		$geoCoords = explode(',', $objContact->geoCoords);
-		$result->lat = trim($geoCoords[0]);
-		$result->lng = trim($geoCoords[1]);
-		$result->name = $objContact->name;
-		$result->name2 = $objContact->name2;
-		$result->street = $objContact->street;
-		$result->cityPostal = $objContact->cityPostal;
-		$result->postal = $objContact->postal;
-		$result->city = $objContact->city;
-		$result->phone = $objContact->phone;
-		$result->email = $objContact->email;
-		
-		// add various labels to result
-		$fieldLabelsShort = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
-		foreach($GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'] as $field => $label)
-		{
-			$result->{$field.'_label'} = $label;
-			$result->{$field.'_label_short'} = (isset($fieldLabelsShort[$field])) ? $fieldLabelsShort[$field] : $label;
-		}
-		return $result;
-	}
-
-	/**
 	 * Get Contact Map details
 	 * @param $objMapTemplate object
 	 * @return string
@@ -247,7 +173,6 @@ class Contact extends \Frontend {
 	 * Enrich DataRecord by additional 
 	 * properties
 	 * @param $objContact mixed
-	 * @param $hasOptions boolean
 	 * @param $arrOptions array
 	 * @return data record
 	 */
@@ -405,6 +330,78 @@ class Contact extends \Frontend {
 			\Cache::set($strCacheKey, $objContact);
 		}
 		return $objContact;
+	}
+
+	/**
+	 * Create Filter for fields or networks
+	 * as table with index key 
+	 * @param $options array
+	 * @param $hasFilter boolean
+	 * @param $filters array
+	 * @param $excludes array
+	 * @return string
+	 */
+	public static function createOptionsFilterTable($options, $hasFilter, $filters, $excludes=null)
+	{
+		$arrFilter = array();
+		$filterDefault = true;
+		if (is_array($excludes))
+		{
+			foreach ($excludes as $key)
+			{
+				$arrFilter[$key] = false;
+			}
+		}
+		if ($hasFilter)
+		{
+			if (is_array($filters))
+			{
+				foreach ($filters as $key)
+				{
+					$arrFilter[$key] = true;
+				}
+			}
+			$filterDefault = false;
+		}
+		foreach ($options as $key)
+		{
+			if (!isset($arrFilter[$key]))
+			{
+				$arrFilter[$key] = $filterDefault;
+			}
+		}
+		return $arrFilter;
+	}
+
+	/**
+	 * Build Contact Map marker
+	 * @param $objContact mixed
+	 * @return object
+	 */
+	public static function buildContactMapMarker($objContact)
+	{
+		// add contact properties to result
+		$result = new \stdClass();
+		$geoCoords = explode(',', $objContact->geoCoords);
+		$result->lat = trim($geoCoords[0]);
+		$result->lng = trim($geoCoords[1]);
+		$result->name = $objContact->name;
+		$result->name2 = $objContact->name2;
+		$result->street = $objContact->street;
+		$result->cityPostal = $objContact->cityPostal;
+		$result->postal = $objContact->postal;
+		$result->city = $objContact->city;
+		$result->phone = $objContact->phone;
+		$result->email = $objContact->email;
+		
+		// add various labels to result
+		$fieldLabelsShort = &$GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels_short'];
+		foreach($GLOBALS['TL_LANG']['MSC']['tl_contacts']['fieldLabels'] as $field => $label)
+		{
+			$result->{$field.'_label'} = $label;
+			$result->{$field.'_label_short'} = (isset($fieldLabelsShort[$field])) ? $fieldLabelsShort[$field] : $label;
+		}
+		return $result;
 	}
 }
 
