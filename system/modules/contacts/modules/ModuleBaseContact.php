@@ -34,15 +34,16 @@ abstract class ModuleBaseContact extends \Module {
 	 */
 	protected function enqueueGoogleMapsScript()
 	{
-		$googleMapsUrl = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
-		$GLOBALS['TL_JAVASCRIPT'][] = $googleMapsUrl;
-	//	$matches = array_filter($GLOBALS['TL_JAVASCRIPT'], function($var) use ($searchword) 
-	//	{ 
-	//		return preg_match("/\bmaps.google.com/maps/api/js?v=3.exp\b/i", $var); 
-	//	});
-	//	if (empty($matches))
-	//	{
-	//	}
+		$scriptRoute = 'maps.google.com/maps/api/js?v=3.exp';
+		$matches = array_filter($GLOBALS['TL_JAVASCRIPT'], function($var) use ($scriptRoute) 
+		{ 
+			return preg_match("/\b$scriptRoute\b/i", $var); 
+		});
+		if (empty($matches))
+		{
+			$googleMapsUrl = 'http'.($this->Environment->ssl ? 's' : '').'://' . $scriptRoute . '&amp;sensor=false';
+			$GLOBALS['TL_JAVASCRIPT'][] = $googleMapsUrl;
+		}
 	}
 
 	protected function generateWildcard($wildcardStr)
