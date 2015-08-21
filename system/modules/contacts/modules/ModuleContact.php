@@ -101,7 +101,7 @@ class ModuleContact extends \ModuleBaseContact {
 			$objTemplate->gmaps = $this->generateContactMap($this->objContacts, 'gmaps_simple', $arrMapOptions);
 			if ($objTemplate->gmaps)
 			{
-				$GLOBALS['TL_JAVASCRIPT'][] = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
+				$this->enqueueGoogleMapsScript();
 			}
 		}
 		else

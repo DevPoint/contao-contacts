@@ -28,6 +28,23 @@
 
 abstract class ModuleBaseContact extends \Module {
 
+	/**
+	 * Enqueue Google Maps API to loaded scripts
+	 * @return void
+	 */
+	protected function enqueueGoogleMapsScript()
+	{
+		$googleMapsUrl = 'http'.($this->Environment->ssl ? 's' : '').'://maps.google.com/maps/api/js?v=3.exp&amp;sensor=false';
+		$GLOBALS['TL_JAVASCRIPT'][] = $googleMapsUrl;
+	//	$matches = array_filter($GLOBALS['TL_JAVASCRIPT'], function($var) use ($searchword) 
+	//	{ 
+	//		return preg_match("/\bmaps.google.com/maps/api/js?v=3.exp\b/i", $var); 
+	//	});
+	//	if (empty($matches))
+	//	{
+	//	}
+	}
+
 	protected function generateWildcard($wildcardStr)
 	{
 		$objTemplate = new \BackendTemplate('be_wildcard');
